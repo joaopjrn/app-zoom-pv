@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-auto mr-2">
+    <h1 class="mat-display-1 mb-0">Lógica de Programação</h1>
+  </div>
+  <div class="col-auto align-self-center">
+    <mat-chip-list>
+  <mat-chip *ngFor="let dia of dias; let i = index" color="accent" [selected]="i % 2 == 0">
+    <small>{{ dia }}</small>
+  </mat-chip>
+  </mat-chip-list>
+  </div>
+  <div class="col-auto ml-auto">
+    <button (click)="criarAula()" type="button" mat-raised-button color="accent">Criar Aula</button>
+  </div>
+  <div class="col-12">
+    <span class="mat-subheading">Professor Fulano</span>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <p class="desc-materia">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestias esse quam dolores error vero modi illum eaque vitae fugit, animi facilis assumenda, earum nihil autem distinctio, quae vel voluptas nulla! Eveniet est perspiciatis nam fugiat excepturi assumenda ex recusandae aliquid blanditiis iste aspernatur voluptatum a soluta cum iure, autem consequatur dignissimos beatae vero deserunt? Non atque unde laborum autem accusamus quas molestiae optio quibusdam, enim recusandae reprehenderit eum! Temporibus ad laborum sapiente asperiores quis vero similique cumque in doloremque quas facere recusandae, molestias esse accusantium maiores ullam perspiciatis ipsam soluta. Cumque, consequatur facilis. Repudiandae fuga minus blanditiis molestiae, ducimus natus!</p>
+  </div>
+</div>
+
+<mat-card class="mat-elevation-z3">
+<div class="row">
+  <div class="col-12">
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="Próximas Aulas">
+        <app-lista-aulas></app-lista-aulas>
+      </mat-tab>
+      <mat-tab label="Aulas Anteriores">
+        <app-lista-aulas [aulasAnteriores]="true"></app-lista-aulas>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+</mat-card>

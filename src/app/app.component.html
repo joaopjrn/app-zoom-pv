@@ -1,21 +1,7 @@
-<mat-toolbar color="primary">
-  <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button> -->
-  <mat-icon>auto_stories</mat-icon>
-  <span class="mr-auto nomeApp">Classroom</span>
-  <span>Prof. Fulano de Souza</span>
-  <span class="example-spacer"></span>
-  <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button> -->
-  <button mat-icon-button (click)="isLoggedIn=!isLoggedIn">
-    <mat-icon>{{ isLoggedIn ? "logout" : "login" }}</mat-icon>
-  </button>
-</mat-toolbar>
+<div class="container-fluid mb-2">
+  <app-header></app-header>
+</div>
 <div class="container">
-  <div class="row row-cols-auto justify-content-xl-between justify-content-lg-between justify-content-md-between justify-content-sm-between justify-content-center">
-    <app-item-materia class="p-2" *ngFor="let item of materias" [materia]="item"></app-item-materia>
-    </div>
+  <router-outlet></router-outlet>
 </div>
 

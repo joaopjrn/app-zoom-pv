@@ -1,0 +1,28 @@
+<div class="row">
+<div class="col-12">
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet adipisci doloremque voluptate dicta, eius facere aspernatur architecto molestias debitis error suscipit aliquam ullam et earum iusto atque, ea doloribus? Facere impedit corporis alias placeat qui eligendi reprehenderit, nihil assumenda id debitis mollitia fugiat sint recusandae cumque tenetur asperiores ex beatae adipisci illo repellat quia eius quas nesciunt! Similique illo molestiae excepturi recusandae architecto, eligendi laborum autem nesciunt in aspernatur minima obcaecati magnam deleniti dicta. Dolore sequi quo corrupti iusto quibusdam est corporis ea voluptatum reiciendis nulla? Deserunt, laborum excepturi illum consequatur delectus sit quae similique nemo minima incidunt hic iure?</p>
+</div>
+<div class="col-12">
+  <button type="button" mat-raised-button color="primary">Aula no Zoom</button>
+</div>
+<div class="col-12 mt-2">
+  <mat-divider></mat-divider>
+</div>
+<div class="col-12 mt-3">
+  <span class="mat-body-2">Anotações</span>
+  <button mat-icon-button (click)="editando = !editando"><mat-icon color="primary">{{editando ? 'remove_circle' : 'add_circle'}}</mat-icon></button>
+</div>
+<div class="col-12" *ngIf="editando">
+  <mat-form-field class="w-100">
+    <mat-label>Insira aqui suas anotações</mat-label>
+    <textarea matInput rows="10"></textarea>
+  </mat-form-field>
+  <div class="w-100 mb-3">
+    <button mat-raised-button color="accent">Salvar Anotações</button>
+  </div>
+</div>
+<mat-action-row class="w-100">
+  <button mat-stroked-button color="warn">Excluir</button>
+  <button mat-stroked-button color="primary">Editar</button>
+</mat-action-row>
+</div>

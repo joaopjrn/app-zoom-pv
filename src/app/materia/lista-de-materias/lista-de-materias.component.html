@@ -1,0 +1,6 @@
+<div class="row">
+  <app-barra-botoes class="col-12 d-flex"></app-barra-botoes>
+</div>
+<div class="row row-cols-auto justify-content-center justify-content-sm-start">
+<app-item-materia class="p-2" *ngFor="let item of materias" [materia]="item"></app-item-materia>
+</div>
