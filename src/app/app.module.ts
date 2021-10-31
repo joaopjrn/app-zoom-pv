@@ -15,6 +15,9 @@ import { DetalheAulaComponent } from './aula/detalhe-aula/detalhe-aula.component
 import { CriarTurmaComponent } from './modais/criar-turma/criar-turma.component';
 import { CriarAulaComponent } from './modais/criar-aula/criar-aula.component';
 import { EntrarTurmaComponent } from './modais/entrar-turma/entrar-turma.component';
+import { FormsModule } from '@angular/forms';
+import { MateriasService } from './services/materias.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,13 +31,15 @@ import { EntrarTurmaComponent } from './modais/entrar-turma/entrar-turma.compone
     DetalheAulaComponent,
     CriarTurmaComponent,
     CriarAulaComponent,
-    EntrarTurmaComponent
+    EntrarTurmaComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

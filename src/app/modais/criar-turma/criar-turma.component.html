@@ -1,17 +1,17 @@
 <div style="width: 500px;">
   <h2>Cadastrar nova Matéria</h2>
-  <form class="row">
+  <form class="row" #form="ngForm" (submit)="salvarMateria(form)">
     <mat-form-field class="col-12">
       <mat-label>Nome da Matéria</mat-label>
-      <input type="text" matInput>
+      <input type="text" matInput #nome="ngModel" ngModel name="nome">
     </mat-form-field>
     <mat-form-field class="col-12">
       <mat-label>Descrição da Matéria</mat-label>
-      <textarea matInput rows="5"></textarea>
+      <textarea matInput rows="5" #desc="ngModel" ngModel name="desc"></textarea>
     </mat-form-field>
     <mat-form-field appearance="standard" class="col-12">
       <mat-label>Selecione a Área</mat-label>
-      <mat-select>
+      <mat-select #area="ngModel" ngModel name="area">
         <mat-option value="exatas">Exatas</mat-option>
         <mat-option value="humanas">Humanas</mat-option>
         <mat-option value="biologicas">Biológicas</mat-option>
@@ -21,21 +21,15 @@
     <section class="col-12">
       <mat-label class="d-block">Dias de Aula</mat-label>
       <div class="d-flex justify-content-between">
-        <mat-checkbox>Seg</mat-checkbox>
-        <mat-checkbox>Ter</mat-checkbox>
-        <mat-checkbox>Qua</mat-checkbox>
-        <mat-checkbox>Qui</mat-checkbox>
-        <mat-checkbox>Sex</mat-checkbox>
-        <mat-checkbox>Sáb</mat-checkbox>
-        <mat-checkbox>Dom</mat-checkbox>
+        <mat-checkbox *ngFor="let item of dias" (change)="item.check = $event.checked">{{ item.dia }}</mat-checkbox>
       </div>
     </section>
     <div class="col-12">
       <mat-divider></mat-divider>
     </div>
     <div mat-dialog-actions align="end" class="col-12">
-      <button mat-button mat-dialog-close color="warn">Cancelar</button>
-      <button mat-raised-button [mat-dialog-close]="true" color="accent">Confirmar</button>
+      <button mat-button color="warn">Cancelar</button>
+      <button type="submit" mat-raised-button color="accent">Confirmar</button>
     </div>
   </form>
 </div>
