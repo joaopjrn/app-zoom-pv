@@ -16,7 +16,6 @@ import { CriarTurmaComponent } from './modais/criar-turma/criar-turma.component'
 import { CriarAulaComponent } from './modais/criar-aula/criar-aula.component';
 import { EntrarTurmaComponent } from './modais/entrar-turma/entrar-turma.component';
 import { FormsModule } from '@angular/forms';
-import { MateriasService } from './services/materias.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({

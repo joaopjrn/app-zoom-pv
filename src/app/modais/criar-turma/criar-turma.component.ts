@@ -21,7 +21,21 @@ export class CriarTurmaComponent implements OnInit {
     {dia: 'Dom', check: false, val: 0}
   ];
 
+  letras: string[] = [
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+  ];
+
   ngOnInit(): void {
+  }
+
+  gerarCodMateria(){
+    let cod = '';
+    for(let i = 0; i < 3; i++){
+      cod+= this.getRandomIntInclusive(0,9);
+      cod+= this.letras[this.getRandomIntInclusive(0, this.letras.length-1)]
+    }
+    console.log(cod);
+    return cod;
   }
 
   salvarMateria(form: NgForm){
@@ -33,10 +47,19 @@ export class CriarTurmaComponent implements OnInit {
     }
     let diasSemanaStr = JSON.stringify(diasSemana);
 
-    this.materiaSvc.novaMateria(form.value.nome, '123456', form.value.desc, 'https://i.ibb.co/L8PFq6C/materia.png', 'Professor Fulano', diasSemanaStr)
+    let nome: string = form.value.nome;
+    let desc: string = form.value.desc;
+
+    this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, 'https://i.ibb.co/L8PFq6C/materia.png', 'Professor Fulano', diasSemanaStr)
     .subscribe(res => {
-      console.log(res)
+      console.log(res.materia)
     });
+  }
+
+  getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
 }

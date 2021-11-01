@@ -7,13 +7,13 @@ const path = require('path');
 
 const app = express();
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 // app.use("/images", express.static(path.join("backend/images")));
 
 
 //d8T0M0vYlVspKwu8 mdb pw
-mongoose.connect("mongodb+srv://joaomdb:d8T0M0vYlVspKwu8@cluster0.xlkqz.mongodb.net/app-zoom?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://joaomdb:"+process.env.MONGO_ATLAS_PW+"@cluster0.xlkqz.mongodb.net/app-zoom?retryWrites=true&w=majority")
 .then(() => {
   console.log('Connected to DB')
 })
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/materia", materiasRoutes);
+app.use("/api/materias", materiasRoutes);
 // app.use("/api/user", userRoutes);
 
 module.exports = app;

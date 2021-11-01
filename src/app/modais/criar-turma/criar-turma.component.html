@@ -12,6 +12,7 @@
     <mat-form-field appearance="standard" class="col-12">
       <mat-label>Selecione a Área</mat-label>
       <mat-select #area="ngModel" ngModel name="area">
+        <mat-option value="tecnologia">Tecnologia</mat-option>
         <mat-option value="exatas">Exatas</mat-option>
         <mat-option value="humanas">Humanas</mat-option>
         <mat-option value="biologicas">Biológicas</mat-option>
@@ -28,7 +29,7 @@
       <mat-divider></mat-divider>
     </div>
     <div mat-dialog-actions align="end" class="col-12">
-      <button mat-button color="warn">Cancelar</button>
+      <button mat-button type="button" color="warn" (click)="gerarCodMateria()">Cancelar</button>
       <button type="submit" mat-raised-button color="accent">Confirmar</button>
     </div>
   </form>

@@ -1,6 +1,7 @@
 const Materia = require('../schemas/materia');
 
 exports.criarMateria = (req, res, next) => {
+  console.log('Body: '+req.body.nome);
   const materia = new Materia({
     nome: req.body.nome,
     codMateria: req.body.codMateria,
@@ -11,9 +12,13 @@ exports.criarMateria = (req, res, next) => {
   });
 
   materia.save().then(materiaCriada => {
+    console.log(materiaCriada);
     res.status(201).json({
       msg: 'Matéria criada com sucesso!',
-      materia: materiaCriada
+      materia: {
+        ...materiaCriada,
+        _id: materiaCriada._id
+      }
     });
   }).catch(erro => {
     res.status(500).json({msg: 'Falha ao criar Matéria!'})

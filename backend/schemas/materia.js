@@ -6,7 +6,7 @@ const materiaSchema = mongoose.Schema({
   descricao: { type: String, required: true },
   linkImg: { type: String, required: true },
   diasSemana: { type: String, required: true },
-  nomeProf: { type: String, required: true },
+  nomeProf: { type: String, required: true }
 });
 
 module.exports = mongoose.model('Materia', materiaSchema);

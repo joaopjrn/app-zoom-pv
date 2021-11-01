@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
+const BACKEND_URL = environment.apiUrl + '/materias/';
+
 @Injectable({providedIn: 'root'})
 export class MateriasService {
   private materias: Materia[] = [];
@@ -13,14 +15,17 @@ export class MateriasService {
   constructor(private http: HttpClient, private router: Router) {}
 
   novaMateria(nome: string, codMateria: string, descricao: string, linkImg: string, nomeProf: string, diasSemana: string){
-    const dadosMateria = new FormData();
-    dadosMateria.append('nome', nome);
-    dadosMateria.append('codMateria', codMateria);
-    dadosMateria.append('descricao', descricao);
-    dadosMateria.append('linkImg', linkImg);
-    dadosMateria.append('diasSemana', diasSemana);
-    dadosMateria.append('nomeProf', nomeProf);
+    console.log(nome +' '+ codMateria +' '+ descricao +' '+ linkImg +' '+ nomeProf +' '+ diasSemana);
 
-    return this.http.post<{msg: string, materia: Materia}>('http://localhost:3000/materia/', dadosMateria);
+    const dadosMateria = {
+      nome: nome,
+      codMateria: codMateria,
+      descricao: descricao,
+      linkImg: linkImg,
+      diasSemana: diasSemana,
+      nomeProf: nomeProf
+    };
+
+    return this.http.post<{msg: string, materia: Materia}>(BACKEND_URL, dadosMateria);
   }
 }
