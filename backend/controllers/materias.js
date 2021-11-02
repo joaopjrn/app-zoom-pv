@@ -28,13 +28,12 @@ exports.criarMateria = (req, res, next) => {
 exports.buscarMaterias = (req, res, next) => {
   const listaMaterias = JSON.parse(req.headers.materias);
   Materia.find({ _id: listaMaterias }).then(materiasBuscadas => {
-    res.status(200).json({ msg: 'Matérias buscadas com sucesso!', materias: materiasBuscadas });
-
+    res.status(200).json(
+      { msg: 'Matérias buscadas com sucesso!', materias: materiasBuscadas }
+    );
   }).catch(erro => {
-    res.status(500).json({ msg: 'Falha ao buscar Matéria!' })
+    res.status(500).json({ msg: 'Falha ao buscar Matéria!', erro: erro })
   });
-
- 
 }
 
 

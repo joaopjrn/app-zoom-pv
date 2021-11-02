@@ -8,15 +8,14 @@ import { environment } from '../../environments/environment';
 
 const BACKEND_URL = environment.apiUrl + '/materias/';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class MateriasService {
   private materias: Materia[] = [];
   private materiasAtualizadas = new Subject<Materia[]>();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
-  novaMateria(nome: string, codMateria: string, descricao: string, linkImg: string, nomeProf: string, diasSemana: string){
-    console.log(nome +' '+ codMateria +' '+ descricao +' '+ linkImg +' '+ nomeProf +' '+ diasSemana);
+  novaMateria(nome: string, codMateria: string, descricao: string, linkImg: string, nomeProf: string, diasSemana: string) {
 
     const dadosMateria = {
       nome: nome,
@@ -27,26 +26,29 @@ export class MateriasService {
       nomeProf: nomeProf
     };
 
-    return this.http.post<{msg: string, materia: Materia}>(BACKEND_URL, dadosMateria);
-  }
- 
-  buscarMaterias(listaMaterias: string[]) {
-    this.http.get<{ msg: string, materias: Materia[] }>(BACKEND_URL,
-      { headers: { 'materias': JSON.stringify(listaMaterias) } }).subscribe(res => {
-        this.materias = res.materias;
-        this.materiasAtualizadas.next([...this.materias]);
-        
-    });
+    return this.http.post<{ msg: string, materia: Materia }>(BACKEND_URL, dadosMateria);
   }
 
-  getMaterias() {
-    return this.materiasAtualizadas.asObservable();
+  buscarMaterias(listaMaterias: string[]) {
+    this.http.get<{ msg: string, materias: Materia[] }>(BACKEND_URL, 
+      { headers: 
+        { 'materias': JSON.stringify(listaMaterias) }
+      }).subscribe(res => {
+        this.materias = res.materias;
+        this.materiasAtualizadas.next([...this.materias]);
+      });
   }
 
   buscarMateria(idMateria: string) {
-    this.http.get<{ msg: string, materia: Materia }>(BACKEND_URL + '?id=' + idMateria).subscribe(res => {
+    this.http.get<{ msg: string, materia: Materia }>(BACKEND_URL + '?id=' + idMateria)
+    .subscribe(res => {
       console.log(res)
-    })
+    });
   }
+
+  getMateriasObs() {
+    return this.materiasAtualizadas.asObservable();
+  }
+
 
 }
