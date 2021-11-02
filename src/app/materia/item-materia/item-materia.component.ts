@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Materia } from '../materia.model';
+import { Materia } from 'src/app/models/materia.model';
+
 
 @Component({
   selector: 'app-item-materia',

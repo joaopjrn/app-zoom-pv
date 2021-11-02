@@ -7,6 +7,7 @@ const MateriasController = require ('../controllers/materias');
 // const { create } = require('../models/post');
 
 router.post('', MateriasController.criarMateria);
-router.get('', MateriasController.oi);
+router.get('', MateriasController.buscarMaterias);
+
 
 module.exports = router;

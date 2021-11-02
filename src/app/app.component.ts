@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MaterialModule } from './material.module';
-import { Materia } from './materia/materia.model';
+
+import { Usuario } from './models/usuario.model';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,6 @@ import { Materia } from './materia/materia.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
+  
 
 }
