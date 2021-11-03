@@ -1,3 +1,4 @@
+
 const Materia = require('../schemas/materia');
 
 exports.criarMateria = (req, res, next) => {
@@ -32,7 +33,19 @@ exports.buscarMaterias = (req, res, next) => {
       { msg: 'Matérias buscadas com sucesso!', materias: materiasBuscadas }
     );
   }).catch(erro => {
-    res.status(500).json({ msg: 'Falha ao buscar Matéria!', erro: erro })
+    res.status(500).json({ msg: 'Falha ao buscar matérias!', erro: erro })
+  });
+}
+
+exports.buscarMateria = (req, res, next) => {
+  const cod = req.params.cod;
+  Materia.findOne({ codMateria: cod }).then(materia => {
+    if (!materia) {
+      return res.status(404).json({ msg: 'Matéria não encontrada!' });
+    }
+    res.status(200).json({ msg: 'Matéria encontrada com sucesso!', materiaEncontrada: materia })
+  }).catch(erro => {
+    return res.status(500).json({ msg: 'Falha ao buscar matérias!', erro: erro });
   });
 }
 

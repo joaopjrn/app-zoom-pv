@@ -9,4 +9,4 @@ const aulaSchema = mongoose.Schema({
   linkZoom: { type: String, required: true },
 });
 
-module.exports = mongoose.model('Aula');
+module.exports = mongoose.model('Aula', aulaSchema);

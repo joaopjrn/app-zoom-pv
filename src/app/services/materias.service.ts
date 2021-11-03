@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
-const BACKEND_URL = environment.apiUrl + '/materias/';
+const BACKEND_URL = environment.apiUrl + '/materia/';
 
 @Injectable({ providedIn: 'root' })
 export class MateriasService {
@@ -39,11 +39,8 @@ export class MateriasService {
       });
   }
 
-  buscarMateria(idMateria: string) {
-    this.http.get<{ msg: string, materia: Materia }>(BACKEND_URL + '?id=' + idMateria)
-    .subscribe(res => {
-      console.log(res)
-    });
+  buscarMateria(codMateria: string) {
+    return this.http.get<{ msg: string, materiaEncontrada: Materia }>(BACKEND_URL + codMateria);
   }
 
   getMateriasObs() {

@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const materiasRoutes = require('./routes/materias');
+const aulasRoutes = require('./routes/aulas');
 // const userRoutes = require('./routes/user');
 const path = require('path');
 
@@ -28,7 +29,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/materias", materiasRoutes);
+app.use("/api/materia", materiasRoutes);
+app.use("/api/aula", aulasRoutes);
 // app.use("/api/user", userRoutes);
 
 module.exports = app;

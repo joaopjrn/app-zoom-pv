@@ -6,7 +6,7 @@ import { ListaDeMateriasComponent } from "./materia/lista-de-materias/lista-de-m
 
 const routes: Routes = [
   { path: '', component: ListaDeMateriasComponent },
-  { path: 'materia', component: DetalheMateriaComponent },
+  { path: 'materia/:cod', component: DetalheMateriaComponent },
 ];
 
 @NgModule({
