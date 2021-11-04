@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Materia } from 'src/app/models/materia.model';
 import { Usuario } from 'src/app/models/usuario.model';
 import { MateriasService } from 'src/app/services/materias.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 
 @Component({
@@ -11,18 +12,11 @@ import { MateriasService } from 'src/app/services/materias.service';
   styleUrls: ['./lista-de-materias.component.css']
 })
 export class ListaDeMateriasComponent implements OnInit, OnDestroy {
-  
+
   private subMaterias: Subscription;
   carregando = true;
 
-  usuario: Usuario  = {
-    _id: 'ahsuhaushau',
-    nome: 'Fulano Silva',
-    email: 'fulano@email.com',
-    senha: 'senha',
-    tipo: 0,
-    materias: ['61809b8fa1050cdf6e1b05fc','6180a80920ff081600872b24']
-  }
+  usuario: Usuario;
 
   materias: Materia[] = [
     /*{id: 'materia1', nome: 'Matéria 1', professor: 'Professor 1'},
@@ -33,14 +27,17 @@ export class ListaDeMateriasComponent implements OnInit, OnDestroy {
   ];
 
 
-  constructor(private materiasSvc: MateriasService) { }
+  constructor(private materiasSvc: MateriasService, private usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
-    this.materiasSvc.buscarMaterias(this.usuario.materias);
-    this.subMaterias = this.materiasSvc.getMateriasObs().subscribe((materias: Materia[]) => {
-      this.materias = materias;
-      this.carregando = false;
-    });
+    setTimeout(() => {
+      this.usuario = this.usuarioSvc.getUsuarioLogado();
+      this.materiasSvc.buscarMaterias(JSON.stringify(this.usuario.materias));
+      this.subMaterias = this.materiasSvc.getMateriasObs().subscribe((materias: Materia[]) => {
+        this.materias = materias;
+        this.carregando = false;
+      });
+    }, 3000);
   }
 
   ngOnDestroy(){

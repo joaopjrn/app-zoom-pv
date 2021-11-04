@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'http://localhost:3000/api',
+  domain: 'dev-jm8bomja.us.auth0.com',
+  clientId: 'StlrydPExVy6a0wTKMG5segJcVWDL5Yr'
 };
 
 /*

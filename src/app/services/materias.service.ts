@@ -29,10 +29,10 @@ export class MateriasService {
     return this.http.post<{ msg: string, materia: Materia }>(BACKEND_URL, dadosMateria);
   }
 
-  buscarMaterias(listaMaterias: string[]) {
-    this.http.get<{ msg: string, materias: Materia[] }>(BACKEND_URL, 
-      { headers: 
-        { 'materias': JSON.stringify(listaMaterias) }
+  buscarMaterias(listaMaterias: string) {
+    this.http.get<{ msg: string, materias: Materia[] }>(BACKEND_URL,
+      { headers:
+        { 'materias': listaMaterias }
       }).subscribe(res => {
         this.materias = res.materias;
         this.materiasAtualizadas.next([...this.materias]);
@@ -46,6 +46,5 @@ export class MateriasService {
   getMateriasObs() {
     return this.materiasAtualizadas.asObservable();
   }
-
 
 }

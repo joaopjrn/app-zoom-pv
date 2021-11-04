@@ -4,12 +4,15 @@
   </button> -->
   <mat-icon>auto_stories</mat-icon>
   <span class="mr-auto nomeApp"><a routerLink="">Classroom</a></span>
-  <span>Prof. Fulano de Souza</span>
+  <span>{{ usuario?.name }}</span>
   <span class="example-spacer"></span>
   <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
     <mat-icon>favorite</mat-icon>
   </button> -->
-  <button mat-icon-button (click)="isLoggedIn=!isLoggedIn">
-    <mat-icon>{{ isLoggedIn ? "logout" : "login" }}</mat-icon>
+  <button *ngIf="!estaLogado" mat-icon-button (click)="auth.loginWithRedirect()">
+    <mat-icon>login</mat-icon>
+  </button>
+  <button *ngIf="estaLogado" mat-icon-button (click)="auth.logout({returnTo: 'http://localhost:4200'})">
+    <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>

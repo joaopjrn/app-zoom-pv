@@ -29,7 +29,6 @@ export class DetalheMateriaComponent implements OnInit {
     _id: 'ahsuhaushau',
     nome: 'Fulano Silva',
     email: 'fulano@email.com',
-    senha: 'senha',
     tipo: 0,
     materias: ['61809b8fa1050cdf6e1b05fc','6180a80920ff081600872b24']
   }

@@ -17,6 +17,8 @@ import { CriarAulaComponent } from './modais/criar-aula/criar-aula.component';
 import { EntrarTurmaComponent } from './modais/entrar-turma/entrar-turma.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthModule } from '@auth0/auth0-angular';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,10 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
+    AuthModule.forRoot({
+      domain: environment.domain,
+      clientId: environment.clientId
+    }),
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
