@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { Subscription } from 'rxjs';
+import { Usuario } from '../models/usuario.model';
 import { UsuarioService } from '../services/usuario.service';
 
 @Component({
@@ -7,39 +9,33 @@ import { UsuarioService } from '../services/usuario.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   estaLogado: boolean = false;
-  usuario;
+  usuario: Usuario;
+  estaLogadoListener: Subscription;
 
   constructor(public auth: AuthService, private usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
+    this.estaLogadoListener = this.usuarioSvc.getSubAuth().subscribe(res => {
+      this.estaLogado = res.estaLogado;
+      this.usuario = res.usuario;
+    })
     this.auth.isAuthenticated$.subscribe(logado => {
       this.estaLogado = logado;
       if(this.estaLogado){
-        this.auth.user$.subscribe(dadosUsuario => {
-          this.usuario = dadosUsuario;
-          this.usuarioSvc.buscarUsuario(this.usuario.email).subscribe(dadosUsuario => {
-            console.log(dadosUsuario.dadosUsuario)
-            if(dadosUsuario.dadosUsuario && dadosUsuario.valido){
-              this.usuarioSvc.setUsuarioLogado(dadosUsuario.dadosUsuario);
-            }else if(!dadosUsuario.valido){
-              alert('E-mail Inválido!')
-              this.auth.logout({returnTo:'http://localhost:4200'});
-            }else if(!dadosUsuario.dadosUsuario){
-              let novoUsuario = {
-                nome: this.usuario.name,
-                email: this.usuario.email,
-                tipo: null,
-                materias: JSON.stringify([])
-              }
-              this.usuarioSvc.criarUsuario(novoUsuario);
-            }
-          });
-        });
+        this.usuarioSvc.login();
       }
     });
+  }
+
+  login(){
+    this.usuarioSvc.login();
+  }
+
+  ngOnDestroy(){
+    this.estaLogadoListener.unsubscribe();
   }
 
 }

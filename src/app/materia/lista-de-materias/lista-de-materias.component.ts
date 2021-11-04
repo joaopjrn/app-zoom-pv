@@ -14,34 +14,33 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class ListaDeMateriasComponent implements OnInit, OnDestroy {
 
   private subMaterias: Subscription;
+  private subAuth: Subscription;
   carregando = true;
 
   usuario: Usuario;
 
-  materias: Materia[] = [
-    /*{id: 'materia1', nome: 'Matéria 1', professor: 'Professor 1'},
-    {id: 'materia2', nome: 'Matéria 2', professor: 'Professor 2'},
-    {id: 'materia3', nome: 'Matéria 3', professor: 'Professor 3'},
-    {id: 'materia3', nome: 'Matéria 3', professor: 'Professor 3'},
-    {id: 'materia3', nome: 'Matéria 3', professor: 'Professor 3'},*/
-  ];
+  materias: Materia[] = [];
 
 
   constructor(private materiasSvc: MateriasService, private usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.usuario = this.usuarioSvc.getUsuarioLogado();
-      this.materiasSvc.buscarMaterias(JSON.stringify(this.usuario.materias));
-      this.subMaterias = this.materiasSvc.getMateriasObs().subscribe((materias: Materia[]) => {
-        this.materias = materias;
-        this.carregando = false;
-      });
-    }, 3000);
+    this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
+      if(res.estaLogado){
+        console.log('loguei')
+        this.usuario = res.usuario;
+        this.materiasSvc.buscarMaterias(JSON.stringify(this.usuario.materias));
+        this.subMaterias = this.materiasSvc.getMateriasObs().subscribe((materias: Materia[]) => {
+          this.materias = materias;
+          this.carregando = false;
+        });
+      }
+    })
   }
 
   ngOnDestroy(){
     this.subMaterias.unsubscribe();
+    this.subAuth.unsubscribe();
   }
 
 }
