@@ -14,7 +14,8 @@ export class UsuarioService {
 
   private usuarioLogado: Usuario;
   private estaLogado: boolean = false;
-  private subAuth = new Subject<{usuario: Usuario, estaLogado: boolean}>();
+  private subAuth = new Subject<{ usuario: Usuario, estaLogado: boolean }>();
+  private userAuth0;
 
 
   buscarUsuario(email: string) {
@@ -23,38 +24,41 @@ export class UsuarioService {
 
   criarUsuario(dadosUsuario: { nome: string, email: string, tipo: number, materias: string }) {
     this.http.post(BACKEND_URL, dadosUsuario).subscribe(result => {
-      console.log(result);
+      console.log('usuario criado: ');
+      console.log(result)
+      this.login(this.userAuth0);
     });
   }
 
-  login() {
+  checkAuth(){
     this.auth.isAuthenticated$.subscribe((isAuth: boolean) => {
-      if (isAuth) {
-        this.auth.user$.subscribe(dadosUsuario => {
-          this.buscarUsuario(dadosUsuario.email).subscribe(dadosUsuario => {
-            console.log(dadosUsuario.dadosUsuario)
-            if (dadosUsuario.dadosUsuario && dadosUsuario.valido) {
-              this.usuarioLogado = dadosUsuario.dadosUsuario;
-              this.estaLogado = true;
-              this.subAuth.next({usuario: {...this.usuarioLogado}, estaLogado: this.estaLogado});
-            } else if (!dadosUsuario.valido) {
-              alert('E-mail Inválido!')
-              this.auth.logout({ returnTo: 'http://localhost:4200' });
-            } else if (!dadosUsuario.dadosUsuario) {
-              let novoUsuario = {
-                nome: dadosUsuario.dadosUsuario.nome,
-                email: dadosUsuario.dadosUsuario.email,
-                tipo: null,
-                materias: JSON.stringify([])
-              }
-              this.criarUsuario(novoUsuario);
-            }
-          });
-        });
-      }else{
-        console.log('não logado')
+      if(isAuth){
+        this.auth.user$.subscribe(user => {
+          this.userAuth0 = user;
+          this.login(user);
+        })
       }
     })
+  }
+
+  login(user) {
+      this.buscarUsuario(user.email).subscribe(dados => {
+        console.log('tentando buscar usuario:')
+        console.log(dados.dadosUsuario)
+        if (dados.dadosUsuario && dados.valido) {
+          this.usuarioLogado = dados.dadosUsuario;
+          this.estaLogado = true;
+          this.subAuth.next({ usuario: { ...this.usuarioLogado }, estaLogado: this.estaLogado });
+        } else if (!dados.valido) {
+          console.log('achou usuario, porem email invalido')
+          alert('E-mail Inválido!')
+          this.auth.logout({ returnTo: 'http://localhost:4200' });
+        } else if (!dados.dadosUsuario) {
+          console.log('tentando criar usuario: ')
+          console.log(dados)
+          this.criarUsuario(user);
+        }
+      });
   }
 
   getSubAuth() {

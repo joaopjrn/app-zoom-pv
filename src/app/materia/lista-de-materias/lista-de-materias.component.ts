@@ -25,17 +25,21 @@ export class ListaDeMateriasComponent implements OnInit, OnDestroy {
   constructor(private materiasSvc: MateriasService, private usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
-    this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
-      if(res.estaLogado){
-        console.log('loguei')
-        this.usuario = res.usuario;
-        this.materiasSvc.buscarMaterias(JSON.stringify(this.usuario.materias));
-        this.subMaterias = this.materiasSvc.getMateriasObs().subscribe((materias: Materia[]) => {
-          this.materias = materias;
-          this.carregando = false;
-        });
-      }
-    })
+    if(this.usuarioSvc.getEstaLogado()){
+      this.usuario = this.usuarioSvc.getUsuarioLogado();
+      
+    }
+    // this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
+    //   if(res.estaLogado){
+    //     console.log('loguei')
+    //     this.usuario = res.usuario;
+    //     this.materiasSvc.buscarMaterias(JSON.stringify(this.usuario.materias));
+    //     this.subMaterias = this.materiasSvc.getMateriasObs().subscribe((materias: Materia[]) => {
+    //       this.materias = materias;
+    //       this.carregando = false;
+    //     });
+    //   }
+    // })
   }
 
   ngOnDestroy(){

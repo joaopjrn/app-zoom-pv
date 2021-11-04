@@ -14,28 +14,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   estaLogado: boolean = false;
   usuario: Usuario;
   estaLogadoListener: Subscription;
+  inicioLogin: any;
 
   constructor(public auth: AuthService, private usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
-    this.estaLogadoListener = this.usuarioSvc.getSubAuth().subscribe(res => {
-      this.estaLogado = res.estaLogado;
-      this.usuario = res.usuario;
-    })
-    this.auth.isAuthenticated$.subscribe(logado => {
-      this.estaLogado = logado;
-      if(this.estaLogado){
-        this.usuarioSvc.login();
-      }
-    });
+
   }
 
   login(){
-    this.usuarioSvc.login();
+    // this.usuarioSvc.login();
   }
 
   ngOnDestroy(){
-    this.estaLogadoListener.unsubscribe();
+    // this.estaLogadoListener.unsubscribe();
   }
 
 }

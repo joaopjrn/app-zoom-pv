@@ -24,10 +24,10 @@ exports.buscarUsuario = (req, res, next) => {
 exports.criarUsuario = (req, res, next) => {
   // this.usuario.email.includes('@saojudas.br') ? 0 : 1,
   const novoUsuario = new Usuario({
-    nome: req.body.nome,
+    nome: req.body.name,
     email: req.body.email,
     tipo: req.body.email.includes('@saojudas.br') ? 0 : 1,
-    materias: req.body.materias
+    materias: JSON.stringify([])
   });
 
   novoUsuario.save()
