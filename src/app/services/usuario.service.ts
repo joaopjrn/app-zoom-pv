@@ -43,6 +43,7 @@ export class UsuarioService {
   }
 
   processarLogin(usuAuth0){
+    console.log('processando login')
     this.buscarUsuario(this.userAuth0.email)
     .subscribe((usuarioBanco: {msg: string, dadosUsuario: Usuario, valido: boolean}) => {
       if(!usuarioBanco.dadosUsuario && !usuarioBanco.valido){
@@ -58,11 +59,13 @@ export class UsuarioService {
             tipo: result.dados.tipo,
             materias: JSON.parse(result.dados.materias)
           }
+          console.log('login processado')
           this.login(true);
         });
       }else if(usuarioBanco.dadosUsuario){
         this.estaLogado = true;
         this.usuarioLogado = usuarioBanco.dadosUsuario;
+        console.log('login processado')
         this.login(true);
       }
     })
@@ -76,10 +79,6 @@ export class UsuarioService {
     return this.subAuth.asObservable();
   }
 
-  // setUsuarioLogado(usuarioLogado) {
-  //   this.usuarioLogado = usuarioLogado;
-  // }
-
   getUsuarioLogado() {
     return {...this.usuarioLogado};
   }
@@ -92,24 +91,3 @@ export class UsuarioService {
     this.estaLogado = estaLogado;
   }
 }
-
-
-  // login(user) {
-  //     this.buscarUsuario(user.email).subscribe(dados => {
-  //       console.log('tentando buscar usuario:')
-  //       console.log(dados.dadosUsuario)
-  //       if (dados.dadosUsuario && dados.valido) {
-  //         this.usuarioLogado = dados.dadosUsuario;
-  //         this.estaLogado = true;
-  //         this.subAuth.next({ usuario: { ...this.usuarioLogado }, estaLogado: this.estaLogado });
-  //       } else if (!dados.valido) {
-  //         console.log('achou usuario, porem email invalido')
-  //         alert('E-mail Inválido!')
-  //         this.auth.logout({ returnTo: 'http://localhost:4200' });
-  //       } else if (!dados.dadosUsuario) {
-  //         console.log('tentando criar usuario: ')
-  //         console.log(dados)
-  //         this.criarUsuario(user);
-  //       }
-  //     });
-  // }

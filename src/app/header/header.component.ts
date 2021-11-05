@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Subscription } from 'rxjs';
-import { Usuario } from '../models/usuario.model';
 import { UsuarioService } from '../services/usuario.service';
 
 @Component({
@@ -12,9 +11,6 @@ import { UsuarioService } from '../services/usuario.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  // estaLogado: boolean = false;
-  // usuario: Usuario;
-  // inicioLogin: any;
   loginListener: Subscription;
 
   constructor(public auth: AuthService, public usuarioSvc: UsuarioService, private router: Router) { }
@@ -33,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    // this.estaLogadoListener.unsubscribe();
+    this.loginListener.unsubscribe();
   }
 
 }

@@ -16,7 +16,7 @@ export class ListaDeMateriasComponent implements OnInit, OnDestroy {
 
   private subMaterias: Subscription;
   private subAuth: Subscription;
-  carregando = true;
+  carregando: boolean;
 
   materias: Materia[] = [];
 
@@ -24,17 +24,12 @@ export class ListaDeMateriasComponent implements OnInit, OnDestroy {
   constructor(private materiasSvc: MateriasService, public usuarioSvc: UsuarioService, private router: Router) { }
 
   ngOnInit(): void {
+    this.carregando = true;
 
-    if(!this.usuarioSvc.getEstaLogado()){
-      this.router.navigate(['']);
-    }
-
-    this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
-      if(!res){
-        this.router.navigate(['']);
-      }
-    })
-
+    // this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
+    //   if(res){
+    //   }
+    // })
     this.materiasSvc.buscarMaterias(JSON.stringify(this.usuarioSvc.getUsuarioLogado().materias));
 
     this.subMaterias = this.materiasSvc.getMateriasObs().subscribe(result => {
@@ -56,7 +51,7 @@ export class ListaDeMateriasComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.subMaterias.unsubscribe();
-    this.subAuth.unsubscribe();
+    // this.subAuth.unsubscribe();
   }
 
 }
