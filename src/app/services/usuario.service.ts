@@ -14,7 +14,7 @@ export class UsuarioService {
 
   private usuarioLogado: Usuario;
   private estaLogado: boolean = false;
-  private subAuth = new Subject<{ usuario: Usuario, estaLogado: boolean }>();
+  private subAuth = new Subject<boolean>();
   private userAuth0;
 
 
@@ -22,55 +22,66 @@ export class UsuarioService {
     return this.http.get<{ msg: string, dadosUsuario: Usuario, valido: any }>(BACKEND_URL + email);
   }
 
-  criarUsuario(dadosUsuario: { nome: string, email: string, tipo: number, materias: string }) {
-    this.http.post(BACKEND_URL, dadosUsuario).subscribe(result => {
-      console.log('usuario criado: ');
-      console.log(result)
-      this.login(this.userAuth0);
-    });
+  criarUsuario(dadosUsuario: any) {
+    return this.http.post<{msg: string, dados: any}>(BACKEND_URL, dadosUsuario);
   }
 
   checkAuth(){
     this.auth.isAuthenticated$.subscribe((isAuth: boolean) => {
       if(isAuth){
         this.auth.user$.subscribe(user => {
+          console.log(user)
           this.userAuth0 = user;
-          this.login(user);
-        })
+          this.processarLogin(this.userAuth0);
+        });
+      } else {
+        console.log('checkAuth falso')
+        this.subAuth.next(false);
+        //nada
       }
     })
   }
 
-  login(user) {
-      this.buscarUsuario(user.email).subscribe(dados => {
-        console.log('tentando buscar usuario:')
-        console.log(dados.dadosUsuario)
-        if (dados.dadosUsuario && dados.valido) {
-          this.usuarioLogado = dados.dadosUsuario;
+  processarLogin(usuAuth0){
+    this.buscarUsuario(this.userAuth0.email)
+    .subscribe((usuarioBanco: {msg: string, dadosUsuario: Usuario, valido: boolean}) => {
+      if(!usuarioBanco.dadosUsuario && !usuarioBanco.valido){
+        //email não é da são judas
+        this.auth.logout();
+      }else if(!usuarioBanco.dadosUsuario && usuarioBanco.valido){
+        this.criarUsuario(usuAuth0).subscribe(result =>{
           this.estaLogado = true;
-          this.subAuth.next({ usuario: { ...this.usuarioLogado }, estaLogado: this.estaLogado });
-        } else if (!dados.valido) {
-          console.log('achou usuario, porem email invalido')
-          alert('E-mail Inválido!')
-          this.auth.logout({ returnTo: 'http://localhost:4200' });
-        } else if (!dados.dadosUsuario) {
-          console.log('tentando criar usuario: ')
-          console.log(dados)
-          this.criarUsuario(user);
-        }
-      });
+          this.usuarioLogado = {
+            _id: result.dados._id,
+            email: result.dados.email,
+            nome: result.dados.nome,
+            tipo: result.dados.tipo,
+            materias: JSON.parse(result.dados.materias)
+          }
+          this.login(true);
+        });
+      }else if(usuarioBanco.dadosUsuario){
+        this.estaLogado = true;
+        this.usuarioLogado = usuarioBanco.dadosUsuario;
+        this.login(true);
+      }
+    })
+  }
+
+  login(bool){
+    this.subAuth.next(bool);
   }
 
   getSubAuth() {
     return this.subAuth.asObservable();
   }
 
-  setUsuarioLogado(usuarioLogado) {
-    this.usuarioLogado = usuarioLogado;
-  }
+  // setUsuarioLogado(usuarioLogado) {
+  //   this.usuarioLogado = usuarioLogado;
+  // }
 
   getUsuarioLogado() {
-    return this.usuarioLogado;
+    return {...this.usuarioLogado};
   }
 
   getEstaLogado() {
@@ -81,3 +92,24 @@ export class UsuarioService {
     this.estaLogado = estaLogado;
   }
 }
+
+
+  // login(user) {
+  //     this.buscarUsuario(user.email).subscribe(dados => {
+  //       console.log('tentando buscar usuario:')
+  //       console.log(dados.dadosUsuario)
+  //       if (dados.dadosUsuario && dados.valido) {
+  //         this.usuarioLogado = dados.dadosUsuario;
+  //         this.estaLogado = true;
+  //         this.subAuth.next({ usuario: { ...this.usuarioLogado }, estaLogado: this.estaLogado });
+  //       } else if (!dados.valido) {
+  //         console.log('achou usuario, porem email invalido')
+  //         alert('E-mail Inválido!')
+  //         this.auth.logout({ returnTo: 'http://localhost:4200' });
+  //       } else if (!dados.dadosUsuario) {
+  //         console.log('tentando criar usuario: ')
+  //         console.log(dados)
+  //         this.criarUsuario(user);
+  //       }
+  //     });
+  // }

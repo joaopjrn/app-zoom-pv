@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
+import { BemVindoComponent } from './bem-vindo/bem-vindo.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { environment } from 'src/environments/environment';
     CriarTurmaComponent,
     CriarAulaComponent,
     EntrarTurmaComponent,
+    BemVindoComponent,
   ],
   imports: [
     BrowserModule,

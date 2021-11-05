@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Subscription } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
@@ -11,15 +12,20 @@ import { UsuarioService } from '../services/usuario.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  estaLogado: boolean = false;
-  usuario: Usuario;
-  estaLogadoListener: Subscription;
-  inicioLogin: any;
+  // estaLogado: boolean = false;
+  // usuario: Usuario;
+  // inicioLogin: any;
+  loginListener: Subscription;
 
-  constructor(public auth: AuthService, private usuarioSvc: UsuarioService) { }
+  constructor(public auth: AuthService, public usuarioSvc: UsuarioService, private router: Router) { }
 
   ngOnInit(): void {
-
+    this.usuarioSvc.checkAuth();
+    this.loginListener = this.usuarioSvc.getSubAuth().subscribe(res => {
+      if(res){
+        this.router.navigate(['inicio']);
+      }
+    })
   }
 
   login(){

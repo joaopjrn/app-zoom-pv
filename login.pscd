@@ -1,0 +1,21 @@
+auth0.isAuth = "checar se esta autenticado"
+auth0.user = "retorna o usuario do gmail"
+
+if (auth0.isAuth) {
+  usuarioGmail = auth0.user
+  buscaUsuarioNoBanco(usuarioGmail)
+  if("nao encontra usuario"){
+    checarEmailDoUsuario()
+    if(emailValido){
+      criarUsuarioNovoNoBanco()
+      efetuarLoginComUsuarioCriado()
+    } else if(!emailValido){
+      "Avisa que email é invalido e pede um email da USJT"
+      auth0.logout();
+    }
+  } else if("usuario no banco encontrado"){
+    efetuarLoginComUsuarioDoBanco()
+  }
+} else if(!auth0.isAuth) {
+  "nada"
+}

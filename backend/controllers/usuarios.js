@@ -32,6 +32,7 @@ exports.criarUsuario = (req, res, next) => {
 
   novoUsuario.save()
   .then(usuarioCriado => {
+    console.log("retorno do save(): ")
     console.log(usuarioCriado)
     res.status(201).json({msg: 'Usuário criado com sucesso', dados: usuarioCriado});
   })

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Materia } from 'src/app/models/materia.model';
 import { Usuario } from 'src/app/models/usuario.model';
@@ -17,18 +18,29 @@ export class ListaDeMateriasComponent implements OnInit, OnDestroy {
   private subAuth: Subscription;
   carregando = true;
 
-  usuario: Usuario;
-
   materias: Materia[] = [];
 
 
-  constructor(private materiasSvc: MateriasService, private usuarioSvc: UsuarioService) { }
+  constructor(private materiasSvc: MateriasService, public usuarioSvc: UsuarioService, private router: Router) { }
 
   ngOnInit(): void {
-    if(this.usuarioSvc.getEstaLogado()){
-      this.usuario = this.usuarioSvc.getUsuarioLogado();
-      
+
+    if(!this.usuarioSvc.getEstaLogado()){
+      this.router.navigate(['']);
     }
+
+    this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
+      if(!res){
+        this.router.navigate(['']);
+      }
+    })
+
+    this.materiasSvc.buscarMaterias(JSON.stringify(this.usuarioSvc.getUsuarioLogado().materias));
+
+    this.subMaterias = this.materiasSvc.getMateriasObs().subscribe(result => {
+      this.materias = result;
+      this.carregando = false;
+    })
     // this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
     //   if(res.estaLogado){
     //     console.log('loguei')
