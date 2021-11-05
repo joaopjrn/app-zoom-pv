@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CriarTurmaComponent } from 'src/app/modais/criar-turma/criar-turma.component';
 import { EntrarTurmaComponent } from 'src/app/modais/entrar-turma/entrar-turma.component';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-barra-botoes',
@@ -10,7 +11,7 @@ import { EntrarTurmaComponent } from 'src/app/modais/entrar-turma/entrar-turma.c
 })
 export class BarraBotoesComponent implements OnInit {
 
-  constructor(private modal: MatDialog) { }
+  constructor(private modal: MatDialog, public usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
   }
