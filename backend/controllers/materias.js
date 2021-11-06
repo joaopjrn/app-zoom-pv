@@ -16,10 +16,7 @@ exports.criarMateria = (req, res, next) => {
     console.log(materiaCriada);
     res.status(201).json({
       msg: 'Matéria criada com sucesso!',
-      materia: {
-        ...materiaCriada,
-        _id: materiaCriada._id
-      }
+      materia: materiaCriada
     });
   }).catch(erro => {
     res.status(500).json({msg: 'Falha ao criar Matéria!'})
@@ -38,7 +35,7 @@ exports.buscarMaterias = (req, res, next) => {
 }
 
 exports.buscarMateria = (req, res, next) => {
-  const cod = req.params.cod;
+  const cod = req.params.cod.toUpperCase();
   Materia.findOne({ codMateria: cod }).then(materia => {
     if (!materia) {
       return res.status(404).json({ msg: 'Matéria não encontrada!' });

@@ -45,7 +45,7 @@ export class UsuarioService {
   processarLogin(usuAuth0){
     console.log('processando login')
     this.buscarUsuario(this.userAuth0.email)
-    .subscribe((usuarioBanco: {msg: string, dadosUsuario: Usuario, valido: boolean}) => {
+      .subscribe((usuarioBanco: { msg: string, dadosUsuario: Usuario, valido: boolean }) => {
       if(!usuarioBanco.dadosUsuario && !usuarioBanco.valido){
         //email não é da são judas
         this.auth.logout();
@@ -73,6 +73,16 @@ export class UsuarioService {
 
   login(bool){
     this.subAuth.next(bool);
+  }
+
+  atualizarUsuario(usuario: Usuario) {
+   return this.http.put(BACKEND_URL, usuario);
+    
+  }
+
+  entrarTurma(idTurma: string, usuario: Usuario) {
+    usuario.materias.push(idTurma);
+    return this.atualizarUsuario(usuario);
   }
 
   getSubAuth() {

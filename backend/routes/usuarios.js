@@ -8,6 +8,7 @@ const UsuariosController = require ('../controllers/usuarios');
 
 router.get('/:email', UsuariosController.buscarUsuario);
 router.post('', UsuariosController.criarUsuario);
+router.put('', UsuariosController.atualizarUsuario);
 /*router.get('', MateriasController.buscarMaterias);
 router.get('/:cod', MateriasController.buscarMateria);*/
 

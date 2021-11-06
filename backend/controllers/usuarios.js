@@ -40,3 +40,21 @@ exports.criarUsuario = (req, res, next) => {
     res.status(500).json({msg: 'Erro ao criar usuário!', erro: erro});
   });
 }
+
+exports.atualizarUsuario = (req, res, next) => {
+  console.log('atualizar usuario controller usuario');
+  console.log(req.body);
+  const usuarioAtualizado = new Usuario({
+    _id: req.body._id,
+    nome: req.body.nome,
+    email: req.body.email,
+    tipo: req.body.tipo,
+    materias: JSON.stringify(req.body.materias)
+  });
+
+  Usuario.updateOne({ _id: req.body._id }, usuarioAtualizado)
+    .then(usuarioNoBanco => {
+      console.log(usuarioNoBanco);
+      res.status(201).json({ msg: 'Usuário atualizado com sucesso!' });
+    });
+}

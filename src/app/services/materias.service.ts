@@ -5,6 +5,8 @@ import { Materia } from '../models/materia.model';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { UsuarioService } from './usuario.service';
+import { Usuario } from '../models/usuario.model';
 
 const BACKEND_URL = environment.apiUrl + '/materia/';
 
@@ -13,7 +15,7 @@ export class MateriasService {
   private materias: Materia[] = [];
   private materiasAtualizadas = new Subject<Materia[]>();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private usuarioSvc: UsuarioService) { }
 
   novaMateria(nome: string, codMateria: string, descricao: string, linkImg: string, nomeProf: string, diasSemana: string) {
 
@@ -26,7 +28,15 @@ export class MateriasService {
       nomeProf: nomeProf
     };
 
-    return this.http.post<{ msg: string, materia: Materia }>(BACKEND_URL, dadosMateria);
+    this.http.post<{ msg: string, materia: Materia }>(BACKEND_URL, dadosMateria).subscribe(materiaInserida => {
+      console.log(materiaInserida.materia);
+      let usuario: Usuario = this.usuarioSvc.getUsuarioLogado();
+      usuario.materias.push(materiaInserida.materia._id);
+      this.usuarioSvc.atualizarUsuario(usuario).subscribe(res => {
+        console.log(res);
+      });
+    });
+  
   }
 
   buscarMaterias(listaMaterias: string) {

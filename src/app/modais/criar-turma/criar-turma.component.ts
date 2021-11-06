@@ -50,10 +50,7 @@ export class CriarTurmaComponent implements OnInit {
     let nome: string = form.value.nome;
     let desc: string = form.value.desc;
 
-    this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, 'https://i.ibb.co/L8PFq6C/materia.png', 'Professor Fulano', diasSemanaStr)
-    .subscribe(res => {
-      console.log(res.materia)
-    });
+    this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, 'https://i.ibb.co/L8PFq6C/materia.png', 'Professor Fulano', diasSemanaStr);
   }
 
   getRandomIntInclusive(min, max) {
