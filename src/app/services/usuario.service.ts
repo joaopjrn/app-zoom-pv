@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AuthService } from "@auth0/auth0-angular";
+import { User } from "@auth0/auth0-spa-js";
 import { Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Usuario } from "../models/usuario.model";
@@ -15,7 +16,7 @@ export class UsuarioService {
   private usuarioLogado: Usuario;
   private estaLogado: boolean = false;
   private subAuth = new Subject<boolean>();
-  private userAuth0;
+  private userAuth0: User;
 
 
   buscarUsuario(email: string) {
@@ -47,8 +48,9 @@ export class UsuarioService {
     this.buscarUsuario(this.userAuth0.email)
       .subscribe((usuarioBanco: { msg: string, dadosUsuario: Usuario, valido: boolean }) => {
       if(!usuarioBanco.dadosUsuario && !usuarioBanco.valido){
+        console.log('email inválido')
         //email não é da são judas
-        this.auth.logout();
+        // this.auth.logout();
       }else if(!usuarioBanco.dadosUsuario && usuarioBanco.valido){
         this.criarUsuario(usuAuth0).subscribe(result =>{
           this.estaLogado = true;
@@ -76,7 +78,7 @@ export class UsuarioService {
   }
 
   atualizarUsuario(usuario: Usuario) {
-   return this.http.put(BACKEND_URL, usuario);
+   return this.http.put<{msg: string, atualizado: boolean}>(BACKEND_URL, usuario);
     
   }
 
@@ -99,5 +101,9 @@ export class UsuarioService {
 
   setEstaLogado(estaLogado: boolean) {
     this.estaLogado = estaLogado;
+  }
+
+  getUserAuth0(){
+    return {...this.userAuth0};
   }
 }

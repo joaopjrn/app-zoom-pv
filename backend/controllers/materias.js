@@ -38,7 +38,7 @@ exports.buscarMateria = (req, res, next) => {
   const cod = req.params.cod.toUpperCase();
   Materia.findOne({ codMateria: cod }).then(materia => {
     if (!materia) {
-      return res.status(404).json({ msg: 'Matéria não encontrada!' });
+      return res.status(200).json({ msg: 'Matéria não encontrada!', materiaEncontrada: null });
     }
     res.status(200).json({ msg: 'Matéria encontrada com sucesso!', materiaEncontrada: materia })
   }).catch(erro => {

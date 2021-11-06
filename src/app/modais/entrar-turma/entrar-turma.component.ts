@@ -18,11 +18,17 @@ export class EntrarTurmaComponent implements OnInit {
   entrarTurma(form: NgForm) {
     let codigo = form.value.codigo;
     this.materiaSvc.buscarMateria(codigo).subscribe(dados => {
-      this.usuarioSvc.entrarTurma(dados.materiaEncontrada._id, this.usuarioSvc.getUsuarioLogado())
-        .subscribe(res => {
-          console.log(res);
+      if (dados.materiaEncontrada === null) {
+        alert('turma não encontrada')
+      } else {
+        this.usuarioSvc.entrarTurma(dados.materiaEncontrada._id, this.usuarioSvc.getUsuarioLogado())
+        .subscribe(usuarioAtualizado => {
+          if(usuarioAtualizado.atualizado){
+            this.materiaSvc.inserirMateriaLocal(dados.materiaEncontrada);
+          }
         });
+      }
     })
-  
+
   }
 }

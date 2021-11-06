@@ -33,7 +33,9 @@ export class MateriasService {
       let usuario: Usuario = this.usuarioSvc.getUsuarioLogado();
       usuario.materias.push(materiaInserida.materia._id);
       this.usuarioSvc.atualizarUsuario(usuario).subscribe(res => {
-        console.log(res);
+        if(res.atualizado){
+          this.inserirMateriaLocal(materiaInserida.materia);
+        }
       });
     });
   
@@ -51,6 +53,11 @@ export class MateriasService {
 
   buscarMateria(codMateria: string) {
     return this.http.get<{ msg: string, materiaEncontrada: Materia }>(BACKEND_URL + codMateria);
+  }
+
+  inserirMateriaLocal(materia: Materia){
+    this.materias.push(materia);
+    this.materiasAtualizadas.next([...this.materias]);
   }
 
   getMateriasObs() {

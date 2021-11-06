@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MateriasService } from 'src/app/services/materias.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-criar-turma',
@@ -9,7 +10,7 @@ import { MateriasService } from 'src/app/services/materias.service';
 })
 export class CriarTurmaComponent implements OnInit {
 
-  constructor(private materiaSvc: MateriasService) { }
+  constructor(private materiaSvc: MateriasService, private usuarioSvc: UsuarioService) { }
 
   dias: {dia: string, check: boolean, val: number}[] = [
     {dia: 'Seg', check: false, val: 1},
@@ -50,7 +51,7 @@ export class CriarTurmaComponent implements OnInit {
     let nome: string = form.value.nome;
     let desc: string = form.value.desc;
 
-    this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, 'https://i.ibb.co/L8PFq6C/materia.png', 'Professor Fulano', diasSemanaStr);
+    this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, 'https://i.ibb.co/L8PFq6C/materia.png', this.usuarioSvc.getUsuarioLogado().nome, diasSemanaStr);
   }
 
   getRandomIntInclusive(min, max) {

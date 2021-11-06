@@ -14,10 +14,11 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class ListaDeMateriasComponent implements OnInit, OnDestroy {
 
+  private usuarioLogado: Usuario;
   private subMaterias: Subscription;
   private subAuth: Subscription;
+  
   carregando: boolean;
-
   materias: Materia[] = [];
 
 
@@ -25,12 +26,17 @@ export class ListaDeMateriasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.carregando = true;
+    this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
 
     // this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
     //   if(res){
     //   }
     // })
-    this.materiasSvc.buscarMaterias(JSON.stringify(this.usuarioSvc.getUsuarioLogado().materias));
+    if(this.usuarioLogado.materias.length > 0){
+      this.materiasSvc.buscarMaterias(JSON.stringify(this.usuarioLogado.materias));
+    }else{
+      this.carregando = false;
+    }
 
     this.subMaterias = this.materiasSvc.getMateriasObs().subscribe(result => {
       this.materias = result;

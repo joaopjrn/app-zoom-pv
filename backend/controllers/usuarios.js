@@ -54,7 +54,10 @@ exports.atualizarUsuario = (req, res, next) => {
 
   Usuario.updateOne({ _id: req.body._id }, usuarioAtualizado)
     .then(usuarioNoBanco => {
-      console.log(usuarioNoBanco);
-      res.status(201).json({ msg: 'Usuário atualizado com sucesso!' });
+      if(usuarioNoBanco.matchedCount > 0){
+        res.status(201).json({ msg: 'Usuário atualizado com sucesso!', atualizado: true });
+      }
+    }).catch(erro => {
+      res.status(500).json({msg: 'Erro ao atualizar usuário', erro: erro});
     });
 }
