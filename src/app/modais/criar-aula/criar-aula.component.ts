@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AulasService } from 'src/app/services/aulas.service';
 
 @Component({
@@ -9,20 +10,21 @@ import { AulasService } from 'src/app/services/aulas.service';
 })
 export class CriarAulaComponent implements OnInit {
 
-  constructor(private aulaSvc: AulasService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) private dados: any, private aulaSvc: AulasService) { }
 
   ngOnInit(): void {
+    console.log(this.dados.idMateria);
   }
   salvarAula(form: NgForm) {
     console.log(form.value)
     const nome = form.value.nome;
     const conteudo = form.value.conteudo;
-    const data = form.value.data;
-    const hora = form.value.hora;
+    const data = new Date(form.value.data);
+    const hora = form.value.hora.split(":");
+    data.setHours(hora[0]);
+    data.setMinutes(hora[1]);
     
-    this.aulaSvc.novaAula(nome, "61809b8fa1050cdf6e1b05fc", conteudo, data, hora).subscribe(res => {
-      console.log(res.aula)
-    });
+    this.aulaSvc.novaAula(nome, this.dados.idMateria, conteudo, data.toISOString());
   }
 
 }

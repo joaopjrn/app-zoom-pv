@@ -7,6 +7,7 @@ const AulasController = require ('../controllers/aulas');
 // const extractFile = require('../middleware/file');
 
 router.post('', AulasController.criarAula);
+router.get('/:id', AulasController.buscarAulas);
 /*router.get('', MateriasController.buscarMaterias);
 router.get('/:cod', MateriasController.buscarMateria);*/
 

@@ -36,14 +36,7 @@
 <mat-card class="mat-elevation-z3" *ngIf="!carregando">
 <div class="row">
   <div class="col-12">
-    <mat-tab-group animationDuration="0ms">
-      <mat-tab label="Próximas Aulas">
-        <app-lista-aulas></app-lista-aulas>
-      </mat-tab>
-      <mat-tab label="Aulas Anteriores">
-        <app-lista-aulas [aulasAnteriores]="true"></app-lista-aulas>
-      </mat-tab>
-    </mat-tab-group>
+      <app-lista-aulas [idMateria]="materia._id"></app-lista-aulas>
   </div>
 </div>
 </mat-card>

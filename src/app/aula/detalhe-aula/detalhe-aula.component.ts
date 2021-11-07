@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Aula } from 'src/app/models/aula.model';
 
 @Component({
   selector: 'app-detalhe-aula',
@@ -7,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetalheAulaComponent implements OnInit {
   editando: boolean = false;
+  @Input() aula: Aula;
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log('oi');
   }
 
 }

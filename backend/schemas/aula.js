@@ -5,7 +5,6 @@ const aulaSchema = mongoose.Schema({
   idMateria: { type: mongoose.Schema.Types.ObjectId, ref: "Materia", required: true },
   conteudo: { type: String, required: true },
   data: { type: String, required: true },
-  hora: { type: String, required: true },
   linkZoom: { type: String, required: true },
 });
 

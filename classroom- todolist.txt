@@ -1,0 +1,23 @@
+- [] página de bem vindo bonitinha -> final
+- [X] entrar na turma
+- [X] criar aula
+- [X] mostrar aulas da matéria
+- [X] separar aulas 
+- [] anotações
+- [] criar o link do zoom
+- [] editar matéria 
+- [] excluir matéria
+- [] editar aula
+- [] excluir aula
+
+--
+- [] separar o que é de aluno e o que é de professor
+- [X] atualizar as materias que aparecem epois que criar uma materia
+- [X] fechar a modal depois de confirmar
+- [X] ordenar aulas por data
+- [] obrigatório descrição pra criar aula
+- [] só poder criar aula no dia da semana
+- [] só poder criar aula no futuro
+- [] mensagem de e-mail inválido 
+- [] espaço na aula pra colocar links (aparece só o nome do link e redireciona ao clicar)
+- [] quando atualiza a pagina de materia ele volta pra lista de matérias

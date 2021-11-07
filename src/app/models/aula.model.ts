@@ -3,7 +3,6 @@ export interface Aula {
   idMateria: string;
   nome: string;
   conteudo: string;
-  data: string;
-  hora: string;
+  data: Date;
   linkZoom: string;
 }
