@@ -7,3 +7,8 @@
   color: white;
   color: whitesmoke;
 }
+
+.avatar {
+  width: 40px;
+  margin-right: 5px;
+}

@@ -5,6 +5,7 @@
   <mat-icon>auto_stories</mat-icon>
   <span> <a routerLink="inicio">Inicio</a> </span>
   <span class="mr-auto nomeApp"><a routerLink="/">Classroom</a></span>
+  <span> <img class="avatar rounded-circle" [src]="usuarioSvc.getUserAuth0().picture" alt=""> </span>
   <span *ngIf="usuarioSvc.getEstaLogado()">{{ usuarioSvc.getUsuarioLogado().nome }}</span>
   <span class="example-spacer"></span>
   <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">

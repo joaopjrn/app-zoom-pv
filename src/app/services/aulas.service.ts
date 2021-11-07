@@ -8,14 +8,12 @@ const BACKEND_URL = environment.apiUrl + "/aula/";
 @Injectable({ providedIn: 'root' })
 export class AulasService {
   listaAulas: Aula[] = [];
-  aulasOrganizadas: {
-    proximasAulas: Aula[],
-    aulasAnteriores: Aula[]
-  } = { proximasAulas: [], aulasAnteriores: [] };
-  subListaAulas = new Subject<{
-    proximasAulas: Aula[],
-    aulasAnteriores: Aula[]
-  }>();
+  aulasOrganizadas: [Aula[], Aula[]] = [[],[]];
+  // aulasOrganizadas: {
+  //   proximasAulas: Aula[],
+  //   aulasAnteriores: Aula[]
+  // } = { proximasAulas: [], aulasAnteriores: [] };
+  subListaAulas = new Subject<[Aula[], Aula[]]>();
   constructor(private http: HttpClient) {}
  
   novaAula(nome: string, idMateria: string, conteudo: string, data: string) {
@@ -30,7 +28,7 @@ export class AulasService {
       console.log(res.aula);
       this.listaAulas.push(res.aula);
       this.organizarAulas();
-      this.subListaAulas.next({...this.aulasOrganizadas});
+      this.subListaAulas.next([...this.aulasOrganizadas]);
     });
   }
 
@@ -38,13 +36,13 @@ export class AulasService {
     this.http.get<{ msg: string, aulas: any }>(BACKEND_URL + idMateria).subscribe(res => {
       this.listaAulas = res.aulas;
       this.organizarAulas();
-      this.subListaAulas.next({...this.aulasOrganizadas});
+      this.subListaAulas.next([...this.aulasOrganizadas]);
     });
   }
 
   organizarAulas() {
-    this.aulasOrganizadas.proximasAulas = [];
-    this.aulasOrganizadas.aulasAnteriores = [];
+    this.aulasOrganizadas[0] = [];
+    this.aulasOrganizadas[1] = [];
     let hoje = new Date();
     hoje.setHours(0, 0, 0, 0);
 
@@ -54,13 +52,13 @@ export class AulasService {
     
       aula.data = new Date(aula.data);
       if (aula.data >= hoje) {
-        this.aulasOrganizadas.proximasAulas.push(aula);
+        this.aulasOrganizadas[0].push(aula);
       } else {
-        this.aulasOrganizadas.aulasAnteriores.push(aula);  
+        this.aulasOrganizadas[1].push(aula);  
       }
     });
-    this.aulasOrganizadas.proximasAulas.sort((a, b) => a.data.getTime() - b.data.getTime());
-    this.aulasOrganizadas.aulasAnteriores.sort((a, b) => b.data.getTime() - a.data.getTime());
+    this.aulasOrganizadas[0].sort((a, b) => a.data.getTime() - b.data.getTime());
+    this.aulasOrganizadas[1].sort((a, b) => b.data.getTime() - a.data.getTime());
     console.dir(this.aulasOrganizadas);
   }
 

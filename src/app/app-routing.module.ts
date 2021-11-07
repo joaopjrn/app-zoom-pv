@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 // import { AuthGuard } from "@auth0/auth0-angular";
 import { BemVindoComponent } from "./bem-vindo/bem-vindo.component";
 import { AuthGuard } from "./guard/auth.guard";
+import { LogoutGuard } from "./guard/logout.guard";
 
 import { DetalheMateriaComponent } from "./materia/detalhe-materia/detalhe-materia.component";
 import { ListaDeMateriasComponent } from "./materia/lista-de-materias/lista-de-materias.component";

@@ -50,7 +50,7 @@ export class UsuarioService {
       if(!usuarioBanco.dadosUsuario && !usuarioBanco.valido){
         console.log('email inválido')
         //email não é da são judas
-        // this.auth.logout();
+        this.auth.logout();
       }else if(!usuarioBanco.dadosUsuario && usuarioBanco.valido){
         this.criarUsuario(usuAuth0).subscribe(result =>{
           this.estaLogado = true;
