@@ -33,7 +33,7 @@ export class UsuarioService {
         this.auth.user$.subscribe(user => {
           console.log(user)
           this.userAuth0 = user;
-          this.processarLogin(this.userAuth0);
+          // this.processarLogin(this.userAuth0);
         });
       } else {
         console.log('checkAuth falso')

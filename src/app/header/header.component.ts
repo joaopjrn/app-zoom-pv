@@ -16,6 +16,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(public auth: AuthService, public usuarioSvc: UsuarioService, private router: Router) { }
 
   ngOnInit(): void {
+    this.auth.isLoading$.subscribe(res => {
+      console.log('isLoading: '+res)
+    })
     this.usuarioSvc.checkAuth();
     this.loginListener = this.usuarioSvc.getSubAuth().subscribe(res => {
       if(res){
