@@ -18,16 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private usuarioSvc: UsuarioService){}
   
   ngOnInit(): void {
-    this.carregando = true;
-    this.usuarioSvc.checkAuth();
-    this.estaLogadoSub = this.usuarioSvc.getSubLogado().subscribe(estaLogado => {
-      console.log('recebendo estado de logado: '+estaLogado)
-      if(estaLogado){
-        this.userAuth0 = this.usuarioSvc.getUserAuth0();
-      }
-      console.log('carregamento terminou')
-      this.carregando = false;
-    })
+
   }
 
   ngOnDestroy(){

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CriarTurmaComponent } from 'src/app/modais/criar-turma/criar-turma.component';
-import { EntrarTurmaComponent } from 'src/app/modais/entrar-turma/entrar-turma.component';
+
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { CriarTurmaComponent } from '../../modais/criar-turma/criar-turma.component';
+import { EntrarTurmaComponent } from '../../modais/entrar-turma/entrar-turma.component';
 
 @Component({
   selector: 'app-barra-botoes',

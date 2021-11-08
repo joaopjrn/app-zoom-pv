@@ -13,7 +13,7 @@ const BACKEND_URL = environment.apiUrl + '/materia/';
 @Injectable({ providedIn: 'root' })
 export class MateriasService {
   private materias: Materia[] = [];
-  private materiasAtualizadas = new Subject<Materia[]>();
+  private subMateriasCarregadas = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router, private usuarioSvc: UsuarioService) { }
 
@@ -47,7 +47,7 @@ export class MateriasService {
         { 'materias': listaMaterias }
       }).subscribe(res => {
         this.materias = res.materias;
-        this.materiasAtualizadas.next([...this.materias]);
+        this.subMateriasCarregadas.next(true);
       });
   }
 
@@ -57,11 +57,15 @@ export class MateriasService {
 
   inserirMateriaLocal(materia: Materia){
     this.materias.push(materia);
-    this.materiasAtualizadas.next([...this.materias]);
+    this.subMateriasCarregadas.next(true);
   }
 
-  getMateriasObs() {
-    return this.materiasAtualizadas.asObservable();
+  getSubMateriasCarregadas() {
+    return this.subMateriasCarregadas.asObservable();
+  }
+
+  getMaterias(){
+    return [...this.materias];
   }
 
 }

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { User } from '@auth0/auth0-spa-js';
 import { Subscription } from 'rxjs';
-import { UsuarioService } from '../services/usuario.service';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-header',
@@ -12,17 +12,23 @@ import { UsuarioService } from '../services/usuario.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  @Input() usuarioAuth0: User;
+  usuarioAuth0: User;
+  subEstaLogado: Subscription;
 
   constructor(public auth: AuthService, public usuarioSvc: UsuarioService, private router: Router) { }
 
   ngOnInit(): void {
+    this.subEstaLogado = this.usuarioSvc.getSubLogado().subscribe(estaLogado => {
+      if(estaLogado){
+        this.usuarioAuth0 = this.usuarioSvc.getUserAuth0();
+      }
+    })
     console.log('header oninit')
 
   }
 
   ngOnDestroy(){
-
+    this.subEstaLogado.unsubscribe();
   }
 
 }

@@ -13,32 +13,12 @@ export class UsuarioService {
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
-  private subEstaLogado = new Subject<boolean>();
-  private subAuth = new Subject<boolean>();
-  private subDadosCarregados = new Subject<boolean>();
-
   private usuarioLogado: Usuario;
   private estaLogado: boolean = false;
   private userAuth0: User;
 
-
-  buscarUsuario(email: string) {
-    return this.http.get<{ msg: string, dadosUsuario: Usuario, valido: any }>(BACKEND_URL + email);
-  }
-
-  criarUsuario(dadosUsuario: any) {
-    this.http.post<{ msg: string, dados: any }>(BACKEND_URL, dadosUsuario).subscribe(result => {
-      this.usuarioLogado = {
-        _id: result.dados._id,
-        email: result.dados.email,
-        nome: result.dados.nome,
-        tipo: result.dados.tipo,
-        materias: JSON.parse(result.dados.materias)
-      }
-      console.log('login processado após criar usuário')
-      this.subDadosCarregados.next(true);
-    });;
-  }
+  private subEstaLogado = new Subject<boolean>();
+  private subDadosCarregados = new Subject<boolean>();
 
   checkAuth() {
     this.auth.isAuthenticated$.subscribe((isAuth: boolean) => {
@@ -81,6 +61,28 @@ export class UsuarioService {
       })
   }
 
+  setLogado(isLogado: boolean) {
+    if(!isLogado){
+      console.log('não está logado')
+    }else{
+      console.log('está logado')
+    }
+    this.estaLogado = isLogado;
+    this.subEstaLogado.next(isLogado);
+  }
+
+  buscarUsuario(email: string) {
+    return this.http.get<{ msg: string, dadosUsuario: Usuario, valido: any }>(BACKEND_URL + email);
+  }
+
+  criarUsuario(dadosUsuario: any) {
+    this.http.post<{ msg: string, dados: Usuario }>(BACKEND_URL, dadosUsuario).subscribe(result => {
+      this.usuarioLogado = result.dados;
+      console.log('login processado após criar usuário')
+      this.subDadosCarregados.next(true);
+    });;
+  }
+
   atualizarUsuario(usuario: Usuario) {
     return this.http.put<{ msg: string, atualizado: boolean }>(BACKEND_URL, usuario);
   }
@@ -90,14 +92,6 @@ export class UsuarioService {
     return this.atualizarUsuario(usuario);
   }
 
-  setLogado(isLogado: boolean) {
-    this.estaLogado = isLogado;
-    this.subEstaLogado.next(isLogado);
-  }
-
-  getSubAuth() {
-    return this.subAuth.asObservable();
-  }
 
   getSubLogado() {
     return this.subEstaLogado.asObservable();
@@ -113,10 +107,6 @@ export class UsuarioService {
 
   getEstaLogado() {
     return this.estaLogado;
-  }
-
-  setEstaLogado(estaLogado: boolean) {
-    this.estaLogado = estaLogado;
   }
 
   getUserAuth0() {

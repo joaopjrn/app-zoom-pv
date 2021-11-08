@@ -33,8 +33,14 @@ exports.criarUsuario = (req, res, next) => {
   novoUsuario.save()
   .then(usuarioCriado => {
     console.log("retorno do save(): ")
-    console.log(usuarioCriado)
-    res.status(201).json({msg: 'Usuário criado com sucesso', dados: usuarioCriado});
+    const usuario = {
+      _id: usuarioCriado._id,
+      nome: usuarioCriado.nome,
+      email: usuarioCriado.email,
+      tipo: usuarioCriado.tipo,
+      materias: JSON.parse(usuarioCriado.materias)
+    }
+    res.status(201).json({msg: 'Usuário criado com sucesso', dados: usuario});
   })
   .catch(erro => {
     res.status(500).json({msg: 'Erro ao criar usuário!', erro: erro});

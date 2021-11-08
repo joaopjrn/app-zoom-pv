@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { CriarAulaComponent } from 'src/app/modais/criar-aula/criar-aula.component';
 import { Materia } from 'src/app/models/materia.model';
 import { Usuario } from 'src/app/models/usuario.model';
 import { MateriasService } from 'src/app/services/materias.service';
+import { CriarAulaComponent } from '../../modais/criar-aula/criar-aula.component';
 
 @Component({
   selector: 'app-detalhe-materia',
