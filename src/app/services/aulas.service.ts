@@ -8,14 +8,11 @@ const BACKEND_URL = environment.apiUrl + "/aula/";
 @Injectable({ providedIn: 'root' })
 export class AulasService {
   listaAulas: Aula[] = [];
-  aulasOrganizadas: [Aula[], Aula[]] = [[],[]];
-  // aulasOrganizadas: {
-  //   proximasAulas: Aula[],
-  //   aulasAnteriores: Aula[]
-  // } = { proximasAulas: [], aulasAnteriores: [] };
-  subListaAulas = new Subject<[Aula[], Aula[]]>();
-  constructor(private http: HttpClient) {}
- 
+  aulasOrganizadas = [([] as Aula[]), ([] as Aula[])];
+
+  subAulasCarregadas = new Subject<boolean>();
+  constructor(private http: HttpClient) { }
+
   novaAula(nome: string, idMateria: string, conteudo: string, data: string) {
     const aula = {
       nome: nome,
@@ -28,7 +25,7 @@ export class AulasService {
       console.log(res.aula);
       this.listaAulas.push(res.aula);
       this.organizarAulas();
-      this.subListaAulas.next([...this.aulasOrganizadas]);
+      this.subAulasCarregadas.next(true);
     });
   }
 
@@ -36,7 +33,7 @@ export class AulasService {
     this.http.get<{ msg: string, aulas: any }>(BACKEND_URL + idMateria).subscribe(res => {
       this.listaAulas = res.aulas;
       this.organizarAulas();
-      this.subListaAulas.next([...this.aulasOrganizadas]);
+      this.subAulasCarregadas.next(true);
     });
   }
 
@@ -49,12 +46,12 @@ export class AulasService {
     console.log(hoje);
 
     this.listaAulas.forEach((aula: Aula) => {
-    
+
       aula.data = new Date(aula.data);
       if (aula.data >= hoje) {
         this.aulasOrganizadas[0].push(aula);
       } else {
-        this.aulasOrganizadas[1].push(aula);  
+        this.aulasOrganizadas[1].push(aula);
       }
     });
     this.aulasOrganizadas[0].sort((a, b) => a.data.getTime() - b.data.getTime());
@@ -62,7 +59,11 @@ export class AulasService {
     console.dir(this.aulasOrganizadas);
   }
 
-    getSubListaAulas() {
-    return this.subListaAulas.asObservable();
+  getSubAulasCarregadas() {
+    return this.subAulasCarregadas.asObservable();
+  }
+
+  getAulas() {
+    return [...this.aulasOrganizadas];
   }
 }

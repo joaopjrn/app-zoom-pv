@@ -14,8 +14,6 @@ import { LogoutGuard } from "./guard/logout.guard";
 const routes: Routes = [
   { path: '', component: CarregandoComponent },
   { path: 'bem-vindo', component: BemVindoComponent },
-  // { path: 'inicio', component: ListaDeMateriasComponent },
-  // { path: 'materia/:cod', component: DetalheMateriaComponent },
   { path: 'inicio', component: ListaDeMateriasComponent, canActivate: [AuthGuard] },
   { path: 'materia/:cod', component: DetalheMateriaComponent, canActivate: [AuthGuard]},
 ];

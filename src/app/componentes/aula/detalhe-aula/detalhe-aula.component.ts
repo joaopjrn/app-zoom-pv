@@ -13,7 +13,7 @@ export class DetalheAulaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('oi');
+    
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Usuario } from 'src/app/models/usuario.model';
 import { MateriasService } from 'src/app/services/materias.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -15,20 +16,20 @@ export class CarregandoComponent implements OnInit, OnDestroy {
 
   subEstaLogado: Subscription;
   subMateriasCarregadas: Subscription;
-  subDadosUsuario: Subscription;
+  usuarioLogado: Usuario;
 
   ngOnInit(): void {
-    this.usuarioSvc.checkAuth();
 
+    this.usuarioSvc.checkAuth();
     this.subEstaLogado = this.usuarioSvc.getSubLogado().subscribe(estaLogado => {
       console.log('recebendo subEstaLogado em "carregando"');
       if(estaLogado){
-        this.materiaSvc.buscarMaterias(JSON.stringify(this.usuarioSvc.getUsuarioLogado().materias));
+        this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
+        this.materiaSvc.buscarMaterias(JSON.stringify(this.usuarioLogado.materias));
       }else{
         this.router.navigate(['bem-vindo'])
       }
     });
-
 
     this.subMateriasCarregadas = this.materiaSvc.getSubMateriasCarregadas().subscribe(materiasCarregadas => {
       console.log('recebendo materias carregadas em "carregando"');
@@ -36,6 +37,7 @@ export class CarregandoComponent implements OnInit, OnDestroy {
         this.router.navigate(['inicio']);
       }
     });
+
   }
 
   ngOnDestroy(){

@@ -15,7 +15,6 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class ListaDeMateriasComponent implements OnInit, OnDestroy {
 
   private usuarioLogado: Usuario;
-  private subDadosUsuario: Subscription;
   private subMaterias: Subscription;
   
   materias: Materia[] = [];
@@ -24,6 +23,8 @@ export class ListaDeMateriasComponent implements OnInit, OnDestroy {
   constructor(private materiasSvc: MateriasService, public usuarioSvc: UsuarioService, private router: Router) { }
 
   ngOnInit(): void {
+    this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
+
     this.materias = this.materiasSvc.getMaterias();
     this.subMaterias = this.materiasSvc.getSubMateriasCarregadas().subscribe(materiaCarregadas => {
       this.materias = this.materiasSvc.getMaterias();

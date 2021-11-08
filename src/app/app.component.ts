@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   carregando: boolean;
   estaLogadoSub: Subscription;
 
-  constructor(private usuarioSvc: UsuarioService){}
+  constructor(){}
   
   ngOnInit(): void {
 

@@ -10,6 +10,7 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     if(Object.keys(this.usuarioSvc.getUserAuth0()).length === 0){
       console.log('Rota bloqueada, não logado em Auth0');
+      this.router.navigate(['/'])
       return false;
     }
     if(!this.usuarioSvc.getUserAuth0().email.includes('saojudas')){
@@ -19,8 +20,8 @@ export class AuthGuard implements CanActivate {
     }
     if(!this.usuarioSvc.getEstaLogado()){
       console.log('Rota Bloqueada!')
+      this.router.navigate(['/']);
       return false;
-      // this.router.navigate(['/']);
     }
     return this.usuarioSvc.getEstaLogado();
   }

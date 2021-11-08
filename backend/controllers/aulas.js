@@ -1,4 +1,3 @@
-const aula = require('../schemas/aula');
 const Aula = require('../schemas/aula');
 
 exports.criarAula = (req, res, next) => {
@@ -32,9 +31,6 @@ exports.buscarAulas = (req, res, next) => {
         linkZoom: aula.linkZoom
       }  
     });
-    aulas.forEach(aula => {
-      console.log(aula.data.getDate());
-    })
     
     res.status(200).json({ msg: "Aulas encontradas com sucesso!", aulas: aulas });
   });

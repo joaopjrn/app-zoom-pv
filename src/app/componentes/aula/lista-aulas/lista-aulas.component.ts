@@ -1,4 +1,3 @@
-import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Aula } from 'src/app/models/aula.model';
@@ -12,15 +11,16 @@ import { AulasService } from 'src/app/services/aulas.service';
 export class ListaAulasComponent implements OnInit {
 
   @Input() idMateria: string;
-  // listaAulas: {proximasAulas: Aula[], aulasAnteriores: Aula[]} = {proximasAulas: [], aulasAnteriores: []};
-  listaAulas: [Aula[], Aula[]] = [[],[]];
+  listaAulas = [([] as Aula[]),([] as Aula[])];
   listaAulasListener: Subscription;
   constructor(private aulasSvc: AulasService) { }
 
   ngOnInit(): void {
     this.aulasSvc.buscarAulas(this.idMateria);
-    this.listaAulasListener = this.aulasSvc.getSubListaAulas().subscribe(res => {
-      this.listaAulas = res;
+    this.listaAulasListener = this.aulasSvc.getSubAulasCarregadas().subscribe(aulasCarregadas => {
+      if(aulasCarregadas){
+        this.listaAulas = this.aulasSvc.getAulas();
+      }
     });
   }
 
@@ -33,7 +33,6 @@ export class ListaAulasComponent implements OnInit {
     if(min < 10){
       min = '0' + min;
     }
-
     return data.toLocaleDateString() + ' - ' + hora + ":" + min;
   }
 

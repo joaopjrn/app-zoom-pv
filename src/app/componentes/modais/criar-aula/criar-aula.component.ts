@@ -9,10 +9,14 @@ import { AulasService } from 'src/app/services/aulas.service';
   styleUrls: ['./criar-aula.component.css']
 })
 export class CriarAulaComponent implements OnInit {
+  minDate: Date;
+  maxDate: Date;
 
   constructor(@Inject(MAT_DIALOG_DATA) private dados: any, private aulaSvc: AulasService) { }
 
   ngOnInit(): void {
+    this.minDate = new Date();
+    this.maxDate = new Date(this.minDate.getFullYear(), 12,0)
     console.log(this.dados.idMateria);
   }
   salvarAula(form: NgForm) {
