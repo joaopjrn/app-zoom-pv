@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.estaLogadoSub.unsubscribe();
+
   }
 
 }

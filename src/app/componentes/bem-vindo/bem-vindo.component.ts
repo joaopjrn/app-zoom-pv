@@ -15,13 +15,7 @@ export class BemVindoComponent implements OnInit, OnDestroy {
   constructor(private usuarioSvc: UsuarioService, private router: Router) { }
   
   ngOnInit(): void {
-    console.log('bem-vindo oninit')
-    this.subDadosCarregados = this.usuarioSvc.getSubDadosUsuario().subscribe(dadosCarregados => {
-      console.log('recebendo dados emitidos no componente bem-vindo')
-      if(dadosCarregados){
-        this.router.navigate(['inicio']);
-      }
-    });
+
   }
 
   ngOnDestroy(): void {

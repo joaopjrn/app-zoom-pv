@@ -23,18 +23,12 @@ export class CarregandoComponent implements OnInit, OnDestroy {
     this.subEstaLogado = this.usuarioSvc.getSubLogado().subscribe(estaLogado => {
       console.log('recebendo subEstaLogado em "carregando"');
       if(estaLogado){
-        // this.router.navigate(['bem-vindo']);
+        this.materiaSvc.buscarMaterias(JSON.stringify(this.usuarioSvc.getUsuarioLogado().materias));
       }else{
         this.router.navigate(['bem-vindo'])
       }
     });
 
-    this.subDadosUsuario = this.usuarioSvc.getSubDadosUsuario().subscribe(dadosCarregados => {
-      console.log('recebendo dados do usuario carregados em "carregando"');
-      if(dadosCarregados) {
-        this.materiaSvc.buscarMaterias(JSON.stringify(this.usuarioSvc.getUsuarioLogado().materias));
-      }
-    })
 
     this.subMateriasCarregadas = this.materiaSvc.getSubMateriasCarregadas().subscribe(materiasCarregadas => {
       console.log('recebendo materias carregadas em "carregando"');

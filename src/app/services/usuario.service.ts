@@ -26,7 +26,7 @@ export class UsuarioService {
         this.auth.user$.subscribe(user => {
           console.log(user)
           this.userAuth0 = user;
-          this.setLogado(true);
+          // this.setLogado(true);
           this.processarLogin();
         });
       } else {
@@ -47,7 +47,8 @@ export class UsuarioService {
           this.usuarioLogado = usuarioBanco.dadosUsuario;
           console.log('login processado após encontrar usuário no banco')
           console.log(this.usuarioLogado)
-          this.subDadosCarregados.next(true);
+          this.setLogado(true);
+          // this.subDadosCarregados.next(true);
         } else if (!usuarioBanco.dadosUsuario && usuarioBanco.valido) {
           //se usuario não existe no banco e o email é válido, cria usuario novo
           this.criarUsuario(this.userAuth0);
@@ -79,7 +80,7 @@ export class UsuarioService {
     this.http.post<{ msg: string, dados: Usuario }>(BACKEND_URL, dadosUsuario).subscribe(result => {
       this.usuarioLogado = result.dados;
       console.log('login processado após criar usuário')
-      this.subDadosCarregados.next(true);
+      this.setLogado(true);
     });;
   }
 

@@ -33,19 +33,18 @@ export class MateriasService {
       let usuario: Usuario = this.usuarioSvc.getUsuarioLogado();
       usuario.materias.push(materiaInserida.materia._id);
       this.usuarioSvc.atualizarUsuario(usuario).subscribe(res => {
-        if(res.atualizado){
+        if (res.atualizado) {
           this.inserirMateriaLocal(materiaInserida.materia);
         }
       });
     });
-  
+
   }
 
   buscarMaterias(listaMaterias: string) {
     this.http.get<{ msg: string, materias: Materia[] }>(BACKEND_URL,
-      { headers:
-        { 'materias': listaMaterias }
-      }).subscribe(res => {
+      { headers: { 'materias': listaMaterias } }).subscribe(res => {
+        console.log('matérias carregadas')
         this.materias = res.materias;
         this.subMateriasCarregadas.next(true);
       });
@@ -55,7 +54,7 @@ export class MateriasService {
     return this.http.get<{ msg: string, materiaEncontrada: Materia }>(BACKEND_URL + codMateria);
   }
 
-  inserirMateriaLocal(materia: Materia){
+  inserirMateriaLocal(materia: Materia) {
     this.materias.push(materia);
     this.subMateriasCarregadas.next(true);
   }
@@ -64,7 +63,7 @@ export class MateriasService {
     return this.subMateriasCarregadas.asObservable();
   }
 
-  getMaterias(){
+  getMaterias() {
     return [...this.materias];
   }
 
