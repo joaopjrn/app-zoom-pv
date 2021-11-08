@@ -1,22 +1,22 @@
-<mat-toolbar color="primary">
-  <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button> -->
-  <mat-icon>auto_stories</mat-icon>
-  <span> <a routerLink="inicio">Inicio</a> </span>
-  <span class="mr-auto nomeApp"><a routerLink="/">Classroom</a></span>
-  <span> <img class="avatar rounded-circle" [src]="usuarioSvc.getUserAuth0().picture" alt=""> </span>
-  <span *ngIf="usuarioSvc.getEstaLogado()">{{ usuarioSvc.getUsuarioLogado().nome }}</span>
-  <span class="example-spacer"></span>
-  <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button> -->
-  <button mat-raised-button (click)="auth.loginWithRedirect()">login</button>
-  <button mat-raised-button (click)="auth.logout()">logout</button>
-  <!-- <button *ngIf="!estaLogado" mat-icon-button (click)="auth.loginWithRedirect()">
-    <mat-icon>login</mat-icon>
-  </button>
-  <button *ngIf="estaLogado" mat-icon-button (click)="auth.logout({returnTo: 'http://localhost:4200'})">
-    <mat-icon>logout</mat-icon>
-  </button> -->
-</mat-toolbar>
+  <mat-toolbar color="primary">
+    <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button> -->
+    <mat-icon>auto_stories</mat-icon>
+    <span> <a routerLink="inicio">Inicio</a> </span>
+    <span class="mr-auto nomeApp"><a routerLink="/">Classroom</a></span>
+    <span> <img class="avatar rounded-circle" [src]="usuarioAuth0.picture" alt=""> </span>
+    <span>{{ usuarioAuth0.name }}</span>
+    <span class="example-spacer"></span>
+    <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button> -->
+    <button mat-raised-button (click)="auth.loginWithRedirect()">login</button>
+    <button mat-raised-button (click)="auth.logout()">logout</button>
+    <!-- <button *ngIf="!estaLogado" mat-icon-button (click)="auth.loginWithRedirect()">
+      <mat-icon>login</mat-icon>
+    </button>
+    <button *ngIf="estaLogado" mat-icon-button (click)="auth.logout({returnTo: 'http://localhost:4200'})">
+      <mat-icon>logout</mat-icon>
+    </button> -->
+  </mat-toolbar>

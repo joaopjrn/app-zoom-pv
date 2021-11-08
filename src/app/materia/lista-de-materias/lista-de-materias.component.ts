@@ -15,48 +15,29 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class ListaDeMateriasComponent implements OnInit, OnDestroy {
 
   private usuarioLogado: Usuario;
+  private subDadosUsuario: Subscription;
   private subMaterias: Subscription;
-  private subAuth: Subscription;
   
-  carregando: boolean;
+  carregando: boolean = true;
   materias: Materia[] = [];
 
 
   constructor(private materiasSvc: MateriasService, public usuarioSvc: UsuarioService, private router: Router) { }
 
   ngOnInit(): void {
-    this.carregando = true;
     this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
+    console.log('lista de matérias oninit');
+    this.materiasSvc.buscarMaterias(JSON.stringify(this.usuarioLogado.materias));
 
-    // this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
-    //   if(res){
-    //   }
-    // })
-    if(this.usuarioLogado.materias.length > 0){
-      this.materiasSvc.buscarMaterias(JSON.stringify(this.usuarioLogado.materias));
-    }else{
-      this.carregando = false;
-    }
-
-    this.subMaterias = this.materiasSvc.getMateriasObs().subscribe(result => {
-      this.materias = result;
+    this.materiasSvc.getMateriasObs().subscribe(materiasBuscadas => {
+      this.materias = materiasBuscadas;
       this.carregando = false;
     })
-    // this.subAuth = this.usuarioSvc.getSubAuth().subscribe(res => {
-    //   if(res.estaLogado){
-    //     console.log('loguei')
-    //     this.usuario = res.usuario;
-    //     this.materiasSvc.buscarMaterias(JSON.stringify(this.usuario.materias));
-    //     this.subMaterias = this.materiasSvc.getMateriasObs().subscribe((materias: Materia[]) => {
-    //       this.materias = materias;
-    //       this.carregando = false;
-    //     });
-    //   }
-    // })
   }
 
   ngOnDestroy(){
     this.subMaterias.unsubscribe();
+    this.subDadosUsuario.unsubscribe();
     // this.subAuth.unsubscribe();
   }
 

@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
+import { User } from '@auth0/auth0-spa-js';
 import { Subscription } from 'rxjs';
 import { UsuarioService } from '../services/usuario.service';
 
@@ -11,28 +12,17 @@ import { UsuarioService } from '../services/usuario.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  loginListener: Subscription;
+  @Input() usuarioAuth0: User;
 
   constructor(public auth: AuthService, public usuarioSvc: UsuarioService, private router: Router) { }
 
   ngOnInit(): void {
-    this.auth.isLoading$.subscribe(res => {
-      console.log('isLoading: '+res)
-    })
-    this.usuarioSvc.checkAuth();
-    this.loginListener = this.usuarioSvc.getSubAuth().subscribe(res => {
-      if(res){
-        this.router.navigate(['inicio']);
-      }
-    })
-  }
+    console.log('header oninit')
 
-  login(){
-    // this.usuarioSvc.login();
   }
 
   ngOnDestroy(){
-    this.loginListener.unsubscribe();
+
   }
 
 }
