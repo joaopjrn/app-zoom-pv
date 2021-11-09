@@ -6,4 +6,4 @@ const anotacaoSchema = mongoose.Schema({
   conteudo: { type: String, required: true },
 });
 
-module.exports = mongoose.model('Anotacao');
+module.exports = mongoose.model('Anotacao', anotacaoSchema);

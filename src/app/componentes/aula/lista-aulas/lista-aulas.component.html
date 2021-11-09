@@ -1,12 +1,12 @@
 <mat-tab-group animationDuration="0ms">
   <mat-tab [label]="i == 0 ? 'Próximas Aulas' : 'Aulas Anteriores'" *ngFor="let lista of listaAulas; let i = index">
     <mat-accordion>
-      <mat-expansion-panel *ngFor="let aula of lista">
+      <mat-expansion-panel *ngFor="let aula of lista" (opened)="buscarAnotacao(aula._id)">
         <mat-expansion-panel-header class="row">
           <mat-panel-title class="col-auto">
             {{aula.nome}}
           </mat-panel-title>
-          <mat-panel-description class="col-2">
+          <mat-panel-description class="col-2 align-items-center">
             {{dataToString(aula.data)}}
           </mat-panel-description>
         </mat-expansion-panel-header>

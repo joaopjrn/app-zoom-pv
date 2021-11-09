@@ -2,10 +2,10 @@
 - [X] entrar na turma
 - [X] criar aula
 - [X] mostrar aulas da matéria
-- [X] separar aulas 
+- [X] separar aulas
 - [] anotações
 - [] criar o link do zoom
-- [] editar matéria 
+- [] editar matéria
 - [] excluir matéria
 - [] editar aula
 - [] excluir aula
@@ -17,7 +17,9 @@
 - [X] ordenar aulas por data
 - [] obrigatório descrição pra criar aula
 - [] só poder criar aula no dia da semana
-- [] só poder criar aula no futuro
-- [] mensagem de e-mail inválido 
-- [] espaço na aula pra colocar links (aparece só o nome do link e redireciona ao clicar)
+- [x] só poder criar aula no futuro
+- [] mensagem de e-mail inválido
+
+-------------------
 - [] quando atualiza a pagina de materia ele volta pra lista de matérias
+- [] espaço na aula pra colocar links (aparece só o nome do link e redireciona ao clicar)

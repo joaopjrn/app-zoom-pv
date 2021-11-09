@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Materia } from 'src/app/models/materia.model';
 import { Usuario } from 'src/app/models/usuario.model';
 import { MateriasService } from 'src/app/services/materias.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { CriarAulaComponent } from '../../modais/criar-aula/criar-aula.component';
 
 @Component({
@@ -12,6 +13,7 @@ import { CriarAulaComponent } from '../../modais/criar-aula/criar-aula.component
   styleUrls: ['./detalhe-materia.component.css']
 })
 export class DetalheMateriaComponent implements OnInit {
+  usuarioLogado: Usuario;
   materia: Materia;
   carregando = true;
   dias: {dia: string, val: number}[] = [
@@ -25,9 +27,10 @@ export class DetalheMateriaComponent implements OnInit {
   ];
   diasDeAula: number[];
 
-  constructor(private modal: MatDialog, private route: ActivatedRoute, private matSvc: MateriasService) { }
+  constructor(private modal: MatDialog, private route: ActivatedRoute, private matSvc: MateriasService, private usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
+    this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('cod')) {
         this.matSvc.buscarMateria(paramMap.get('cod')).subscribe((res: any) => {
