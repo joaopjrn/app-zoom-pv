@@ -21,8 +21,8 @@ export class AulasService {
       data: data,
     }
     this.http.post<{ msg: string, aula: Aula }>(BACKEND_URL, aula).subscribe(res => {
-      console.log('aula antes do push:');
-      console.log(res.aula);
+      // console.log('aula antes do push:');
+      // console.log(res.aula);
       this.listaAulas.push(res.aula);
       this.organizarAulas();
       this.subAulasCarregadas.next(true);
@@ -43,7 +43,7 @@ export class AulasService {
     let hoje = new Date();
     hoje.setHours(0, 0, 0, 0);
 
-    console.log(hoje);
+    // console.log(hoje);
 
     this.listaAulas.forEach((aula: Aula) => {
 
@@ -56,7 +56,7 @@ export class AulasService {
     });
     this.aulasOrganizadas[0].sort((a, b) => a.data.getTime() - b.data.getTime());
     this.aulasOrganizadas[1].sort((a, b) => b.data.getTime() - a.data.getTime());
-    console.dir(this.aulasOrganizadas);
+    // console.dir(this.aulasOrganizadas);
   }
 
   getSubAulasCarregadas() {

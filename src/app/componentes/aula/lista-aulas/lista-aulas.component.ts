@@ -27,26 +27,6 @@ export class ListaAulasComponent implements OnInit, OnDestroy {
     });
   }
 
-  dataToString(data: Date) {
-    let hora: string | number = data.getHours();
-    let min: string | number = data.getMinutes();
-    if(hora < 10){
-      hora = '0' + hora;
-    }
-    if(min < 10){
-      min = '0' + min;
-    }
-    return data.toLocaleDateString() + ' - ' + hora + ":" + min;
-  }
-
-  buscarAnotacao(idAula: string) {
-    if(!this.anotacoesBuscadas.includes(idAula)){
-      console.log(idAula)
-      this.anotacoesBuscadas.push(idAula);
-      this.anotaSvc.buscarAnotacao(idAula, this.usuarioSvc.getUsuarioLogado()._id);
-    }
-  }
-
   ngOnDestroy(){
     this.listaAulasListener.unsubscribe();
   }

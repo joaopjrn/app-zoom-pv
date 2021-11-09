@@ -1,33 +1,45 @@
-<div class="row">
-<div class="col-12">
-  <p>{{aula.conteudo}}</p>
-</div>
-<div class="col-12">
-  <button type="button" mat-raised-button color="primary">Aula no Zoom</button>
-</div>
-<div class="col-12 mt-2">
-  <mat-divider></mat-divider>
-</div>
-<div class="col-12 mt-3">
-  <span class="mat-body-2">Anotações</span>
-  <button mat-icon-button (click)="editando = !editando"><mat-icon color="primary">{{editando ? 'remove_circle' : 'add_circle'}}</mat-icon></button>
-</div>
-<div class="col-12" *ngIf="!editando">
-  <p>{{ anotacao?.conteudo }}</p>
-</div>
-<div class="col-12" *ngIf="editando">
-  <form #form="ngForm" (submit)="salvarAnotacao(form)">
-    <mat-form-field class="w-100">
-      <mat-label>Insira aqui suas anotações</mat-label>
-      <textarea matInput rows="10" name="anotacao" #anotacao="ngModel" ngModel></textarea>
-    </mat-form-field>
-    <div class="w-100 mb-3">
-      <button type="submit" mat-raised-button color="accent">Salvar Anotações</button>
+<mat-expansion-panel (opened)="buscarAnotacao()" (afterCollapse)="fechandoPainel()">
+  <mat-expansion-panel-header class="row">
+    <mat-panel-title class="col-auto">
+      {{aula.nome}}
+    </mat-panel-title>
+    <mat-panel-description class="col-2 align-items-center">
+      {{dataToString(aula.data)}}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div class="row">
+    <div class="col-12">
+      <p>{{aula.conteudo}}</p>
     </div>
-  </form>
-</div>
-<mat-action-row class="w-100">
-  <button mat-stroked-button color="warn">Excluir</button>
-  <button mat-stroked-button color="primary">Editar</button>
-</mat-action-row>
-</div>
+    <div class="col-12">
+      <button type="button" mat-raised-button color="primary">Aula no Zoom</button>
+    </div>
+    <div class="col-12 mt-2">
+      <mat-divider></mat-divider>
+    </div>
+    <div class="col-12 mt-3">
+      <span class="mat-body-2">Anotações</span>
+      <button mat-icon-button (click)="editando = !editando">
+        <mat-icon color="primary">{{anotacaoCarregada ? 'edit' : editando ? 'remove_circle' : 'add_circle'}}</mat-icon>
+      </button>
+    </div>
+    <div class="col-12" *ngIf="anotacaoCarregada && !editando">
+      <p class="anotacao">{{ anotacao.conteudo }}</p>
+    </div>
+    <div class="col-12" *ngIf="editando">
+      <form #form="ngForm" (submit)="salvarAnotacao(form)">
+        <mat-form-field class="w-100">
+          <mat-label>Insira aqui suas anotações</mat-label>
+          <textarea matInput rows="10" name="conteudo" #conteudo="ngModel" [ngModel]="anotacao.conteudo"></textarea>
+        </mat-form-field>
+        <div class="w-100 mb-3">
+          <button type="submit" mat-raised-button color="accent">Salvar Anotações</button>
+        </div>
+      </form>
+    </div>
+    <mat-action-row class="w-100">
+      <button mat-stroked-button color="warn">Excluir</button>
+      <button mat-stroked-button color="primary">Editar</button>
+    </mat-action-row>
+  </div>
+</mat-expansion-panel>
