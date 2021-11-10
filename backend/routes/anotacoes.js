@@ -3,7 +3,8 @@ const router = express.Router();
 const AnotacoesController = require ('../controllers/anotacoes');
 
 router.post('', AnotacoesController.criarAnotacao);
-router.get('/:idAula/:idUsuario', AnotacoesController.buscarAnotacao);
+// router.get('/:idAula/:idUsuario', AnotacoesController.buscarAnotacao);
+router.get('/:codigo', AnotacoesController.buscarAnotacao);
 // router.get('/:id', AulasController.buscarAulas);
 
 module.exports = router;

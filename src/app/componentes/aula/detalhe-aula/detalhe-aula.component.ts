@@ -17,52 +17,30 @@ import { ExcluirComponent } from '../../modais/excluir/excluir.component';
 })
 export class DetalheAulaComponent implements OnInit, OnDestroy {
 
-  editando: boolean = false;
-  anotacaoCarregada: boolean = false;
-  anotacao: Anotacao;
+  // editando: boolean = false;
   @Input() aula: Aula;
+  aberto: boolean = false;
+  codAnotacao: string;
 
-  subAnotacaoBuscada: Subscription;
+  // subAnotacaoBuscada: Subscription;
 
-  constructor(private anotaSvc: AnotacoesServico, private usuarioSvc: UsuarioService, private aulaSvc: AulasService, private modal: MatDialog) { }
+  constructor(private usuarioSvc: UsuarioService, private aulaSvc: AulasService, private modal: MatDialog) { }
 
   ngOnInit(): void {
-
+    this.codAnotacao = this.aula._id + this.usuarioSvc.getUsuarioLogado()._id;
   }
 
-  salvarAnotacao(form: NgForm) {
-    const anotacao = {
-      idAula: this.aula._id,
-      idUsuario: this.usuarioSvc.getUsuarioLogado()._id,
-      conteudo: form.value.conteudo
-    }
-    this.anotaSvc.criarAnotacao(anotacao);
-  }
-
-  buscarAnotacao() {
-    if (!this.anotaSvc.anotacaoJaBuscada(this.aula._id)) {
-      this.subAnotacaoBuscada = this.anotaSvc.getSubAnotacaoBuscada().subscribe((anotacaoRecebida: Anotacao) => {
-        console.log('anotação recebida');
-        console.log(anotacaoRecebida);
-        this.anotacao = anotacaoRecebida;
-        if(this.anotacao){
-          this.anotacaoCarregada = true;
-        }
-        this.subAnotacaoBuscada.unsubscribe();
-      });
-      this.anotaSvc.buscarAnotacao(this.aula._id, this.usuarioSvc.getUsuarioLogado()._id);
-    }else{
-      console.log('anotação já foi buscada!')
-    }
+  abrindoPainel() {
+    this.aberto = true;
   }
 
   excluirAula(){
     this.modal.open(ExcluirComponent, {data: {item: { id: this.aula._id, tipo: 'aula'}, titulo: 'Deseja excluir essa aula?'}})
   }
 
-  fechandoPainel(){
-    this.editando = false;
-  }
+  // fechandoPainel(){
+  //   this.editando = false;
+  // }
 
   dataToString(data: Date) {
     let hora: string | number = data.getHours();
@@ -77,9 +55,9 @@ export class DetalheAulaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.subAnotacaoBuscada && !this.subAnotacaoBuscada.closed){
-      this.subAnotacaoBuscada.unsubscribe();
-    }
+    // if(this.subAnotacaoBuscada && !this.subAnotacaoBuscada.closed){
+    //   this.subAnotacaoBuscada.unsubscribe();
+    // }
   }
 
 }

@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { BemVindoComponent } from './componentes/bem-vindo/bem-vindo.component';
 import { CarregandoComponent } from './componentes/carregando/carregando.component';
 import { ExcluirComponent } from './componentes/modais/excluir/excluir.component';
+import { AnotacaoComponent } from './componentes/aula/anotacao/anotacao.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ExcluirComponent } from './componentes/modais/excluir/excluir.component
     BemVindoComponent,
     CarregandoComponent,
     ExcluirComponent,
+    AnotacaoComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,8 +2,9 @@ const Anotacao = require('../schemas/anotacao');
 
 exports.criarAnotacao = (req, res, next) => {
   const anotacao = new Anotacao({
-    idAula: req.body.idAula,
-    idUsuario: req.body.idUsuario,
+    // idAula: req.body.idAula,
+    // idUsuario: req.body.idUsuario,
+    codigo: req.body.codigo,
     conteudo: req.body.conteudo
   });
 
@@ -16,7 +17,7 @@ exports.criarAnotacao = (req, res, next) => {
 }
 
 exports.buscarAnotacao = (req, res, next) => {
-  Anotacao.findOne({idAula: req.params.idAula, idUsuario: req.params.idUsuario}).then(anotacaoBuscada => {
+  Anotacao.findOne({codigo: req.params.codigo}).then(anotacaoBuscada => {
     console.log(anotacaoBuscada)
     return res.status(200).json({msg: 'Anotação buscada com sucesso', anotacao: anotacaoBuscada})
   }).catch(erro => {

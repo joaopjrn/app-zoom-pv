@@ -19,8 +19,8 @@ export class AnotacoesServico {
     })
   }
 
-  buscarAnotacao(idAula: string, idUsuario: string){
-    this.http.get<{msg: string, anotacao: Anotacao}>(BACKEND_URL+idAula+'/'+idUsuario).subscribe(anotacaoBuscada => {
+  buscarAnotacao(cod: string){
+    this.http.get<{msg: string, anotacao: Anotacao}>(BACKEND_URL+cod).subscribe(anotacaoBuscada => {
       // console.log(anotacaoBuscada)
       this.subAnotacaoBuscada.next(anotacaoBuscada.anotacao);
     })
@@ -34,11 +34,11 @@ export class AnotacoesServico {
     return [...this.anotacoesBuscadas];
   }
 
-  anotacaoJaBuscada(idAula){
-    if(this.anotacoesBuscadas.includes(idAula)){
+  anotacaoJaBuscada(codigo){
+    if(this.anotacoesBuscadas.includes(codigo)){
       return true;
     }
-    this.anotacoesBuscadas.push(idAula);
+    this.anotacoesBuscadas.push(codigo);
     return false;
   }
 
