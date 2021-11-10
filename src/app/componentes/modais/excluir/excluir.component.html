@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>{{ dados.titulo }}</h2>
+<mat-dialog-content class="mat-typography">
+  Tem certeza?
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close color="warn">Cancelar</button>
+  <button mat-raised-button mat-dialog-close color="accent" type="submit" (click)="confirmarExcluir()">Confirmar</button>
+</div>

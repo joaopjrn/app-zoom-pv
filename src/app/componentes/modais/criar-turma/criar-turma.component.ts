@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MateriasService } from 'src/app/services/materias.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -10,7 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class CriarTurmaComponent implements OnInit {
 
-  constructor(private materiaSvc: MateriasService, private usuarioSvc: UsuarioService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public dados: any, private materiaSvc: MateriasService, private usuarioSvc: UsuarioService) { }
 
   dias: {dia: string, check: boolean, val: number}[] = [
     {dia: 'Seg', check: false, val: 1},
@@ -27,6 +28,14 @@ export class CriarTurmaComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    if(this.dados){
+      const dias: number[] = JSON.parse(this.dados.materia.diasSemana);
+      this.dias.forEach(dia => {
+        if(dias.includes(dia.val)){
+          dia.check = true;
+        }
+      })
+    }
   }
 
   gerarCodMateria(){
@@ -49,9 +58,13 @@ export class CriarTurmaComponent implements OnInit {
     let diasSemanaStr = JSON.stringify(diasSemana);
 
     let nome: string = form.value.nome;
-    let desc: string = form.value.desc;
+    let desc: string = form.value.descricao;
 
-    this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, 'https://i.ibb.co/L8PFq6C/materia.png', this.usuarioSvc.getUsuarioLogado().nome, diasSemanaStr);
+    if(this.dados){
+      this.materiaSvc.alterarMateria(this.dados.materia._id, nome, this.dados.materia.codMateria, desc, 'https://i.ibb.co/L8PFq6C/materia.png', this.dados.materia.nomeProf, diasSemanaStr);
+    }else{
+      this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, 'https://i.ibb.co/L8PFq6C/materia.png', this.usuarioSvc.getUsuarioLogado().nome, diasSemanaStr);
+    }
   }
 
   getRandomIntInclusive(min, max) {

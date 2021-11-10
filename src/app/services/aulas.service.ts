@@ -37,6 +37,17 @@ export class AulasService {
     });
   }
 
+  excluirAula(id: string){
+    this.http.delete<{msg: string, excluido: boolean}>(BACKEND_URL + id).subscribe(res => {
+      if(res.excluido){
+        this.aulasOrganizadas[0] = this.aulasOrganizadas[0].filter(aula => aula._id !== id);
+        this.aulasOrganizadas[1] = this.aulasOrganizadas[1].filter(aula => aula._id !== id);
+
+        this.subAulasCarregadas.next(true);
+      }
+    })
+  }
+
   organizarAulas() {
     this.aulasOrganizadas[0] = [];
     this.aulasOrganizadas[1] = [];

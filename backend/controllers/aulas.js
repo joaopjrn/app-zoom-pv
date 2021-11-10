@@ -29,10 +29,21 @@ exports.buscarAulas = (req, res, next) => {
         conteudo: aula.conteudo,
         data: new Date(aula.data),
         linkZoom: aula.linkZoom
-      }  
+      }
     });
-    
+
     res.status(200).json({ msg: "Aulas encontradas com sucesso!", aulas: aulas });
   });
 }
 
+exports.excluirAula = (req, res, next) => {
+  Aula.deleteOne({_id: req.params.id}).then(result => {
+    console.log(result)
+    if(result.deletedCount > 0){
+      return res.status(201).json({msg: 'Aula excluída com sucesso', excluido: true});
+    }
+  })
+  .catch(erro => {
+    res.status(500).json({ msg: "Falha ao excluir aula!" });
+  });
+}

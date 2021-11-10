@@ -1,10 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Anotacao } from 'src/app/models/anotacao.model';
 import { Aula } from 'src/app/models/aula.model';
 import { AnotacoesServico } from 'src/app/services/anotacoes.service';
+import { AulasService } from 'src/app/services/aulas.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { ExcluirComponent } from '../../modais/excluir/excluir.component';
 
 @Component({
   selector: 'app-detalhe-aula',
@@ -15,13 +18,13 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class DetalheAulaComponent implements OnInit, OnDestroy {
 
   editando: boolean = false;
-  anotacao: Anotacao;
   anotacaoCarregada: boolean = false;
+  anotacao: Anotacao;
   @Input() aula: Aula;
 
   subAnotacaoBuscada: Subscription;
 
-  constructor(private anotaSvc: AnotacoesServico, private usuarioSvc: UsuarioService) { }
+  constructor(private anotaSvc: AnotacoesServico, private usuarioSvc: UsuarioService, private aulaSvc: AulasService, private modal: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -51,6 +54,10 @@ export class DetalheAulaComponent implements OnInit, OnDestroy {
     }else{
       console.log('anotação já foi buscada!')
     }
+  }
+
+  excluirAula(){
+    this.modal.open(ExcluirComponent, {data: {item: { id: this.aula._id, tipo: 'aula'}, titulo: 'Deseja excluir essa aula?'}})
   }
 
   fechandoPainel(){

@@ -46,4 +46,29 @@ exports.buscarMateria = (req, res, next) => {
   });
 }
 
+exports.excluirMateria = (req, res, next) => {
+  Materia.deleteOne({_id: req.params.id})
+  .then(result => {
+    if(result.deletedCount > 0){
+      return res.status(201).json({ msg: 'Matéria excluída com sucesso', excluido: true });
+    }
+  })
+  .catch(erro => {
+    return res.status(500).json({ msg: 'Falha ao buscar matérias!', erro: erro });
+  });
+}
+
+exports.alterarMateria = (req, res, next) => {
+  const materia = JSON.parse(req.body.materia);
+  Materia.updateOne({_id: materia._id}, materia).then(result => {
+    if(result.modifiedCount > 0){
+      return res.status(201).json({msg: 'Matéria atualizada com sucesso!', dados: result})
+    }else{
+      return res.status(200).json({msg: 'Matéria não foi alterada!', dados: result})
+    }
+  })
+  .catch(erro => {
+    return res.status(500).json({ msg: 'Falha ao alterar matéria!', erro: erro });
+  });
+}
 

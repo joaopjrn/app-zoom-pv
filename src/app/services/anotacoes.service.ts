@@ -42,4 +42,9 @@ export class AnotacoesServico {
     return false;
   }
 
+  limparAnotacoes(){
+    console.log('limpando anotações')
+    this.anotacoesBuscadas = [];
+  }
+
 }

@@ -54,6 +54,41 @@ export class MateriasService {
     return this.http.get<{ msg: string, materiaEncontrada: Materia }>(BACKEND_URL + codMateria);
   }
 
+  excluirMateria(id: string){
+    this.http.delete<{msg: string, excluido: boolean}>(BACKEND_URL + id).subscribe(res => {
+      if(res.excluido){
+        this.materias = this.materias.filter(materia => materia._id !== id);
+        this.subMateriasCarregadas.next(true);
+      }
+    })
+  }
+
+  alterarMateria(id: string, nome: string, codMateria: string, descricao: string, linkImg: string, nomeProf: string, diasSemana: string){
+    const dadosMateria = {
+      materia: JSON.stringify({
+        _id: id,
+        nome: nome,
+        codMateria: codMateria,
+        descricao: descricao,
+        linkImg: linkImg,
+        diasSemana: diasSemana,
+        nomeProf: nomeProf
+      })
+    }
+
+    this.http.put<{msg: string, dados: any}>(BACKEND_URL+id, dadosMateria).subscribe(res => {
+      if(res.dados.modifiedCount > 0){
+        const materiaAtualizada = JSON.parse(dadosMateria.materia);
+        this.materias.forEach((materia, i) => {
+          if(materia._id === id){
+            this.materias[i] = materiaAtualizada
+          }
+        });
+        this.subMateriasCarregadas.next(true);
+      }
+    })
+  }
+
   inserirMateriaLocal(materia: Materia) {
     this.materias.push(materia);
     this.subMateriasCarregadas.next(true);

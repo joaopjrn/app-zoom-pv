@@ -4,6 +4,7 @@ const AulasController = require ('../controllers/aulas');
 
 router.post('', AulasController.criarAula);
 router.get('/:id', AulasController.buscarAulas);
+router.delete('/:id', AulasController.excluirAula);
 
 module.exports = router;
 

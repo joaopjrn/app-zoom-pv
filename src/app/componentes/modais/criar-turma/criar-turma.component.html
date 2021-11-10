@@ -1,17 +1,17 @@
 <div style="width: 500px;">
-  <h2>Cadastrar nova Matéria</h2>
+  <h2>{{dados ? 'Editar Matéria' : 'Cadastrar nova Matéria'}}</h2>
   <form class="row" #form="ngForm" (submit)="salvarMateria(form)">
     <mat-form-field class="col-12">
       <mat-label>Nome da Matéria</mat-label>
-      <input type="text" matInput #nome="ngModel" ngModel name="nome">
+      <input type="text" matInput #nome="ngModel" [ngModel]="dados?.materia.nome" name="nome">
     </mat-form-field>
     <mat-form-field class="col-12">
       <mat-label>Descrição da Matéria</mat-label>
-      <textarea matInput rows="5" #desc="ngModel" ngModel name="desc"></textarea>
+      <textarea matInput rows="5" #descricao="ngModel" [ngModel]="dados?.materia.descricao" name="descricao"></textarea>
     </mat-form-field>
     <mat-form-field appearance="standard" class="col-12">
       <mat-label>Selecione a Área</mat-label>
-      <mat-select #area="ngModel" ngModel name="area">
+      <mat-select #linkImg="ngModel" [ngModel]="dados?.materia.linkImg" name="linkImg">
         <mat-option value="tecnologia">Tecnologia</mat-option>
         <mat-option value="exatas">Exatas</mat-option>
         <mat-option value="humanas">Humanas</mat-option>
@@ -22,14 +22,15 @@
     <section class="col-12">
       <mat-label class="d-block">Dias de Aula</mat-label>
       <div class="d-flex justify-content-between">
-        <mat-checkbox *ngFor="let item of dias" (change)="item.check = $event.checked">{{ item.dia }}</mat-checkbox>
+        <mat-checkbox *ngFor="let item of dias" [checked]="item.check" (change)="item.check = $event.checked">{{ item.dia }}</mat-checkbox>
+        <!-- <mat-checkbox *ngIf="!dados" *ngFor="let item of dias" (change)="item.check = $event.checked">{{ item.dia }}</mat-checkbox> -->
       </div>
     </section>
     <div class="col-12">
       <mat-divider></mat-divider>
     </div>
     <div mat-dialog-actions align="end" class="col-12">
-      <button mat-button type="button" color="warn" (click)="gerarCodMateria()">Cancelar</button>
+      <button mat-button type="button" color="warn" mat-dialog-close>Cancelar</button>
       <button type="submit" mat-raised-button color="accent" mat-dialog-close>Confirmar</button>
     </div>
   </form>

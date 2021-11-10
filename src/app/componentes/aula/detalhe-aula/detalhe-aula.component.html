@@ -30,7 +30,7 @@
       <form #form="ngForm" (submit)="salvarAnotacao(form)">
         <mat-form-field class="w-100">
           <mat-label>Insira aqui suas anotações</mat-label>
-          <textarea matInput rows="10" name="conteudo" #conteudo="ngModel" [ngModel]="anotacao.conteudo"></textarea>
+          <textarea matInput rows="10" name="conteudo" #conteudo="ngModel" [ngModel]="anotacao?.conteudo"></textarea>
         </mat-form-field>
         <div class="w-100 mb-3">
           <button type="submit" mat-raised-button color="accent">Salvar Anotações</button>
@@ -38,7 +38,7 @@
       </form>
     </div>
     <mat-action-row class="w-100">
-      <button mat-stroked-button color="warn">Excluir</button>
+      <button mat-stroked-button color="warn" (click)="excluirAula()">Excluir</button>
       <button mat-stroked-button color="primary">Editar</button>
     </mat-action-row>
   </div>

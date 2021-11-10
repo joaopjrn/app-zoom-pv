@@ -3,12 +3,13 @@
 - [X] criar aula
 - [X] mostrar aulas da matéria
 - [X] separar aulas
-- [] anotações
+- [X] anotações
 - [] criar o link do zoom
-- [] editar matéria
-- [] excluir matéria
+- [X] editar matéria
+- [X] excluir matéria
 - [] editar aula
-- [] excluir aula
+- [X] excluir aula
+- [] atualizar anotação
 
 --
 - [] separar o que é de aluno e o que é de professor
@@ -19,6 +20,7 @@
 - [] só poder criar aula no dia da semana
 - [x] só poder criar aula no futuro
 - [] mensagem de e-mail inválido
+- [] icones da anotação
 
 -------------------
 - [] quando atualiza a pagina de materia ele volta pra lista de matérias

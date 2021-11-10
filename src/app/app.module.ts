@@ -21,6 +21,7 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
 import { BemVindoComponent } from './componentes/bem-vindo/bem-vindo.component';
 import { CarregandoComponent } from './componentes/carregando/carregando.component';
+import { ExcluirComponent } from './componentes/modais/excluir/excluir.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CarregandoComponent } from './componentes/carregando/carregando.compone
     EntrarTurmaComponent,
     BemVindoComponent,
     CarregandoComponent,
+    ExcluirComponent,
   ],
   imports: [
     BrowserModule,
