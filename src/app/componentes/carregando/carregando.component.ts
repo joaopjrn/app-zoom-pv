@@ -25,7 +25,7 @@ export class CarregandoComponent implements OnInit, OnDestroy {
       console.log('recebendo subEstaLogado em "carregando"');
       if(estaLogado){
         this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
-        this.materiaSvc.buscarMaterias(JSON.stringify(this.usuarioLogado.materias));
+        this.materiaSvc.buscarMaterias(this.usuarioLogado.materias);
       }else{
         this.router.navigate(['bem-vindo'])
       }

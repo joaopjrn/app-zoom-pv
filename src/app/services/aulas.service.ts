@@ -37,9 +37,9 @@ export class AulasService {
     });
   }
 
-  excluirAula(id: string){
-    this.http.delete<{msg: string, excluido: boolean}>(BACKEND_URL + id).subscribe(res => {
-      if(res.excluido){
+  excluirAula(id: string) {
+    this.http.delete<{ msg: string, excluido: boolean }>(BACKEND_URL + id).subscribe(res => {
+      if (res.excluido) {
         this.aulasOrganizadas[0] = this.aulasOrganizadas[0].filter(aula => aula._id !== id);
         this.aulasOrganizadas[1] = this.aulasOrganizadas[1].filter(aula => aula._id !== id);
 
@@ -49,26 +49,19 @@ export class AulasService {
   }
 
   alterarAula(aulaAtualizada: Aula) {
-    
     this.http.put<{ msg: string, aulaAlterada: any }>(BACKEND_URL, { data: aulaAtualizada.data.toISOString(), ...aulaAtualizada })
       .subscribe(res => {
-      
-      this.aulasOrganizadas[0].forEach((aula, i) => {
-        if (aula._id === aulaAtualizada._id) {
-          console.log("achou");
-          this.aulasOrganizadas[0][i] = aulaAtualizada;
-        }
-      });
-      this.aulasOrganizadas[1].forEach((aula, i) => {
-        console.log("achou 1 ");
-        if (aula._id === aulaAtualizada._id) {
-          this.aulasOrganizadas[1][i] = aulaAtualizada;
-        }
-      });
-      console.log(this.aulasOrganizadas);
-      this.subAulasCarregadas.next(true);
-      
-    })
+        let iLista: number, iAula: number;
+        this.aulasOrganizadas.some((lista, index) => {
+          iLista = index;
+          return lista.some((aula, i) => {
+            iAula = i;
+            return aula._id === aulaAtualizada._id;
+          })
+        });
+        this.aulasOrganizadas[iLista][iAula] = aulaAtualizada;
+        this.subAulasCarregadas.next(true);
+      })
   }
 
 

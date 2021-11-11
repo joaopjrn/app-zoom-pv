@@ -15,7 +15,7 @@ exports.buscarUsuario = (req, res, next) => {
       nome: result.nome,
       email: result.email,
       tipo: result.tipo,
-      materias: JSON.parse(result.materias)
+      materias: result.materias
     }
     res.status(200).json({msg: 'Usuário encontrado', dadosUsuario: dadosUsuario, valido: true});
   });
@@ -27,7 +27,7 @@ exports.criarUsuario = (req, res, next) => {
     nome: req.body.name,
     email: req.body.email,
     tipo: req.body.email.includes('@saojudas.br') ? 0 : 1,
-    materias: JSON.stringify([])
+    materias: []
   });
 
   novoUsuario.save()
@@ -38,7 +38,7 @@ exports.criarUsuario = (req, res, next) => {
       nome: usuarioCriado.nome,
       email: usuarioCriado.email,
       tipo: usuarioCriado.tipo,
-      materias: JSON.parse(usuarioCriado.materias)
+      materias: usuarioCriado.materias
     }
     res.status(201).json({msg: 'Usuário criado com sucesso', dados: usuario});
   })
@@ -55,7 +55,7 @@ exports.atualizarUsuario = (req, res, next) => {
     nome: req.body.nome,
     email: req.body.email,
     tipo: req.body.tipo,
-    materias: JSON.stringify(req.body.materias)
+    materias: req.body.materias
   });
 
   Usuario.updateOne({ _id: req.body._id }, usuarioAtualizado)

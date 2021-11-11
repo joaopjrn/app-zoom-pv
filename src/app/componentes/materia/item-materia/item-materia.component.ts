@@ -19,7 +19,7 @@ export class ItemMateriaComponent implements OnInit {
   }
 
   excluirMateria(){
-    this.modal.open(ExcluirComponent, {data: {idMateria: this.materia._id, titulo: 'Deseja excluir essa matéria?'}});
+    this.modal.open(ExcluirComponent, {data: {item: {id: this.materia._id, tipo: 'materia'}, titulo: 'Deseja excluir essa matéria?'}});
   }
 
   editarMateria(){

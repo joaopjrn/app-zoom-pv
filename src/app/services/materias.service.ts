@@ -41,9 +41,9 @@ export class MateriasService {
 
   }
 
-  buscarMaterias(listaMaterias: string) {
+  buscarMaterias(listaMaterias: string[]) {
     this.http.get<{ msg: string, materias: Materia[] }>(BACKEND_URL,
-      { headers: { 'materias': listaMaterias } }).subscribe(res => {
+      { headers: { 'materias': JSON.stringify(listaMaterias)} }).subscribe(res => {
         console.log('matérias carregadas')
         this.materias = res.materias;
         this.subMateriasCarregadas.next(true);
