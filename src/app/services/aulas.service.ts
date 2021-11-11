@@ -48,6 +48,30 @@ export class AulasService {
     })
   }
 
+  alterarAula(aulaAtualizada: Aula) {
+    
+    this.http.put<{ msg: string, aulaAlterada: any }>(BACKEND_URL, { data: aulaAtualizada.data.toISOString(), ...aulaAtualizada })
+      .subscribe(res => {
+      
+      this.aulasOrganizadas[0].forEach((aula, i) => {
+        if (aula._id === aulaAtualizada._id) {
+          console.log("achou");
+          this.aulasOrganizadas[0][i] = aulaAtualizada;
+        }
+      });
+      this.aulasOrganizadas[1].forEach((aula, i) => {
+        console.log("achou 1 ");
+        if (aula._id === aulaAtualizada._id) {
+          this.aulasOrganizadas[1][i] = aulaAtualizada;
+        }
+      });
+      console.log(this.aulasOrganizadas);
+      this.subAulasCarregadas.next(true);
+      
+    })
+  }
+
+
   organizarAulas() {
     this.aulasOrganizadas[0] = [];
     this.aulasOrganizadas[1] = [];

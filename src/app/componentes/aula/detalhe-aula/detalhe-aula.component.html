@@ -20,7 +20,7 @@
     <app-anotacao class="col-12" *ngIf="aberto" [cod]="codAnotacao"></app-anotacao>
     <mat-action-row class="w-100">
       <button mat-stroked-button color="warn" (click)="excluirAula()">Excluir</button>
-      <button mat-stroked-button color="primary">Editar</button>
+      <button mat-stroked-button color="primary" (click)="editarAula()">Editar</button>
     </mat-action-row>
   </div>
 </mat-expansion-panel>

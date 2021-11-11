@@ -7,6 +7,7 @@ import { Aula } from 'src/app/models/aula.model';
 import { AnotacoesServico } from 'src/app/services/anotacoes.service';
 import { AulasService } from 'src/app/services/aulas.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { CriarAulaComponent } from '../../modais/criar-aula/criar-aula.component';
 import { ExcluirComponent } from '../../modais/excluir/excluir.component';
 
 @Component({
@@ -52,6 +53,11 @@ export class DetalheAulaComponent implements OnInit, OnDestroy {
       min = '0' + min;
     }
     return data.toLocaleDateString() + ' - ' + hora + ":" + min;
+  }
+    
+  editarAula() {
+    this.modal.open(CriarAulaComponent, { data: { aula: this.aula, editando:true} });
+    
   }
 
   ngOnDestroy() {

@@ -47,3 +47,22 @@ exports.excluirAula = (req, res, next) => {
     res.status(500).json({ msg: "Falha ao excluir aula!" });
   });
 }
+
+exports.alterarAula = (req, res, next) => {
+  const aulaAtualizada = new Aula({
+    _id: req.body._id,
+    idMateria: req.body.idMateria,
+    nome: req.body.nome,
+    conteudo: req.body.conteudo,
+    linkZoom: req.body.linkZoom,
+    data: req.body.data
+  });
+  console.log(aulaAtualizada);
+  Aula.updateOne({ _id: req.body._id }, aulaAtualizada).then(aulaAlterada => {
+    console.log(aulaAlterada);
+    return res.status(201).json({msg: 'Aula atualizada com sucesso', aulaAlterada: aulaAlterada});
+  }).catch(erro => {
+    res.status(500).json({ msg: "Falha ao alterar aula!" });
+  });
+  
+}

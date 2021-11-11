@@ -44,6 +44,6 @@ export class DetalheMateriaComponent implements OnInit {
   }
 
   criarAula(){
-    this.modal.open(CriarAulaComponent, {data: {idMateria: this.materia._id}});
+    this.modal.open(CriarAulaComponent, {data: {idMateria: this.materia._id, editando: false}});
   }
 }

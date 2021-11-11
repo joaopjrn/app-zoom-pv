@@ -21,7 +21,8 @@ export class ListaAulasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.aulasSvc.buscarAulas(this.idMateria);
     this.listaAulasListener = this.aulasSvc.getSubAulasCarregadas().subscribe(aulasCarregadas => {
-      if(aulasCarregadas){
+      console.log('qualquer coisa');
+      if (aulasCarregadas) {
         this.listaAulas = this.aulasSvc.getAulas();
       }
     });
