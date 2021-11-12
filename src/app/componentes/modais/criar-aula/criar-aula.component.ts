@@ -21,8 +21,11 @@ export class CriarAulaComponent implements OnInit {
     this.maxDate = new Date(this.minDate.getFullYear(), 12,0)
     console.log(this.dados.idMateria);
     if (this.dados.editando) {
-      this.horario = this.dados.aula.data.getHours() + ":" + this.dados.aula.data.getMinutes();
-
+      let hora = this.dados.aula.data.getHours();
+      let min = this.dados.aula.data.getMinutes();
+      if(hora < 10) hora = '0' + hora;
+      if(min < 10) min = '0' + min;
+      this.horario = hora + ":" + min;
     }
   }
   salvarAula(form: NgForm) {

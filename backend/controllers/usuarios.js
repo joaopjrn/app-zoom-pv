@@ -47,23 +47,39 @@ exports.criarUsuario = (req, res, next) => {
   });
 }
 
-exports.atualizarUsuario = (req, res, next) => {
+exports.entrarTurma = (req, res, next) => {
   console.log('atualizar usuario controller usuario');
-  console.log(req.body);
-  const usuarioAtualizado = new Usuario({
-    _id: req.body._id,
-    nome: req.body.nome,
-    email: req.body.email,
-    tipo: req.body.tipo,
-    materias: req.body.materias
-  });
-
-  Usuario.updateOne({ _id: req.body._id }, usuarioAtualizado)
-    .then(usuarioNoBanco => {
-      if(usuarioNoBanco.matchedCount > 0){
-        res.status(201).json({ msg: 'Usuário atualizado com sucesso!', atualizado: true });
+  console.log(req.body)
+  // if(req.body.novaTurma){
+    console.log('atualizando apenas array de matérias')
+    Usuario.updateOne({_id: req.body.id}, {$addToSet: {materias: req.body.novaTurma}})
+    .then(result => {
+      if(result.matchedCount > 0 && result.modifiedCount > 0){
+        return res.status(201).json({ msg: 'Usuário entrou na turma com sucesso!', atualizado: true });
+      } else if(result.matchedCount > 0 && result.modifiedCount == 0){
+        return res.status(201).json({ msg: 'Usuário já está cadastrado nessa matéria', atualizado: false });
       }
-    }).catch(erro => {
+    })
+    .catch(erro => {
       res.status(500).json({msg: 'Erro ao atualizar usuário', erro: erro});
     });
+  // }else{
+  //   console.log(req.body);
+  //   const usuarioAtualizado = new Usuario({
+  //     _id: req.body._id,
+  //     nome: req.body.nome,
+  //     email: req.body.email,
+  //     tipo: req.body.tipo,
+  //     materias: req.body.materias
+  //   });
+  
+  //   Usuario.updateOne({ _id: req.body._id }, usuarioAtualizado)
+  //     .then(usuarioNoBanco => {
+  //       if(usuarioNoBanco.matchedCount > 0){
+  //         res.status(201).json({ msg: 'Usuário atualizado com sucesso!', atualizado: true });
+  //       }
+  //     }).catch(erro => {
+  //       res.status(500).json({msg: 'Erro ao atualizar usuário', erro: erro});
+  //     });
+  // }
 }

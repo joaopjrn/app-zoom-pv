@@ -1,7 +1,7 @@
 <mat-expansion-panel (opened)="abrindoPainel()" (afterCollapse)="null">
   <mat-expansion-panel-header class="row">
-    <mat-panel-title class="col-auto">
-      {{aula.nome}}
+    <mat-panel-title class="col-auto align-items-center">
+      <mat-icon color="primary">class</mat-icon> &nbsp; {{aula.nome}}
     </mat-panel-title>
     <mat-panel-description class="col-2 align-items-center">
       {{dataToString(aula.data)}}

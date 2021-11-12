@@ -32,7 +32,7 @@ export class MateriasService {
       console.log(materiaInserida.materia);
       let usuario: Usuario = this.usuarioSvc.getUsuarioLogado();
       usuario.materias.push(materiaInserida.materia._id);
-      this.usuarioSvc.atualizarUsuario(usuario).subscribe(res => {
+      this.usuarioSvc.entrarTurma(materiaInserida.materia._id, usuario._id).subscribe(res => {
         if (res.atualizado) {
           this.inserirMateriaLocal(materiaInserida.materia);
         }

@@ -38,16 +38,6 @@ export class CriarTurmaComponent implements OnInit {
     }
   }
 
-  gerarCodMateria(){
-    let cod = '';
-    for(let i = 0; i < 3; i++){
-      cod+= this.getRandomIntInclusive(0,9);
-      cod+= this.letras[this.getRandomIntInclusive(0, this.letras.length-1)]
-    }
-    console.log(cod);
-    return cod;
-  }
-
   salvarMateria(form: NgForm){
     if(form.invalid){
       return;
@@ -68,6 +58,16 @@ export class CriarTurmaComponent implements OnInit {
     }else{
       this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, 'https://i.ibb.co/L8PFq6C/materia.png', this.usuarioSvc.getUsuarioLogado().nome, diasSemanaStr);
     }
+  }
+
+  gerarCodMateria(){
+    let cod = '';
+    for(let i = 0; i < 3; i++){
+      cod+= this.getRandomIntInclusive(0,9);
+      cod+= this.letras[this.getRandomIntInclusive(0, this.letras.length-1)]
+    }
+    console.log(cod);
+    return cod;
   }
 
   getRandomIntInclusive(min, max) {

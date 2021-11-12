@@ -25,14 +25,20 @@ export class EntrarTurmaComponent implements OnInit {
     this.materiaSvc.buscarMateria(codigo).subscribe(dados => {
       if (dados.materiaEncontrada === null) {
         // alert('turma não encontrada')
-        this.snackbar.openFromComponent(ErroComponent, {data: {mensagem: 'Turma não encontrada'}, duration: 10000});
+        this.snackbar.openFromComponent(ErroComponent, {data: {mensagem: 'Turma não encontrada'}, duration: 2000});
       } else {
-        this.usuarioSvc.entrarTurma(dados.materiaEncontrada._id, this.usuarioSvc.getUsuarioLogado())
-        .subscribe(usuarioAtualizado => {
-          if(usuarioAtualizado.atualizado){
-            this.materiaSvc.inserirMateriaLocal(dados.materiaEncontrada);
+        this.usuarioSvc.entrarTurma(dados.materiaEncontrada._id, this.usuarioSvc.getUsuarioLogado()._id).subscribe(res => {
+          if(res.atualizado){
+            this.materiaSvc.inserirMateriaLocal(dados.materiaEncontrada)
+          }else{
+            this.snackbar.openFromComponent(ErroComponent, {data: {mensagem: 'Você já está cadastrado nessa turma!'}, duration: 2000});
           }
-        });
+        })
+        // .subscribe(usuarioAtualizado => {
+        //   if(usuarioAtualizado.atualizado){
+        //     this.materiaSvc.inserirMateriaLocal(dados.materiaEncontrada);
+        //   }
+        // }); 0P9P6I 6M9U0V
       }
     })
 
