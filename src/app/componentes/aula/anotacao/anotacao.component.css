@@ -1,0 +1,14 @@
+.mat-icon{
+  margin-top: -11px;
+  padding: 0px;
+}
+
+.mat-mini-fab{
+  box-shadow: none;
+  height: 30px;
+  width: 30px;
+}
+
+.anotacao{
+  white-space: pre-wrap;
+}

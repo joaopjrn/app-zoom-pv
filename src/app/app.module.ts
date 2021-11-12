@@ -23,6 +23,7 @@ import { BemVindoComponent } from './componentes/bem-vindo/bem-vindo.component';
 import { CarregandoComponent } from './componentes/carregando/carregando.component';
 import { ExcluirComponent } from './componentes/modais/excluir/excluir.component';
 import { AnotacaoComponent } from './componentes/aula/anotacao/anotacao.component';
+import { ErroComponent } from './componentes/snackbars/erro/erro.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { AnotacaoComponent } from './componentes/aula/anotacao/anotacao.componen
     CarregandoComponent,
     ExcluirComponent,
     AnotacaoComponent,
+    ErroComponent,
   ],
   imports: [
     BrowserModule,

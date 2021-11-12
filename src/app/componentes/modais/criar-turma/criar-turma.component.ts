@@ -49,6 +49,9 @@ export class CriarTurmaComponent implements OnInit {
   }
 
   salvarMateria(form: NgForm){
+    if(form.invalid){
+      return;
+    }
     let diasSemana = [];
     for(let dia of this.dias){
       if(dia.check){

@@ -14,9 +14,7 @@ export class AnotacoesServico {
   constructor(private http: HttpClient){}
 
   criarAnotacao(anotacao: any){
-    this.http.post(BACKEND_URL, anotacao).subscribe(res => {
-      console.log(res)
-    })
+    return this.http.post(BACKEND_URL, anotacao);
   }
 
   buscarAnotacao(cod: string){
@@ -24,6 +22,14 @@ export class AnotacoesServico {
       // console.log(anotacaoBuscada)
       this.subAnotacaoBuscada.next(anotacaoBuscada.anotacao);
     })
+  }
+
+  alterarAnotacao(anotacaoAlterada: Anotacao){
+    return this.http.put(BACKEND_URL, anotacaoAlterada)
+  }
+
+  excluirAnotacao(id: string){
+    return this.http.delete(BACKEND_URL+id)
   }
 
   getSubAnotacaoBuscada(){

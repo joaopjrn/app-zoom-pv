@@ -22,10 +22,13 @@ export class CriarAulaComponent implements OnInit {
     console.log(this.dados.idMateria);
     if (this.dados.editando) {
       this.horario = this.dados.aula.data.getHours() + ":" + this.dados.aula.data.getMinutes();
-      
+
     }
   }
   salvarAula(form: NgForm) {
+    if(form.invalid){
+      return;
+    }
     console.log(form.value)
     const nome = form.value.nome;
     const conteudo = form.value.conteudo;

@@ -1,22 +1,25 @@
-<div class="row">
-  <div class="col-12 mt-3">
-    <span class="mat-body-2">Anotações</span>
-    <button mat-icon-button (click)="editando = !editando">
-      <mat-icon color="primary">{{anotacaoCarregada ? 'edit' : editando ? 'remove_circle' : 'add_circle'}}</mat-icon>
+<form #form="ngForm" (submit)="salvarAnotacao(form)" class="row">
+  <div class="col-12 mt-3 mb-3 d-flex align-items-center">
+    <span class="mat-body-2">Anotações</span> &nbsp;&nbsp;&nbsp;
+    <button type="button" mat-mini-fab color="primary" (click)="editando = !editando">
+      <mat-icon *ngIf="anotacaoCarregada && !editando">edit</mat-icon>
+      <mat-icon *ngIf="anotacaoCarregada && editando">clear</mat-icon>
+      <mat-icon *ngIf="!anotacaoCarregada"> {{ editando ? 'remove' : 'add' }} </mat-icon>
+    </button> &nbsp;&nbsp;
+    <button type="submit" mat-mini-fab *ngIf="editando">
+      <mat-icon>check</mat-icon>
+    </button>
+    <button type="button" color="warn" mat-mini-fab *ngIf="anotacaoCarregada && !editando" (click)="excluirAnotacao()">
+      <mat-icon>delete</mat-icon>
     </button>
   </div>
   <div class="col-12" *ngIf="anotacaoCarregada && !editando">
-    <p class="anotacao">{{ anotacao.conteudo }}</p>
+    <p class="anotacao">{{ anotacao?.conteudo }}</p>
   </div>
   <div class="col-12" *ngIf="editando">
-    <form #form="ngForm" (submit)="salvarAnotacao(form)">
       <mat-form-field class="w-100">
         <mat-label>Insira aqui suas anotações</mat-label>
-        <textarea matInput rows="10" name="conteudo" #conteudo="ngModel" [ngModel]="anotacao?.conteudo"></textarea>
+        <textarea matInput rows="10" name="conteudo" #conteudo="ngModel" [ngModel]="anotacao?.conteudo" required></textarea>
       </mat-form-field>
-      <div class="w-100 mb-3">
-        <button type="submit" mat-raised-button color="accent">Salvar Anotações</button>
-      </div>
-    </form>
   </div>
-</div>
+</form>
