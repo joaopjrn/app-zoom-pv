@@ -36,6 +36,7 @@ export class DetalheMateriaComponent implements OnInit {
         this.matSvc.buscarMateria(paramMap.get('cod')).subscribe((res: any) => {
           this.materia = res.materiaEncontrada;
           this.diasDeAula = JSON.parse(this.materia.diasSemana);
+          this.matSvc.setMateriaAtiva(this.materia);
           console.log(this.materia)
           this.carregando = false;
         })
@@ -44,6 +45,6 @@ export class DetalheMateriaComponent implements OnInit {
   }
 
   criarAula(){
-    this.modal.open(CriarAulaComponent, {data: {idMateria: this.materia._id, editando: false}});
+    this.modal.open(CriarAulaComponent, {data: {idMateria: this.materia._id, dias: this.diasDeAula, editando: false}});
   }
 }

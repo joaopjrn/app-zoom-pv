@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MateriasService } from 'src/app/services/materias.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -11,7 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class CriarTurmaComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dados: any, private materiaSvc: MateriasService, private usuarioSvc: UsuarioService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public dados: any, private materiaSvc: MateriasService, private usuarioSvc: UsuarioService, private ref: MatDialogRef<CriarTurmaComponent>) { }
 
   dias: {dia: string, check: boolean, val: number}[] = [
     {dia: 'Seg', check: false, val: 1},
@@ -28,6 +28,7 @@ export class CriarTurmaComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    console.log(this.dados)
     if(this.dados){
       const dias: number[] = JSON.parse(this.dados.materia.diasSemana);
       this.dias.forEach(dia => {
@@ -52,11 +53,19 @@ export class CriarTurmaComponent implements OnInit {
 
     let nome: string = form.value.nome;
     let desc: string = form.value.descricao;
+    let linkImg: string = form.value.linkImg;
+    let hue = this.getRandomIntInclusive(0,360);
 
-    if(this.dados){
-      this.materiaSvc.alterarMateria(this.dados.materia._id, nome, this.dados.materia.codMateria, desc, 'https://i.ibb.co/L8PFq6C/materia.png', this.dados.materia.nomeProf, diasSemanaStr);
+    if(diasSemana.length > 0){
+      if(this.dados){
+        this.materiaSvc.alterarMateria(this.dados.materia._id, nome, this.dados.materia.codMateria, desc, linkImg, this.dados.materia.hue, this.dados.materia.nomeProf, diasSemanaStr)
+        this.ref.close();
+      }else{
+        this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, linkImg, hue, this.usuarioSvc.getUsuarioLogado().nome, diasSemanaStr);
+        this.ref.close();
+      }
     }else{
-      this.materiaSvc.novaMateria(nome, this.gerarCodMateria(), desc, 'https://i.ibb.co/L8PFq6C/materia.png', this.usuarioSvc.getUsuarioLogado().nome, diasSemanaStr);
+      return;
     }
   }
 

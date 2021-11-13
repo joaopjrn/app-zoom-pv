@@ -6,6 +6,7 @@ import { Anotacao } from 'src/app/models/anotacao.model';
 import { Aula } from 'src/app/models/aula.model';
 import { AnotacoesServico } from 'src/app/services/anotacoes.service';
 import { AulasService } from 'src/app/services/aulas.service';
+import { MateriasService } from 'src/app/services/materias.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CriarAulaComponent } from '../../modais/criar-aula/criar-aula.component';
 import { ExcluirComponent } from '../../modais/excluir/excluir.component';
@@ -25,7 +26,7 @@ export class DetalheAulaComponent implements OnInit, OnDestroy {
 
   // subAnotacaoBuscada: Subscription;
 
-  constructor(private usuarioSvc: UsuarioService, private aulaSvc: AulasService, private modal: MatDialog) { }
+  constructor(private usuarioSvc: UsuarioService, private aulaSvc: AulasService, private modal: MatDialog, private matSvc: MateriasService) { }
 
   ngOnInit(): void {
     this.codAnotacao = this.aula._id + this.usuarioSvc.getUsuarioLogado()._id;
@@ -54,10 +55,9 @@ export class DetalheAulaComponent implements OnInit, OnDestroy {
     }
     return data.toLocaleDateString() + ' - ' + hora + ":" + min;
   }
-    
+
   editarAula() {
-    this.modal.open(CriarAulaComponent, { data: { aula: this.aula, editando:true} });
-    
+    this.modal.open(CriarAulaComponent, { data: { aula: this.aula, dias: JSON.parse(this.matSvc.getMateriaAtiva().diasSemana), editando:true} });
   }
 
   ngOnDestroy() {

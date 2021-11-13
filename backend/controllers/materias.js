@@ -7,6 +7,7 @@ exports.criarMateria = (req, res, next) => {
     nome: req.body.nome,
     codMateria: req.body.codMateria,
     descricao: req.body.descricao,
+    hue: req.body.hue,
     linkImg: req.body.linkImg,
     diasSemana: req.body.diasSemana,
     nomeProf: req.body.nomeProf

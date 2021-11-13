@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   usuarioAuth0: User;
   subEstaLogado: Subscription;
+  estaLogado: boolean = false;
 
   constructor(public auth: AuthService, public usuarioSvc: UsuarioService, private router: Router) { }
 
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subEstaLogado = this.usuarioSvc.getSubLogado().subscribe(estaLogado => {
       if(estaLogado){
         this.usuarioAuth0 = this.usuarioSvc.getUserAuth0();
+        this.estaLogado = estaLogado;
       }
     })
     console.log('header oninit')

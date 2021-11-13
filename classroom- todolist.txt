@@ -6,13 +6,13 @@
     [x] Excluir Aula
     [x] Ordenar Aulas
     [ ] Criar link do zoom
-    [ ] Criar aula nos dias da semana específicos
+    [x] Criar aula nos dias da semana específicos
 
-- [-] Matérias
+- [x] Matérias
     [x] Criar Matéria
     [x] Editar Matéria
     [x] Excluir Matéria
-    [ ] Imagens
+    [x] Imagens
 
 - [x] Anotações
     [x] Criar Anotação
@@ -20,9 +20,9 @@
     [x] Excluir Anotação
     [x] Modal confirmar exclusão
 
-- [-] Arrumar Formulários
-    [ ] Criar Matéria
-    [ ] Criar Aula
+- [x] Arrumar Formulários
+    [x] Criar Matéria
+    [x] Criar Aula
     [x] Criar Anotação
     [x] Entrar em Turma
 

@@ -5,6 +5,7 @@ const materiaSchema = mongoose.Schema({
   codMateria: { type: String, required: true },
   descricao: { type: String, required: true },
   linkImg: { type: String, required: true },
+  hue: { type: Number, required: true },
   diasSemana: { type: String, required: true },
   nomeProf: { type: String, required: true }
 });

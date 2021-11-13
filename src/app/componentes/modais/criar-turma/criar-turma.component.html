@@ -3,19 +3,19 @@
   <form class="row" #form="ngForm" (submit)="salvarMateria(form)">
     <mat-form-field class="col-12">
       <mat-label>Nome da Matéria</mat-label>
-      <input type="text" matInput #nome="ngModel" [ngModel]="dados?.materia.nome" name="nome">
+      <input type="text" matInput #nome="ngModel" [ngModel]="dados?.materia.nome" name="nome" required>
     </mat-form-field>
     <mat-form-field class="col-12">
       <mat-label>Descrição da Matéria</mat-label>
-      <textarea matInput rows="5" #descricao="ngModel" [ngModel]="dados?.materia.descricao" name="descricao"></textarea>
+      <textarea matInput rows="5" #descricao="ngModel" [ngModel]="dados?.materia.descricao" name="descricao" required></textarea>
     </mat-form-field>
     <mat-form-field appearance="standard" class="col-12">
       <mat-label>Selecione a Área</mat-label>
-      <mat-select #linkImg="ngModel" [ngModel]="dados?.materia.linkImg" name="linkImg">
-        <mat-option value="tecnologia">Tecnologia</mat-option>
+      <mat-select #linkImg="ngModel" [ngModel]="dados?.materia.linkImg" name="linkImg" required>
+        <mat-option value="tech">Tecnologia</mat-option>
         <mat-option value="exatas">Exatas</mat-option>
         <mat-option value="humanas">Humanas</mat-option>
-        <mat-option value="biologicas">Biológicas</mat-option>
+        <mat-option value="bio">Biológicas</mat-option>
         <mat-option value="saude">Saúde</mat-option>
       </mat-select>
     </mat-form-field>
@@ -31,7 +31,7 @@
     </div>
     <div mat-dialog-actions align="end" class="col-12">
       <button mat-button type="button" color="warn" mat-dialog-close>Cancelar</button>
-      <button type="submit" mat-raised-button color="accent" mat-dialog-close>Confirmar</button>
+      <button type="submit" mat-raised-button color="accent">Confirmar</button>
     </div>
   </form>
 </div>

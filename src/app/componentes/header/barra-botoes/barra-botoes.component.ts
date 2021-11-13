@@ -12,7 +12,7 @@ import { EntrarTurmaComponent } from '../../modais/entrar-turma/entrar-turma.com
 })
 export class BarraBotoesComponent implements OnInit {
 
-  constructor(private modal: MatDialog, public usuarioSvc: UsuarioService) { }
+  constructor(public modal: MatDialog, public usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
   }

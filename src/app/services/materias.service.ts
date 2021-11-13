@@ -16,16 +16,18 @@ const BACKEND_URL = environment.apiUrl + '/materia/';
 export class MateriasService {
   private materias: Materia[] = [];
   private subMateriasCarregadas = new Subject<boolean>();
+  private materiaAtiva: Materia;
 
   constructor(private http: HttpClient, private router: Router, private usuarioSvc: UsuarioService, private snackbar: MatSnackBar) { }
 
-  novaMateria(nome: string, codMateria: string, descricao: string, linkImg: string, nomeProf: string, diasSemana: string) {
+  novaMateria(nome: string, codMateria: string, descricao: string, linkImg: string, hue: number, nomeProf: string, diasSemana: string) {
 
     const dadosMateria = {
       nome: nome,
       codMateria: codMateria,
       descricao: descricao,
       linkImg: linkImg,
+      hue: hue,
       diasSemana: diasSemana,
       nomeProf: nomeProf
     };
@@ -67,7 +69,7 @@ export class MateriasService {
     })
   }
 
-  alterarMateria(id: string, nome: string, codMateria: string, descricao: string, linkImg: string, nomeProf: string, diasSemana: string){
+  alterarMateria(id: string, nome: string, codMateria: string, descricao: string, linkImg: string, hue: number, nomeProf: string, diasSemana: string){
     const dadosMateria = {
       materia: JSON.stringify({
         _id: id,
@@ -75,6 +77,7 @@ export class MateriasService {
         codMateria: codMateria,
         descricao: descricao,
         linkImg: linkImg,
+        hue: hue,
         diasSemana: diasSemana,
         nomeProf: nomeProf
       })
@@ -101,6 +104,14 @@ export class MateriasService {
 
   mostrarNotificacao(msg: string, tipo: string){
     this.snackbar.openFromComponent(ErroComponent, {data: {msg: msg, tipo: tipo}, duration: 2000})
+  }
+
+  setMateriaAtiva(materia: Materia){
+    this.materiaAtiva = materia;
+  }
+
+  getMateriaAtiva(){
+    return {...this.materiaAtiva};
   }
 
   getSubMateriasCarregadas() {
