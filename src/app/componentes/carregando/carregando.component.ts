@@ -19,18 +19,16 @@ export class CarregandoComponent implements OnInit, OnDestroy {
   usuarioLogado: Usuario;
 
   ngOnInit(): void {
-
-    this.usuarioSvc.checkAuth();
+    console.log('carregando onInit')
     this.subEstaLogado = this.usuarioSvc.getSubLogado().subscribe(estaLogado => {
       console.log('recebendo subEstaLogado em "carregando"');
       if(estaLogado){
         this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
         this.materiaSvc.buscarMaterias(this.usuarioLogado.materias);
-      }else{
+      }else if(!estaLogado){
         this.router.navigate(['bem-vindo'])
       }
     });
-
     this.subMateriasCarregadas = this.materiaSvc.getSubMateriasCarregadas().subscribe(materiasCarregadas => {
       console.log('recebendo materias carregadas em "carregando"');
       if(materiasCarregadas){
@@ -38,6 +36,7 @@ export class CarregandoComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.usuarioSvc.checkAuth();
   }
 
   ngOnDestroy(){

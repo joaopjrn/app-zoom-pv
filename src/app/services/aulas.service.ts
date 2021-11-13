@@ -1,7 +1,9 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Subject } from "rxjs";
 import { environment } from "src/environments/environment";
+import { ErroComponent } from "../componentes/snackbars/erro/erro.component";
 import { Aula } from "../models/aula.model";
 
 const BACKEND_URL = environment.apiUrl + "/aula/";
@@ -11,7 +13,7 @@ export class AulasService {
   aulasOrganizadas = [([] as Aula[]), ([] as Aula[])];
 
   subAulasCarregadas = new Subject<boolean>();
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackbar: MatSnackBar) { }
 
   novaAula(nome: string, idMateria: string, conteudo: string, data: string) {
     const aula = {
@@ -26,6 +28,7 @@ export class AulasService {
       this.listaAulas.push(res.aula);
       this.organizarAulas();
       this.subAulasCarregadas.next(true);
+      this.mostrarNotificacao(res.msg, 'sucesso');
     });
   }
 
@@ -44,6 +47,7 @@ export class AulasService {
         this.aulasOrganizadas[1] = this.aulasOrganizadas[1].filter(aula => aula._id !== id);
 
         this.subAulasCarregadas.next(true);
+        this.mostrarNotificacao(res.msg, 'sucesso');
       }
     })
   }
@@ -61,6 +65,7 @@ export class AulasService {
         });
         this.aulasOrganizadas[iLista][iAula] = aulaAtualizada;
         this.subAulasCarregadas.next(true);
+        this.mostrarNotificacao(res.msg, 'sucesso');
       })
   }
 
@@ -85,6 +90,10 @@ export class AulasService {
     this.aulasOrganizadas[0].sort((a, b) => a.data.getTime() - b.data.getTime());
     this.aulasOrganizadas[1].sort((a, b) => b.data.getTime() - a.data.getTime());
     // console.dir(this.aulasOrganizadas);
+  }
+
+  mostrarNotificacao(msg: string, tipo: string){
+    this.snackbar.openFromComponent(ErroComponent, {data: {msg: msg, tipo: tipo}, duration: 2000})
   }
 
   getSubAulasCarregadas() {

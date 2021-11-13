@@ -17,7 +17,9 @@ exports.buscarUsuario = (req, res, next) => {
       tipo: result.tipo,
       materias: result.materias
     }
-    res.status(200).json({msg: 'Usuário encontrado', dadosUsuario: dadosUsuario, valido: true});
+    res.status(200).json({msg: 'Usuário encontrado!', dadosUsuario: dadosUsuario, valido: true});
+  }).catch(erro => {
+    res.status(500).json({msg: 'Usuário não encontrado!', erro: erro});
   });
 }
 
@@ -40,7 +42,7 @@ exports.criarUsuario = (req, res, next) => {
       tipo: usuarioCriado.tipo,
       materias: usuarioCriado.materias
     }
-    res.status(201).json({msg: 'Usuário criado com sucesso', dados: usuario});
+    res.status(201).json({msg: 'Usuário criado com sucesso!', dados: usuario});
   })
   .catch(erro => {
     res.status(500).json({msg: 'Erro ao criar usuário!', erro: erro});
@@ -57,11 +59,11 @@ exports.entrarTurma = (req, res, next) => {
       if(result.matchedCount > 0 && result.modifiedCount > 0){
         return res.status(201).json({ msg: 'Usuário entrou na turma com sucesso!', atualizado: true });
       } else if(result.matchedCount > 0 && result.modifiedCount == 0){
-        return res.status(201).json({ msg: 'Usuário já está cadastrado nessa matéria', atualizado: false });
+        return res.status(201).json({ msg: 'Usuário já está cadastrado nessa turma!', atualizado: false });
       }
     })
     .catch(erro => {
-      res.status(500).json({msg: 'Erro ao atualizar usuário', erro: erro});
+      res.status(500).json({msg: 'Erro ao se juntar à turma!', erro: erro});
     });
   // }else{
   //   console.log(req.body);
@@ -72,7 +74,7 @@ exports.entrarTurma = (req, res, next) => {
   //     tipo: req.body.tipo,
   //     materias: req.body.materias
   //   });
-  
+
   //   Usuario.updateOne({ _id: req.body._id }, usuarioAtualizado)
   //     .then(usuarioNoBanco => {
   //       if(usuarioNoBanco.matchedCount > 0){

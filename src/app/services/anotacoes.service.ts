@@ -1,7 +1,9 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Subject } from "rxjs";
 import { environment } from "src/environments/environment";
+import { ErroComponent } from "../componentes/snackbars/erro/erro.component";
 import { Anotacao } from "../models/anotacao.model";
 
 const BACKEND_URL = environment.apiUrl + "/anotacao/";
@@ -11,7 +13,7 @@ export class AnotacoesServico {
 
   private subAnotacaoBuscada = new Subject<Anotacao>();
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private snackbar: MatSnackBar){}
 
   criarAnotacao(anotacao: any){
     return this.http.post(BACKEND_URL, anotacao);

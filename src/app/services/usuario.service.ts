@@ -1,9 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { AuthService } from "@auth0/auth0-angular";
 import { User } from "@auth0/auth0-spa-js";
 import { Subject } from "rxjs";
 import { environment } from "src/environments/environment";
+import { ErroComponent } from "../componentes/snackbars/erro/erro.component";
 import { Usuario } from "../models/usuario.model";
 
 const BACKEND_URL = environment.apiUrl + '/usuario/';
@@ -11,7 +13,7 @@ const BACKEND_URL = environment.apiUrl + '/usuario/';
 @Injectable({ providedIn: 'root' })
 export class UsuarioService {
 
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService, private snackbar: MatSnackBar) { }
 
   private usuarioLogado: Usuario;
   private estaLogado: boolean = false;
@@ -57,7 +59,10 @@ export class UsuarioService {
           //email não é da são judas
           console.log('email inválido')
           this.setLogado(false);
-          this.auth.logout();
+          this.snackbar.openFromComponent(ErroComponent, {data:{msg: 'E-mail inválido! Utilize um e-mail da São Judas', tipo: 'aviso'}, duration: 3000,  })
+          setTimeout(() => {
+            this.auth.logout();
+          }, 2900);
         }
       })
   }

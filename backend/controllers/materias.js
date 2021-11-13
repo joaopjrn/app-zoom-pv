@@ -19,7 +19,7 @@ exports.criarMateria = (req, res, next) => {
       materia: materiaCriada
     });
   }).catch(erro => {
-    res.status(500).json({msg: 'Falha ao criar Matéria!'})
+    res.status(500).json({msg: 'Falha ao criar matéria!'})
   });
 }
 
@@ -40,9 +40,9 @@ exports.buscarMateria = (req, res, next) => {
     if (!materia) {
       return res.status(200).json({ msg: 'Matéria não encontrada!', materiaEncontrada: null });
     }
-    res.status(200).json({ msg: 'Matéria encontrada com sucesso!', materiaEncontrada: materia })
+    res.status(200).json({ msg: 'Matéria encontrada!', materiaEncontrada: materia })
   }).catch(erro => {
-    return res.status(500).json({ msg: 'Falha ao buscar matérias!', erro: erro });
+    return res.status(500).json({ msg: 'Falha ao buscar matéria!', erro: erro });
   });
 }
 
@@ -50,11 +50,11 @@ exports.excluirMateria = (req, res, next) => {
   Materia.deleteOne({_id: req.params.id})
   .then(result => {
     if(result.deletedCount > 0){
-      return res.status(201).json({ msg: 'Matéria excluída com sucesso', excluido: true });
+      return res.status(201).json({ msg: 'Matéria excluída com sucesso!', excluido: true });
     }
   })
   .catch(erro => {
-    return res.status(500).json({ msg: 'Falha ao buscar matérias!', erro: erro });
+    return res.status(500).json({ msg: 'Falha ao excluir matéria!', erro: erro });
   });
 }
 
@@ -68,7 +68,7 @@ exports.alterarMateria = (req, res, next) => {
     }
   })
   .catch(erro => {
-    return res.status(500).json({ msg: 'Falha ao alterar matéria!', erro: erro });
+    return res.status(500).json({ msg: 'Falha ao atualizar matéria!', erro: erro });
   });
 }
 

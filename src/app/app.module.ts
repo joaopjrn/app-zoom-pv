@@ -16,7 +16,7 @@ import { CriarTurmaComponent } from './componentes/modais/criar-turma/criar-turm
 import { CriarAulaComponent } from './componentes/modais/criar-aula/criar-aula.component';
 import { EntrarTurmaComponent } from './componentes/modais/entrar-turma/entrar-turma.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
 import { BemVindoComponent } from './componentes/bem-vindo/bem-vindo.component';
@@ -24,6 +24,7 @@ import { CarregandoComponent } from './componentes/carregando/carregando.compone
 import { ExcluirComponent } from './componentes/modais/excluir/excluir.component';
 import { AnotacaoComponent } from './componentes/aula/anotacao/anotacao.component';
 import { ErroComponent } from './componentes/snackbars/erro/erro.component';
+import { ErrorInterceptor } from './error-interceptor';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,10 @@ import { ErroComponent } from './componentes/snackbars/erro/erro.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'pt-BR'}],
+  providers: [
+    {provide: LOCALE_ID, useValue: 'pt-BR'},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

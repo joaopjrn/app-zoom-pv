@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AnotacoesServico } from 'src/app/services/anotacoes.service';
 import { AulasService } from 'src/app/services/aulas.service';
 import { MateriasService } from 'src/app/services/materias.service';
 
@@ -10,7 +11,11 @@ import { MateriasService } from 'src/app/services/materias.service';
 })
 export class ExcluirComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dados: {item: {id: string, tipo: string}, titulo: string}, private materiaSvc: MateriasService, private aulaSvc: AulasService) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public dados: any,
+    private materiaSvc: MateriasService,
+    private aulaSvc: AulasService,
+    private anotaSvc: AnotacoesServico) { }
 
   ngOnInit(): void {
   }
@@ -23,7 +28,11 @@ export class ExcluirComponent implements OnInit {
       case 'aula':
         this.aulaSvc.excluirAula(this.dados.item.id);
         break;
+      case 'anotacao':
+        // this.anotaSvc.excluirAnotacao(this.dados.item.id);
+        break;
     }
   }
+
 
 }

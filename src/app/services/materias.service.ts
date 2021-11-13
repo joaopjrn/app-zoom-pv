@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { UsuarioService } from './usuario.service';
 import { Usuario } from '../models/usuario.model';
+import { ErroComponent } from '../componentes/snackbars/erro/erro.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const BACKEND_URL = environment.apiUrl + '/materia/';
 
@@ -15,7 +17,7 @@ export class MateriasService {
   private materias: Materia[] = [];
   private subMateriasCarregadas = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private router: Router, private usuarioSvc: UsuarioService) { }
+  constructor(private http: HttpClient, private router: Router, private usuarioSvc: UsuarioService, private snackbar: MatSnackBar) { }
 
   novaMateria(nome: string, codMateria: string, descricao: string, linkImg: string, nomeProf: string, diasSemana: string) {
 
@@ -35,6 +37,7 @@ export class MateriasService {
       this.usuarioSvc.entrarTurma(materiaInserida.materia._id, usuario._id).subscribe(res => {
         if (res.atualizado) {
           this.inserirMateriaLocal(materiaInserida.materia);
+          this.mostrarNotificacao(materiaInserida.msg, 'sucesso');
         }
       });
     });
@@ -59,6 +62,7 @@ export class MateriasService {
       if(res.excluido){
         this.materias = this.materias.filter(materia => materia._id !== id);
         this.subMateriasCarregadas.next(true);
+        this.mostrarNotificacao(res.msg, 'sucesso');
       }
     })
   }
@@ -84,6 +88,7 @@ export class MateriasService {
             this.materias[i] = materiaAtualizada
           }
         });
+        this.mostrarNotificacao(res.msg, 'sucesso');
         this.subMateriasCarregadas.next(true);
       }
     })
@@ -92,6 +97,10 @@ export class MateriasService {
   inserirMateriaLocal(materia: Materia) {
     this.materias.push(materia);
     this.subMateriasCarregadas.next(true);
+  }
+
+  mostrarNotificacao(msg: string, tipo: string){
+    this.snackbar.openFromComponent(ErroComponent, {data: {msg: msg, tipo: tipo}, duration: 2000})
   }
 
   getSubMateriasCarregadas() {

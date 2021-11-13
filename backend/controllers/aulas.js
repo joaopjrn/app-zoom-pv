@@ -33,6 +33,8 @@ exports.buscarAulas = (req, res, next) => {
     });
 
     res.status(200).json({ msg: "Aulas encontradas com sucesso!", aulas: aulas });
+  }).catch(erro => {
+    res.status(500).json({ msg: "Falha ao buscar aulas!" });
   });
 }
 
@@ -40,7 +42,7 @@ exports.excluirAula = (req, res, next) => {
   Aula.deleteOne({_id: req.params.id}).then(result => {
     console.log(result)
     if(result.deletedCount > 0){
-      return res.status(201).json({msg: 'Aula excluída com sucesso', excluido: true});
+      return res.status(201).json({msg: 'Aula excluída com sucesso!', excluido: true});
     }
   })
   .catch(erro => {
@@ -60,9 +62,9 @@ exports.alterarAula = (req, res, next) => {
   console.log(aulaAtualizada);
   Aula.updateOne({ _id: req.body._id }, aulaAtualizada).then(aulaAlterada => {
     console.log(aulaAlterada);
-    return res.status(201).json({msg: 'Aula atualizada com sucesso', aulaAlterada: aulaAlterada});
+    return res.status(201).json({msg: 'Aula atualizada com sucesso!', aulaAlterada: aulaAlterada});
   }).catch(erro => {
-    res.status(500).json({ msg: "Falha ao alterar aula!" });
+    res.status(500).json({ msg: "Falha ao atualizar aula!" });
   });
-  
+
 }

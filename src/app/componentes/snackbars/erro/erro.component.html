@@ -1,1 +1,2 @@
-<div class="d-flex align-items-center justify-content-center"> <mat-icon color="warn">close</mat-icon> {{mensagem}}</div>
+<div class="d-flex align-items-center justify-content-center">
+  <mat-icon [class]="tipo == 'erro' ? 'text-danger' : tipo == 'aviso' ? 'text-warning' : 'text-success'">{{ tipo == 'aviso' ? 'warning' : tipo == 'erro' ? 'close' : 'check' }}</mat-icon> {{mensagem}}</div>

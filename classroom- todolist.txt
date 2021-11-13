@@ -14,28 +14,48 @@
     [x] Excluir Matéria
     [ ] Imagens
 
-- [-] Anotações
+- [x] Anotações
     [x] Criar Anotação
     [x] Editar Anotação
     [x] Excluir Anotação
-    [ ] Modal confirmar exclusão
+    [x] Modal confirmar exclusão
 
-- [-] Formulários
+- [-] Arrumar Formulários
     [ ] Criar Matéria
     [ ] Criar Aula
     [x] Criar Anotação
     [x] Entrar em Turma
 
-- [-] Erros
-    [ ] Erro de email inválido
+- [x] Erros / Notificações
+    [x] Erro de email inválido
     [x] Erro entrar turma
-    [ ] Erro ao criar (aula/matéria/anotação)
-    [ ] Erro ao buscar (aula/matéria/anotação)
-    [ ] Erro ao editar (aula/matéria/anotação)
-    [ ] Erro ao excluir (aula/matéria/anotação)
+    [x] Erro ao criar (aula/matéria/anotação)
+    [x] Erro ao buscar (aula/matéria/anotação)
+    [x] Erro ao editar (aula/matéria/anotação)
+    [x] Erro ao excluir (aula/matéria/anotação)
 
 - [ ] Funções Exclusivas (Aluno / Professor)
 
 -------------------
-- [] quando atualiza a pagina de materia ele volta pra lista de matérias
 - [] espaço na aula pra colocar links (aparece só o nome do link e redireciona ao clicar)
+---------------------------
+
+imagens:
+tecnologia
+https://thumbs.dreamstime.com/b/internet-technology-programming-seamless-background-linear-icons-set-html-php-code-pattern-line-style-74589214.jpg
+https://i.ibb.co/gvq2J9Y/tech2.png
+
+exatas
+https://cdn5.vectorstock.com/i/1000x1000/89/34/mathematics-seamless-pattern-vector-2088934.jpg
+https://i.ibb.co/HCWT8dF/math.png
+
+humanas
+https://i.ibb.co/t3Hkf79/historia.png
+
+biológicas
+https://thumbs.dreamstime.com/b/seamless-pattern-icon-biology-vector-black-background-painted-hand-63358907.jpg
+https://i.ibb.co/jwnnCh4/biologia.png
+
+saúde
+https://cdn.pixabay.com/photo/2021/01/13/13/42/coronavirus-5914156_1280.png
+https://i.ibb.co/kJX1JJ6/health.png
