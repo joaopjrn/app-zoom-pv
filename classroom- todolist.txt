@@ -5,7 +5,7 @@
     [x] Editar Aula
     [x] Excluir Aula
     [x] Ordenar Aulas
-    [ ] Criar link do zoom
+    [x] Criar link do zoom
     [x] Criar aula nos dias da semana específicos
 
 - [x] Matérias

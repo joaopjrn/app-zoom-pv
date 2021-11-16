@@ -7,6 +7,7 @@ import { ErroComponent } from "../componentes/snackbars/erro/erro.component";
 import { Aula } from "../models/aula.model";
 
 const BACKEND_URL = environment.apiUrl + "/aula/";
+const ZOOM_URL = environment.apiUrl + "/zoom/";
 @Injectable({ providedIn: 'root' })
 export class AulasService {
   listaAulas: Aula[] = [];
@@ -16,24 +17,29 @@ export class AulasService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) { }
 
   novaAula(nome: string, idMateria: string, conteudo: string, data: string) {
-    const aula = {
-      nome: nome,
-      idMateria: idMateria,
-      conteudo: conteudo,
-      data: data,
-    }
-    this.http.post<{ msg: string, aula: Aula }>(BACKEND_URL, aula).subscribe(res => {
-      // console.log('aula antes do push:');
-      // console.log(res.aula);
-      this.listaAulas.push(res.aula);
-      this.organizarAulas();
-      this.subAulasCarregadas.next(true);
-      this.mostrarNotificacao(res.msg, 'sucesso');
-    });
+    this.http.post<{msg: string, dados: any}>(ZOOM_URL,{topic: nome}).subscribe(res => {
+      console.log(res);
+      const aula = {
+        nome: nome,
+        idMateria: idMateria,
+        conteudo: conteudo,
+        data: data,
+        linkZoomProf: res.dados.start_url,
+        linkZoomAluno: res.dados.join_url
+      }
+      this.http.post<{ msg: string, aula: Aula }>(BACKEND_URL, aula).subscribe(res => {
+        // console.log('aula antes do push:');
+        // console.log(res.aula);
+        this.listaAulas.push(res.aula);
+        this.organizarAulas();
+        this.subAulasCarregadas.next(true);
+        this.mostrarNotificacao(res.msg, 'sucesso');
+      });
+    })
   }
 
-  buscarAulas(idMateria: string) {
-    this.http.get<{ msg: string, aulas: any }>(BACKEND_URL + idMateria).subscribe(res => {
+  buscarAulas(idMateria: string, tipoUsuario: number) {
+    this.http.get<{ msg: string, aulas: any }>(BACKEND_URL + tipoUsuario +"/" + idMateria).subscribe(res => {
       this.listaAulas = res.aulas;
       this.organizarAulas();
       this.subAulasCarregadas.next(true);

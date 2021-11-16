@@ -5,6 +5,7 @@ const materiasRoutes = require('./routes/materias');
 const aulasRoutes = require('./routes/aulas');
 const usuariosRoutes = require('./routes/usuarios');
 const anotacoesRoutes = require('./routes/anotacoes');
+const zoomRoutes = require('./routes/zoom');
 // const userRoutes = require('./routes/user');
 const path = require('path');
 
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/api/zoom", zoomRoutes);
 app.use("/api/materia", materiasRoutes);
 app.use("/api/aula", aulasRoutes);
 app.use("/api/usuario", usuariosRoutes);

@@ -6,13 +6,21 @@ exports.criarAula = (req, res, next) => {
     idMateria: req.body.idMateria,
     conteudo: req.body.conteudo,
     data: req.body.data,
-    linkZoom: "www.google.com.br"
+    linkZoomProf: req.body.linkZoomProf,
+    linkZoomAluno: req.body.linkZoomAluno,
   });
 
   aula.save().then(aulaCriada => {
     aulaCriada.data = new Date(aulaCriada.data);
+    const aulaRetorno = {
+      nome: aulaCriada.nome,
+      idMateria: aulaCriada.idMateria,
+      conteudo: aulaCriada.conteudo,
+      data: aulaCriada.data,
+      linkZoom: aulaCriada.linkZoomProf
+    }
     console.log(aulaCriada);
-    res.status(201).json({ msg: "Aula criada com sucesso!", aula:  aulaCriada  });
+    res.status(201).json({ msg: "Aula criada com sucesso!", aula:  aulaRetorno  });
   }).catch(erro => {
     res.status(500).json({ msg: "Falha ao criar aula!" });
   });
@@ -28,7 +36,7 @@ exports.buscarAulas = (req, res, next) => {
         nome: aula.nome,
         conteudo: aula.conteudo,
         data: new Date(aula.data),
-        linkZoom: aula.linkZoom
+        linkZoom: req.params.tipo == "0" ? aula.linkZoomProf : aula.linkZoomAluno
       }
     });
 
