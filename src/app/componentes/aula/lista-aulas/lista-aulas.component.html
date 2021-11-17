@@ -5,4 +5,11 @@
       <app-detalhe-aula *ngFor="let aula of lista" [aula]="aula"></app-detalhe-aula>
     </mat-accordion>
   </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="text-info">chat</mat-icon>
+      &nbsp;Fale com o Professor
+    </ng-template>
+    <p>conteúdo</p>
+  </mat-tab>
 </mat-tab-group>
