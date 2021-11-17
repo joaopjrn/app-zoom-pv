@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 
 
 @Component({
@@ -8,8 +9,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 })
 export class BemVindoComponent implements OnInit, OnDestroy {
 
-  constructor() { }
-  
+  constructor(public auth: AuthService) { }
+
   ngOnInit(): void {
 
   }

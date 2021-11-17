@@ -94,9 +94,17 @@ export class UsuarioService {
   }
 
   entrarTurma(idTurma: string, idUsuario: string) {
-    return this.http.put<{msg: string, atualizado: boolean}>(BACKEND_URL, {id: idUsuario, novaTurma: idTurma});
+    return this.http.put<{msg: string, atualizado: boolean}>(BACKEND_URL, {idUsuario: idUsuario, idMateria: idTurma, entrar: true});
     // usuario.materias.push(idTurma);
     // return this.atualizarUsuario(usuario);
+  }
+
+  sairTurma(idTurma: string, idUsuario: string){
+    return this.http.put(BACKEND_URL, {idMateria: idTurma, idUsuario: idUsuario, entrar: false});
+  }
+
+  setMaterias(materias: string[]){
+    this.usuarioLogado.materias = materias;
   }
 
 

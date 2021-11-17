@@ -34,4 +34,8 @@ export class ItemMateriaComponent implements OnInit {
     this.modal.open(CriarTurmaComponent, {data: {materia: this.materia}});
   }
 
+  sairMateria(){
+    this.modal.open(ExcluirComponent, {data: {item: {idMateria: this.materia._id, tipo: 'sair'}, titulo: 'Deseja sair dessa turma?'}})
+  }
+
 }

@@ -13,9 +13,9 @@
     </button> -->
     <!-- <button mat-raised-button (click)="auth.loginWithRedirect()">login</button>
     <button mat-raised-button (click)="auth.logout()">logout</button> -->
-    <button *ngIf="!estaLogado" mat-icon-button (click)="auth.loginWithRedirect()">
+    <!-- <button *ngIf="!estaLogado" mat-icon-button (click)="auth.loginWithRedirect()">
       <mat-icon>login</mat-icon>
-    </button>
+    </button> -->
     <button *ngIf="estaLogado" mat-icon-button (click)="auth.logout({returnTo: 'http://localhost:4200'})">
       <mat-icon>logout</mat-icon>
     </button>

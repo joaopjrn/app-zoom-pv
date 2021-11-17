@@ -1,6 +1,6 @@
-- [ ] Página Bem-Vindo
+- [x] Página Bem-Vindo
 
-- [-] Aulas
+- [x] Aulas
     [x] Criar Aula
     [x] Editar Aula
     [x] Excluir Aula
@@ -13,6 +13,7 @@
     [x] Editar Matéria
     [x] Excluir Matéria
     [x] Imagens
+    [x] Aluno sair da turma
 
 - [x] Anotações
     [x] Criar Anotação
@@ -34,10 +35,12 @@
     [x] Erro ao editar (aula/matéria/anotação)
     [x] Erro ao excluir (aula/matéria/anotação)
 
+- [ ] Chat
+
 - [ ] Funções Exclusivas (Aluno / Professor)
 
 -------------------
-- [] espaço na aula pra colocar links (aparece só o nome do link e redireciona ao clicar)
+- [ ] espaço na aula pra colocar links (aparece só o nome do link e redireciona ao clicar)
 ---------------------------
 
 imagens:

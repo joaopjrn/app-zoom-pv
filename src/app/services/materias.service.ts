@@ -102,6 +102,12 @@ export class MateriasService {
     this.subMateriasCarregadas.next(true);
   }
 
+  removerMateriaLocal(idMateria: string) {
+    const materiasAtualizadas = this.materias.filter(materia => idMateria != materia._id);
+    this.materias = materiasAtualizadas;
+    this.subMateriasCarregadas.next(true);
+  }
+
   mostrarNotificacao(msg: string, tipo: string){
     this.snackbar.openFromComponent(ErroComponent, {data: {msg: msg, tipo: tipo}, duration: 2000})
   }
