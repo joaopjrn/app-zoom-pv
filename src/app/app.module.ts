@@ -25,6 +25,10 @@ import { ExcluirComponent } from './componentes/modais/excluir/excluir.component
 import { AnotacaoComponent } from './componentes/aula/anotacao/anotacao.component';
 import { ErroComponent } from './componentes/snackbars/erro/erro.component';
 import { ErrorInterceptor } from './error-interceptor';
+import { ChatComponent } from './componentes/mensagem/chat/chat.component';
+import { ConversaComponent } from './componentes/mensagem/conversa/conversa.component';
+import { ListaConversaComponent } from './componentes/mensagem/lista-conversa/lista-conversa.component';
+import { ItemMensagemComponent } from './componentes/mensagem/item-mensagem/item-mensagem.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +48,10 @@ import { ErrorInterceptor } from './error-interceptor';
     ExcluirComponent,
     AnotacaoComponent,
     ErroComponent,
+    ChatComponent,
+    ConversaComponent,
+    ListaConversaComponent,
+    ItemMensagemComponent,
   ],
   imports: [
     BrowserModule,

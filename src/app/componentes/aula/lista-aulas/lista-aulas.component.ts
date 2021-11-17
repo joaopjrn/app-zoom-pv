@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 import { Aula } from 'src/app/models/aula.model';
 import { AnotacoesServico } from 'src/app/services/anotacoes.service';
@@ -30,6 +31,10 @@ export class ListaAulasComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.listaAulasListener.unsubscribe();
+  }
+
+  troqueiTab(ev: MatTabChangeEvent){
+    console.log(ev)
   }
 
 

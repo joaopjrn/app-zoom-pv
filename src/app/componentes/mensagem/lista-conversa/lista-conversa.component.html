@@ -1,0 +1,16 @@
+<form class="pl-3 row align-items-center">
+  <div class="col-10 pr-2">
+    <mat-form-field class="w-100">
+      <mat-label>Busque um aluno</mat-label>
+      <input type="text" matInput>
+    </mat-form-field>
+  </div>
+  <div class="col-2">
+    <mat-icon style="font-size: xx-large;">search</mat-icon>
+  </div>
+</form>
+<mat-selection-list #shoes [multiple]="false">
+  <mat-list-option *ngFor="let conversa of conversas" [value]="conversa">
+    {{conversa}}
+  </mat-list-option>
+</mat-selection-list>
