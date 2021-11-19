@@ -64,7 +64,7 @@ export class CriarAulaComponent implements OnInit {
       this.aulaSvc.alterarAula(aula);
       this.ref.close();
     } else {
-      this.aulaSvc.novaAula(nome, this.dados.idMateria, conteudo, data.toISOString());
+      this.aulaSvc.novaAula(nome, this.dados.idMateria, conteudo, data.toISOString(), this.dados.email);
       this.ref.close();
     }
   }

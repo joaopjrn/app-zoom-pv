@@ -9,6 +9,7 @@ import { ErroComponent } from "../componentes/snackbars/erro/erro.component";
 import { Usuario } from "../models/usuario.model";
 
 const BACKEND_URL = environment.apiUrl + '/usuario/';
+const ZOOM_URL = environment.apiUrl + "/zoom/";
 
 @Injectable({ providedIn: 'root' })
 export class UsuarioService {
@@ -47,7 +48,7 @@ export class UsuarioService {
         if (usuarioBanco.dadosUsuario) {
           //se encontrou dados do usuário no banco, seta dados e avisa
           this.usuarioLogado = usuarioBanco.dadosUsuario;
-          console.log('login processado após encontrar usuário no banco')
+          console.log('login processado após encontrar usuário no banco');
           console.log(this.usuarioLogado)
           this.setLogado(true);
           // this.subDadosCarregados.next(true);
@@ -81,12 +82,30 @@ export class UsuarioService {
     return this.http.get<{ msg: string, dadosUsuario: Usuario, valido: any }>(BACKEND_URL + email);
   }
 
-  criarUsuario(dadosUsuario: any) {
-    this.http.post<{ msg: string, dados: Usuario }>(BACKEND_URL, dadosUsuario).subscribe(result => {
-      this.usuarioLogado = result.dados;
-      console.log('login processado após criar usuário')
-      this.setLogado(true);
-    });;
+  criarUsuario(dadosUsuario: User) {
+    this.http.post(ZOOM_URL+'/usuario', {email: dadosUsuario.email }).subscribe(resultadoZoom => {
+      this.http.post<{ msg: string, dados: Usuario }>(BACKEND_URL, dadosUsuario).subscribe(result => {
+        this.usuarioLogado = result.dados;
+        console.log('login processado após criar usuário')
+        this.setLogado(true);
+      });
+    });
+  }
+
+  verificarUsuario(email: string){
+    this.http.get<{msg: string, dados: any}>(ZOOM_URL+email).subscribe(resultadoZoom => {
+      if(resultadoZoom.dados.status == 'active'){
+        this.http.put<{msg: string, dados: any}>(BACKEND_URL+"/verificar", {email: email}).subscribe(resultado => {
+          if(resultado.dados.matchedCount > 0 && resultado.dados.modifiedCount > 0){
+            console.log('usuário verificado no banco')
+            this.usuarioLogado.verificado = true;
+            this.subDadosCarregados.next(true);
+          }
+        })
+      } else {
+        this.snackbar.openFromComponent(ErroComponent, {data:{msg: 'Confirme seu cadastro clicando no link do Zoom enviado para o seu e-mail!', tipo: 'aviso'}, duration: 3000,  })
+      }
+    })
   }
 
   atualizarUsuario(usuario: Usuario) {

@@ -31,6 +31,12 @@ export class DetalheMateriaComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
+
+    this.usuarioSvc.getSubDadosUsuario().subscribe(res => {
+      this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
+      this.criarAula();
+    });
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('cod')) {
         this.matSvc.buscarMateria(paramMap.get('cod')).subscribe((res: any) => {
@@ -45,6 +51,10 @@ export class DetalheMateriaComponent implements OnInit {
   }
 
   criarAula(){
-    this.modal.open(CriarAulaComponent, {data: {idMateria: this.materia._id, dias: this.diasDeAula, editando: false}});
+    if(!this.usuarioLogado.verificado){
+      this.usuarioSvc.verificarUsuario(this.usuarioLogado.email)
+    }else{
+      this.modal.open(CriarAulaComponent, {data: {idMateria: this.materia._id, dias: this.diasDeAula, email: this.usuarioLogado.email, editando: false}});
+    }
   }
 }

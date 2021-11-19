@@ -5,6 +5,7 @@ const usuarioSchema = mongoose.Schema({
   email: { type: String, required: true },
   tipo: { type: Number, required: true },
   materias: { type: [mongoose.Schema.Types.ObjectId], ref: "Materia", required: true },
+  verificado: { type: Boolean, required: true }
 });
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

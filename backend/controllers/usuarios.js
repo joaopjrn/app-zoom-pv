@@ -15,7 +15,8 @@ exports.buscarUsuario = (req, res, next) => {
       nome: result.nome,
       email: result.email,
       tipo: result.tipo,
-      materias: result.materias
+      materias: result.materias,
+      verificado: result.verificado
     }
     res.status(200).json({msg: 'Usuário encontrado!', dadosUsuario: dadosUsuario, valido: true});
   }).catch(erro => {
@@ -29,7 +30,8 @@ exports.criarUsuario = (req, res, next) => {
     nome: req.body.name,
     email: req.body.email,
     tipo: req.body.email.includes('@saojudas.br') ? 0 : 1,
-    materias: []
+    materias: [],
+    verificado: false
   });
 
   novoUsuario.save()
@@ -40,7 +42,8 @@ exports.criarUsuario = (req, res, next) => {
       nome: usuarioCriado.nome,
       email: usuarioCriado.email,
       tipo: usuarioCriado.tipo,
-      materias: usuarioCriado.materias
+      materias: usuarioCriado.materias,
+      verificado: usuarioCriado.verificado
     }
     res.status(201).json({msg: 'Usuário criado com sucesso!', dados: usuario});
   })
@@ -48,6 +51,45 @@ exports.criarUsuario = (req, res, next) => {
     res.status(500).json({msg: 'Erro ao criar usuário!', erro: erro});
   });
 }
+
+exports.controleTurma = (req, res, next) => {
+  console.log('atualizar usuario controller usuario');
+  console.log(req.body)
+  // if(req.body.novaTurma){
+    console.log('atualizando apenas array de matérias')
+    let query, msg;
+    if(req.body.entrar){
+      query = Usuario.updateOne({_id: req.body.idUsuario}, {$addToSet: {materias: req.body.idMateria}})
+      msg = ' entrou na turma ';
+    }else{
+      query = Usuario.updateOne({_id: req.body.idUsuario}, {$pull: {materias: req.body.idMateria}})
+      msg = ' saiu da turma ';
+    }
+    query
+    .then(result => {
+      console.log(result)
+      if(result.matchedCount > 0 && result.modifiedCount > 0){
+        return res.status(201).json({ msg: 'Usuário'+msg+'com sucesso!', atualizado: true });
+      } else if(result.matchedCount > 0 && result.modifiedCount == 0){
+        return res.status(201).json({ msg: 'Usuário já está cadastrado nessa turma!', atualizado: false });
+      }
+    })
+    .catch(erro => {
+      res.status(500).json({msg: 'Erro ao se juntar à turma!', erro: erro});
+    });
+}
+
+exports.confirmarVerificado = (req, res, next) => {
+  Usuario.updateOne({email: req.body.email}, {$set:{verificado: true}})
+  .then(result => {
+    console.log(result);
+    return res.status(201).json({msg: 'Usuário verificado com sucesso', dados: result});
+  })
+  .catch(erro => {
+    res.status(500).json({msg: 'Incapaz de verificar o usuário', erro: erro});
+  });
+}
+
 
 // exports.controleTurma = (req, res, next) => {
 //   console.log('atualizar usuario controller usuario');
@@ -85,31 +127,3 @@ exports.criarUsuario = (req, res, next) => {
 //   //     });
 //   // }
 // }
-
-exports.controleTurma = (req, res, next) => {
-  console.log('atualizar usuario controller usuario');
-  console.log(req.body)
-  // if(req.body.novaTurma){
-    console.log('atualizando apenas array de matérias')
-    let query, msg;
-    if(req.body.entrar){
-      query = Usuario.updateOne({_id: req.body.idUsuario}, {$addToSet: {materias: req.body.idMateria}})
-      msg = ' entrou na turma ';
-    }else{
-      query = Usuario.updateOne({_id: req.body.idUsuario}, {$pull: {materias: req.body.idMateria}})
-      msg = ' saiu da turma ';
-    }
-    query
-    .then(result => {
-      console.log(result)
-      if(result.matchedCount > 0 && result.modifiedCount > 0){
-        return res.status(201).json({ msg: 'Usuário'+msg+'com sucesso!', atualizado: true });
-      } else if(result.matchedCount > 0 && result.modifiedCount == 0){
-        return res.status(201).json({ msg: 'Usuário já está cadastrado nessa turma!', atualizado: false });
-      }
-    })
-    .catch(erro => {
-      res.status(500).json({msg: 'Erro ao se juntar à turma!', erro: erro});
-    });
-}
-

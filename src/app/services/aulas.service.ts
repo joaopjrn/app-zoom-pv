@@ -16,8 +16,8 @@ export class AulasService {
   subAulasCarregadas = new Subject<boolean>();
   constructor(private http: HttpClient, private snackbar: MatSnackBar) { }
 
-  novaAula(nome: string, idMateria: string, conteudo: string, data: string) {
-    this.http.post<{msg: string, dados: any}>(ZOOM_URL,{topic: nome}).subscribe(res => {
+  novaAula(nome: string, idMateria: string, conteudo: string, data: string, email: string) {
+    this.http.post<{msg: string, dados: any}>(ZOOM_URL,{topic: nome, email: email}).subscribe(res => {
       console.log(res);
       const aula = {
         nome: nome,

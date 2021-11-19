@@ -4,4 +4,5 @@ export interface Usuario{
   email: string;
   tipo: number;
   materias: string[];
+  verificado: boolean;
 }
