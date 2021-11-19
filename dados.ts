@@ -1,4 +1,4 @@
-usuarios = {
+const usuarios = {
   _id: 'asdasd',
   nome: 'asdasd',
   email: 'asdasd',
@@ -7,7 +7,7 @@ usuarios = {
   materias: ['idmateria1', 'idmateria2']
 }
 
-materia = {
+const materia = {
   _id: 'asdasd',
   nomeProf: 'asdasd',
   nome: 'asdasd',
@@ -15,7 +15,7 @@ materia = {
   diasSemana: [1,3,5],
 }
 
-aula = {
+const aula = {
   _id: 'asdasasd',
   idMateria: 'asdasdasd',
   nome: 'asdasd',
@@ -25,9 +25,23 @@ aula = {
   linkZoom: 'asdasdasd'
 }
 
-anotacao = {
+const anotacao = {
   _id: 'asdasdasd',
   idAula: 'asdasdasd',
   idAluno: 'asdasdasd',
   conteudo: 'asdasdasd'
+}
+
+type conversa = {
+  idMateria: string,
+  aluno: { id: string, nome: string },
+  professor: { id: string, nome: string },
+  notifAluno: boolean,
+  notifProf: boolean
+};
+
+type mensagem = {
+  idEnviou: string;
+  conteudo: string;
+  createdAt: Date;
 }

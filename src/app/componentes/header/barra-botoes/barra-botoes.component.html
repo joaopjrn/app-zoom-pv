@@ -1,5 +1,5 @@
     <span class="mr-auto"></span>
-    <button *ngIf="usuarioSvc.getUsuarioLogado().tipo === 0"
+    <button *ngIf="usuarioSvc.getUsuarioLogado().tipo === 0 || 1"
     (click)="criarTurma()"
     class="ml-auto" type="button" mat-raised-button color="primary">Criar Turma</button>
     <button (click)="entrarTurma()"

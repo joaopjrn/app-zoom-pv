@@ -1,4 +1,4 @@
-<mat-tab-group animationDuration="0ms" (selectedTabChange)="troqueiTab($event)">
+<mat-tab-group animationDuration="0ms" (selectedIndexChange)="troqueiTab($event)">
   <mat-tab [label]="i == 0 ? 'Próximas Aulas' : 'Aulas Anteriores'" *ngFor="let lista of listaAulas; let i = index">
     <mat-accordion>
       <p *ngIf="lista.length < 1" class="mt-3 text-center">Não há aulas cadastradas ainda!</p>

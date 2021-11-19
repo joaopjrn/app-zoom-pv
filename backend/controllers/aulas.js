@@ -13,6 +13,7 @@ exports.criarAula = (req, res, next) => {
   aula.save().then(aulaCriada => {
     aulaCriada.data = new Date(aulaCriada.data);
     const aulaRetorno = {
+      _id: aulaCriada._id,
       nome: aulaCriada.nome,
       idMateria: aulaCriada.idMateria,
       conteudo: aulaCriada.conteudo,

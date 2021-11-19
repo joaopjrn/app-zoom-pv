@@ -15,17 +15,14 @@ exports.criarLinkZoom = (req, res, next) => {
     settings: {
       auto_recording: 'cloud'
     }
-  },
-  {
-    headers
-  })
+  }, {headers})
   .then(resultado => {
     console.log(resultado.data)
     return res.status(201).json({msg: 'ok', dados: resultado.data})
   })
   .catch(erro => {
     res.status(500).json({msg: 'erro', erro: erro})
-  });//3yIUxFTbSxa_fSGXKGsmJg
+  });
 }
 
 exports.criarUsuario = (req, res, next) => {
@@ -36,9 +33,7 @@ exports.criarUsuario = (req, res, next) => {
       email: req.body.email,
       type: 1
     }
-  },
-  {headers}
-  )
+  }, {headers})
   .then(resultado => {
     // console.log(resultado.data)
     return res.status(201).json({msg: 'ok', dados: resultado.data})
@@ -50,7 +45,7 @@ exports.criarUsuario = (req, res, next) => {
 };
 
 exports.verificarUsuario = (req, res, next) => {
-  axios.get('https://api.zoom.us/v2/users/'+req.params.email,{headers})
+  axios.get('https://api.zoom.us/v2/users/'+req.params.email, {headers})
   .then(resultado => {
     console.log(resultado)
     return res.status(201).json({msg: 'ok', dados: resultado.data})

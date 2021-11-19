@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 import { Aula } from 'src/app/models/aula.model';
@@ -21,8 +21,8 @@ export class ListaAulasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.aulasSvc.buscarAulas(this.idMateria, this.usuarioSvc.getUsuarioLogado().tipo);
+
     this.listaAulasListener = this.aulasSvc.getSubAulasCarregadas().subscribe(aulasCarregadas => {
-      console.log('qualquer coisa');
       if (aulasCarregadas) {
         this.listaAulas = this.aulasSvc.getAulas();
       }
@@ -33,8 +33,8 @@ export class ListaAulasComponent implements OnInit, OnDestroy {
     this.listaAulasListener.unsubscribe();
   }
 
-  troqueiTab(ev: MatTabChangeEvent){
-    console.log(ev)
+  troqueiTab(ev: number){
+    this.aulasSvc.mudarAba(ev);
   }
 
 

@@ -13,7 +13,8 @@ export class AulasService {
   listaAulas: Aula[] = [];
   aulasOrganizadas = [([] as Aula[]), ([] as Aula[])];
 
-  subAulasCarregadas = new Subject<boolean>();
+  private subMudouAba = new Subject<number>();
+  private subAulasCarregadas = new Subject<boolean>();
   constructor(private http: HttpClient, private snackbar: MatSnackBar) { }
 
   novaAula(nome: string, idMateria: string, conteudo: string, data: string, email: string) {
@@ -29,7 +30,7 @@ export class AulasService {
       }
       this.http.post<{ msg: string, aula: Aula }>(BACKEND_URL, aula).subscribe(res => {
         // console.log('aula antes do push:');
-        // console.log(res.aula);
+        console.log(res.aula);
         this.listaAulas.push(res.aula);
         this.organizarAulas();
         this.subAulasCarregadas.next(true);
@@ -49,6 +50,7 @@ export class AulasService {
   excluirAula(id: string) {
     this.http.delete<{ msg: string, excluido: boolean }>(BACKEND_URL + id).subscribe(res => {
       if (res.excluido) {
+        this.listaAulas = this.listaAulas.filter(aula => aula._id !== id);
         this.aulasOrganizadas[0] = this.aulasOrganizadas[0].filter(aula => aula._id !== id);
         this.aulasOrganizadas[1] = this.aulasOrganizadas[1].filter(aula => aula._id !== id);
 
@@ -102,8 +104,16 @@ export class AulasService {
     this.snackbar.openFromComponent(ErroComponent, {data: {msg: msg, tipo: tipo}, duration: 2000})
   }
 
+  mudarAba(indexAba: number){
+    this.subMudouAba.next(indexAba);
+  }
+
   getSubAulasCarregadas() {
     return this.subAulasCarregadas.asObservable();
+  }
+
+  getSubMudouAba(){
+    return this.subMudouAba.asObservable();
   }
 
   getAulas() {
