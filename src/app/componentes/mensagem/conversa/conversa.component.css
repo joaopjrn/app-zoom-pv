@@ -1,0 +1,13 @@
+.conversa {
+  height: 350px;
+  border: 2px solid #7986cb;
+  border-radius: 10px;
+  background-color: white;
+  overflow-y: auto;
+}
+
+.enviar {
+  border: 2px solid #c0ca33;
+  border-radius: 10px;
+  padding: 0px 10px;
+}

@@ -1,22 +1,24 @@
-<div class="row h-100 p-2" style="background-color: #E8EAF6;">
+<div class="row h-100 p-2">
   <div class="col-12 text-center">
     <span class="mat-title">João Pedro Nunes</span>
   </div>
 
-  <div class="col-12 border p-2" style="height: 350px;border-radius: 10px;background-color: white;">
+  <div class="col-12 p-3 conversa">
       <app-item-mensagem></app-item-mensagem>
   </div>
 
-  <div class="col-12 align-self-end">
-    <form class="w-100 row">
-      <div class="col-10">
-        <mat-form-field class="w-100">
-          <mat-label>Leave a comment</mat-label>
-          <textarea matInput></textarea>
+  <div class="enviar col-12 align-self-end">
+    <form #form="ngForm" class="w-100 row" (submit)="enviar(form)">
+      <div class="col-11">
+        <mat-form-field class="w-100" appearance="legacy">
+          <mat-label>Escreva uma mensagem ...</mat-label>
+          <textarea name="msg" #msg="ngModel" ngModel matInput rows="1"></textarea>
         </mat-form-field>
       </div>
-      <div class="col-2 p-2 align-self-center">
-        <button class="w-100" type="submit" color="accent" mat-raised-button>Enviar</button>
+      <div class="col pl-2 align-self-center">
+        <button mat-icon-button class="w-100" type="submit">
+          <mat-icon>send</mat-icon>
+        </button>
       </div>
     </form>
   </div>
