@@ -2,7 +2,7 @@
   <mat-tab [label]="i == 0 ? 'Próximas Aulas' : 'Aulas Anteriores'" *ngFor="let lista of listaAulas; let i = index">
     <mat-accordion>
       <p *ngIf="lista.length < 1" class="mt-3 text-center">Não há aulas cadastradas ainda!</p>
-      <app-detalhe-aula *ngFor="let aula of lista" [aula]="aula"></app-detalhe-aula>
+      <app-detalhe-aula *ngFor="let aula of lista" [aula]="aula" [aulaAnterior]="i == 1"></app-detalhe-aula>
     </mat-accordion>
   </mat-tab>
   <mat-tab>

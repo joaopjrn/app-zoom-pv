@@ -5,4 +5,5 @@ export interface Aula {
   conteudo: string;
   data: Date;
   linkZoom: string;
+  idMeeting?: string;
 }

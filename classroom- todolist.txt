@@ -7,6 +7,12 @@
     [x] Ordenar Aulas
     [x] Criar link do zoom
     [x] Criar aula nos dias da semana específicos
+    [x] Descrição da aula em "agenda" na meeting do zoom
+
+- [x] Gravação aulas
+    [x] Check gravação automática na criação da aula
+    [x] Mostrar gravações nas aulas anteriores
+    [x] Erro ao buscar gravação
 
 - [x] Matérias
     [x] Criar Matéria

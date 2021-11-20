@@ -7,13 +7,17 @@ const headers = {
 }
 
 exports.criarLinkZoom = (req, res, next) => {
+  console.log('gravarAuto: ' + req.body.gravarAuto)
   axios.post('https://api.zoom.us/v2/users/'+ req.body.email +'/meetings',
   {
     topic: req.body.topic,
     type: 2,
     duration: 300,
+    agenda: req.body.agenda,
     settings: {
-      auto_recording: 'cloud'
+      auto_recording: req.body.gravarAuto ? 'cloud' : 'none',
+      mute_upon_entry: true,
+      // waiting_room: false // não funciona
     }
   }, {headers})
   .then(resultado => {
@@ -52,5 +56,21 @@ exports.verificarUsuario = (req, res, next) => {
   }).catch(erro => {
     // console.log(erro.response.data)
     res.status(500).json({msg: 'erro', erro: erro.response.data})
+  });
+}
+
+exports.buscarGravacao = (req, res, next) => {
+  console.log('idMeeting: '+req.params.idMeeting)
+  axios.get('https://api.zoom.us/v2/meetings/'+ req.params.idMeeting +'/recordings', {headers})
+  .then(resultado => {
+    console.log(resultado.data)
+    const link = {
+      link: resultado.data.share_url,
+      senha: resultado.data.password
+    }
+    return res.status(201).json({msg: 'ok', dados: link})
+  }).catch(erro => {
+    // console.log(erro.response.data)
+    res.status(500).json({msg: erro.response.data.message, erro: erro.response.data})
   });
 }

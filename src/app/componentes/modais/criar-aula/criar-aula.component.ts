@@ -16,6 +16,7 @@ export class CriarAulaComponent implements OnInit {
   maxDate: Date;
   horario: string;
   filtroData: any;
+  gravarAuto: boolean = true;
 
   constructor(@Inject(MAT_DIALOG_DATA) public dados: any, private aulaSvc: AulasService, private snackbar: MatSnackBar, private ref: MatDialogRef<CriarAulaComponent>) { }
 
@@ -64,7 +65,7 @@ export class CriarAulaComponent implements OnInit {
       this.aulaSvc.alterarAula(aula);
       this.ref.close();
     } else {
-      this.aulaSvc.novaAula(nome, this.dados.idMateria, conteudo, data.toISOString(), this.dados.email);
+      this.aulaSvc.novaAula(nome, this.dados.idMateria, conteudo, data.toISOString(), this.dados.email, this.gravarAuto);
       this.ref.close();
     }
   }

@@ -9,6 +9,7 @@
       <mat-label>Conteúdo da Aula</mat-label>
       <textarea matInput rows="5" name="conteudo" #conteudo="ngModel" [ngModel]="dados.aula?.conteudo" required></textarea>
     </mat-form-field>
+    <mat-checkbox *ngIf="!dados?.editando" [checked]="gravarAuto" (change)="gravarAuto = !gravarAuto">Gravar Aula Automaticamente</mat-checkbox>
     <div class="row w-100 justify-content-between">
       <mat-form-field appearance="standard" class="col-5">
         <mat-label>Data da Aula</mat-label>

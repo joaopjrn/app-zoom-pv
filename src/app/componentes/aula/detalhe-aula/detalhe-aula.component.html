@@ -11,9 +11,16 @@
     <div class="col-12">
       <p>{{aula.conteudo}}</p>
     </div>
-    <div class="col-12">
+    <div class="col-12" *ngIf="!aulaAnterior">
       <a [href]="aula.linkZoom" target="_blank" class="text-decoration-none" mat-raised-button color="primary">Aula no Zoom</a>
     </div>
+    <button *ngIf="aulaAnterior && !gravacaoCarregada" mat-raised-button type="button" color="primary" (click)="buscarGravacao()">Buscar link da Gravação</button>
+    <div *ngIf="aulaAnterior && gravacaoCarregada">
+      <button type="button" mat-raised-button color="primary" (click)="abrirLink()"> <mat-icon>link</mat-icon> Clique Aqui</button>
+      &nbsp;
+      <button type="button" mat-raised-button [cdkCopyToClipboard]="senhaGravacao" (click)="copiouSenha()"> <mat-icon>content_copy</mat-icon> Senha</button>
+    </div>
+    <!-- <p *ngIf="gravacaoCarregada"> <a [href]="linkGravacao" target="_blank">Clique Aqui</a> - Senha: {{senhaGravacao}} </p> -->
     <div class="col-12 mt-2">
       <mat-divider></mat-divider>
     </div>

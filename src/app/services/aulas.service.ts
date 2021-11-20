@@ -13,12 +13,13 @@ export class AulasService {
   listaAulas: Aula[] = [];
   aulasOrganizadas = [([] as Aula[]), ([] as Aula[])];
 
+  private subLinkGravacao = new Subject<string>();
   private subMudouAba = new Subject<number>();
   private subAulasCarregadas = new Subject<boolean>();
   constructor(private http: HttpClient, private snackbar: MatSnackBar) { }
 
-  novaAula(nome: string, idMateria: string, conteudo: string, data: string, email: string) {
-    this.http.post<{msg: string, dados: any}>(ZOOM_URL,{topic: nome, email: email}).subscribe(res => {
+  novaAula(nome: string, idMateria: string, conteudo: string, data: string, email: string, gravarAuto: boolean) {
+    this.http.post<{msg: string, dados: any}>(ZOOM_URL,{topic: nome, email: email, agenda: conteudo, gravarAuto: gravarAuto}).subscribe(res => {
       console.log(res);
       const aula = {
         nome: nome,
@@ -26,7 +27,8 @@ export class AulasService {
         conteudo: conteudo,
         data: data,
         linkZoomProf: res.dados.start_url,
-        linkZoomAluno: res.dados.join_url
+        linkZoomAluno: res.dados.join_url,
+        idMeeting: res.dados.id
       }
       this.http.post<{ msg: string, aula: Aula }>(BACKEND_URL, aula).subscribe(res => {
         // console.log('aula antes do push:');
@@ -77,6 +79,9 @@ export class AulasService {
       })
   }
 
+  buscarLinkGravacao(idMeeting: string){
+    return this.http.get<{msg: string, dados: {link: string, senha: string}}>(ZOOM_URL+'gravacao/'+idMeeting);
+  }
 
   organizarAulas() {
     this.aulasOrganizadas[0] = [];
@@ -106,6 +111,10 @@ export class AulasService {
 
   mudarAba(indexAba: number){
     this.subMudouAba.next(indexAba);
+  }
+
+  getSubLinkGravacao(){
+    return this.subLinkGravacao.asObservable();
   }
 
   getSubAulasCarregadas() {

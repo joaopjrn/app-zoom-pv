@@ -8,6 +8,7 @@ exports.criarAula = (req, res, next) => {
     data: req.body.data,
     linkZoomProf: req.body.linkZoomProf,
     linkZoomAluno: req.body.linkZoomAluno,
+    idMeeting: req.body.idMeeting
   });
 
   aula.save().then(aulaCriada => {
@@ -18,7 +19,8 @@ exports.criarAula = (req, res, next) => {
       idMateria: aulaCriada.idMateria,
       conteudo: aulaCriada.conteudo,
       data: aulaCriada.data,
-      linkZoom: aulaCriada.linkZoomProf
+      linkZoom: aulaCriada.linkZoomProf,
+      idMeeting: aulaCriada.idMeeting
     }
     console.log(aulaCriada);
     res.status(201).json({ msg: "Aula criada com sucesso!", aula:  aulaRetorno  });
@@ -37,7 +39,8 @@ exports.buscarAulas = (req, res, next) => {
         nome: aula.nome,
         conteudo: aula.conteudo,
         data: new Date(aula.data),
-        linkZoom: req.params.tipo == "0" ? aula.linkZoomProf : aula.linkZoomAluno
+        linkZoom: req.params.tipo == "0" ? aula.linkZoomProf : aula.linkZoomAluno,
+        idMeeting: aula.idMeeting
       }
     });
 

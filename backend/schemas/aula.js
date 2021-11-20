@@ -5,8 +5,9 @@ const aulaSchema = mongoose.Schema({
   idMateria: { type: mongoose.Schema.Types.ObjectId, ref: "Materia", required: true },
   conteudo: { type: String, required: true },
   data: { type: String, required: true },
-  linkZoomProf: { type: String, required: true },
-  linkZoomAluno: { type: String, required: true },
+  linkZoomProf: { type: String },
+  linkZoomAluno: { type: String },
+  idMeeting: { type: String },
 });
 
 module.exports = mongoose.model('Aula', aulaSchema);
