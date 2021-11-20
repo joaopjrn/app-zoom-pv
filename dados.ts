@@ -41,6 +41,7 @@ type conversa = {
 };
 
 type mensagem = {
+  idConversa: string;
   idEnviou: string;
   conteudo: string;
   createdAt: Date;

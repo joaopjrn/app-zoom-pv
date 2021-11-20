@@ -4,7 +4,7 @@
   </div>
 
   <div class="conversa">
-      <app-item-mensagem></app-item-mensagem>
+      <app-item-mensagem *ngFor="let mensagem of mensagens" [idUsuarioLogado]="usuarioLogado._id" [msg]="mensagem"></app-item-mensagem>
   </div>
 
   <div class="enviar col-12 align-self-end">

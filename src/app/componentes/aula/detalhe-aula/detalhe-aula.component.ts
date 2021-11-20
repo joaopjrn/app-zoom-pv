@@ -36,7 +36,7 @@ export class DetalheAulaComponent implements OnInit, OnDestroy {
   constructor(private usuarioSvc: UsuarioService, public aulaSvc: AulasService, private modal: MatDialog, private matSvc: MateriasService, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
-    console.log(this.aula.idMeeting)
+    // console.log(this.aula.idMeeting)
     this.codAnotacao = this.aula._id + this.usuarioSvc.getUsuarioLogado()._id;
   }
 

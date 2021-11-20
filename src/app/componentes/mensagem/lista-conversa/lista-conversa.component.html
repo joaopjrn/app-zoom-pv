@@ -10,7 +10,7 @@
   </div>
 </form>
 <mat-selection-list #shoes [multiple]="false">
-  <mat-list-option *ngFor="let conversa of conversas" [value]="conversa">
-    {{conversa}}
+  <mat-list-option *ngFor="let conversa of conversas" [value]="conversa.aluno.nome" (click)="setConversaAtiva(conversa)">
+    {{conversa.aluno.nome}}
   </mat-list-option>
 </mat-selection-list>

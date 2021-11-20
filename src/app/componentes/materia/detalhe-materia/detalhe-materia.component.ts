@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Materia } from 'src/app/models/materia.model';
 import { Usuario } from 'src/app/models/usuario.model';
+import { ChatService } from 'src/app/services/chat.service';
 import { MateriasService } from 'src/app/services/materias.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CriarAulaComponent } from '../../modais/criar-aula/criar-aula.component';
@@ -27,7 +28,7 @@ export class DetalheMateriaComponent implements OnInit {
   ];
   diasDeAula: number[];
 
-  constructor(private modal: MatDialog, private route: ActivatedRoute, private matSvc: MateriasService, private usuarioSvc: UsuarioService) { }
+  constructor(private modal: MatDialog, private route: ActivatedRoute, private matSvc: MateriasService, private usuarioSvc: UsuarioService, private chatSvc: ChatService) { }
 
   ngOnInit(): void {
     this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
@@ -56,5 +57,9 @@ export class DetalheMateriaComponent implements OnInit {
     }else{
       this.modal.open(CriarAulaComponent, {data: {idMateria: this.materia._id, dias: this.diasDeAula, email: this.usuarioLogado.email, editando: false}});
     }
+  }
+
+  buscarConversa(){
+    this.chatSvc.buscarConversa(this.materia._id, this.usuarioLogado._id);
   }
 }

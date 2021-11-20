@@ -6,6 +6,7 @@ const aulasRoutes = require('./routes/aulas');
 const usuariosRoutes = require('./routes/usuarios');
 const anotacoesRoutes = require('./routes/anotacoes');
 const zoomRoutes = require('./routes/zoom');
+const chatRoutes = require('./routes/chat');
 // const userRoutes = require('./routes/user');
 const path = require('path');
 
@@ -37,6 +38,7 @@ app.use("/api/materia", materiasRoutes);
 app.use("/api/aula", aulasRoutes);
 app.use("/api/usuario", usuariosRoutes);
 app.use("/api/anotacao", anotacoesRoutes);
+app.use("/api/chat", chatRoutes);
 // app.use("/api/user", userRoutes);
 
 module.exports = app;

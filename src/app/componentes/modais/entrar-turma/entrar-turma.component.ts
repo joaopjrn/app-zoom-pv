@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Materia } from 'src/app/models/materia.model';
+import { Usuario } from 'src/app/models/usuario.model';
+import { ChatService } from 'src/app/services/chat.service';
 import { MateriasService } from 'src/app/services/materias.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ErroComponent } from '../../snackbars/erro/erro.component';
@@ -12,9 +15,12 @@ import { ErroComponent } from '../../snackbars/erro/erro.component';
 })
 export class EntrarTurmaComponent implements OnInit {
 
-  constructor(private materiaSvc: MateriasService, private usuarioSvc: UsuarioService, private snackbar: MatSnackBar) { }
+  usuarioLogado: Usuario;
+
+  constructor(private materiaSvc: MateriasService, private usuarioSvc: UsuarioService, private snackbar: MatSnackBar, private chatSvc: ChatService) { }
 
   ngOnInit(): void {
+    this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
   }
 
   entrarTurma(form: NgForm) {
@@ -24,22 +30,20 @@ export class EntrarTurmaComponent implements OnInit {
     let codigo = form.value.codigo;
     this.materiaSvc.buscarMateria(codigo).subscribe(dados => {
       if (dados.materiaEncontrada === null) {
-        // alert('turma não encontrada')
         this.snackbar.openFromComponent(ErroComponent, {data: {msg: 'Turma não encontrada', tipo: 'aviso'}, duration: 2000});
       } else {
         this.usuarioSvc.entrarTurma(dados.materiaEncontrada._id, this.usuarioSvc.getUsuarioLogado()._id).subscribe(res => {
           if(res.atualizado){
-            this.materiaSvc.inserirMateriaLocal(dados.materiaEncontrada)
-            this.snackbar.openFromComponent(ErroComponent, {data: {msg: res.msg, tipo: 'sucesso'}, duration: 2000});
+            this.chatSvc.criarConversa(dados.materiaEncontrada.nomeProf, this.usuarioLogado._id, this.usuarioLogado.nome, dados.materiaEncontrada._id)
+            .subscribe(resultado => {
+              console.log(resultado)
+              this.materiaSvc.inserirMateriaLocal(dados.materiaEncontrada);
+              this.snackbar.openFromComponent(ErroComponent, {data: {msg: res.msg, tipo: 'sucesso'}, duration: 2000});
+            });
           }else{
             this.snackbar.openFromComponent(ErroComponent, {data: {msg: 'Você já está cadastrado nessa turma!', tipo: 'aviso'}, duration: 2000});
           }
         })
-        // .subscribe(usuarioAtualizado => {
-        //   if(usuarioAtualizado.atualizado){
-        //     this.materiaSvc.inserirMateriaLocal(dados.materiaEncontrada);
-        //   }
-        // }); 0P9P6I 6M9U0V
       }
     })
 

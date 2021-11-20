@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Mensagem } from 'src/app/models/mensagem.model';
 
 @Component({
   selector: 'app-item-mensagem',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ItemMensagemComponent implements OnInit {
 
+  @Input() msg: Mensagem;
+  @Input() idUsuarioLogado: string;
+  horario: string;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.msg.createdAt = new Date(this.msg.createdAt)
   }
 
 }

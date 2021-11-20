@@ -5,7 +5,7 @@
         <app-lista-conversa></app-lista-conversa>
       </div>
       <div [class]="usuarioLogado.tipo == 1 ? 'col-12' : 'col-9'">
-        <app-conversa></app-conversa>
+        <app-conversa *ngIf="conversaSelecionada"></app-conversa>
       </div>
     </div>
   </div>

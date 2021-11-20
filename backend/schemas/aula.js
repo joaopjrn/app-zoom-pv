@@ -7,7 +7,7 @@ const aulaSchema = mongoose.Schema({
   data: { type: String, required: true },
   linkZoomProf: { type: String },
   linkZoomAluno: { type: String },
-  idMeeting: { type: String },
+  idMeeting: { type: String }
 });
 
 module.exports = mongoose.model('Aula', aulaSchema);
