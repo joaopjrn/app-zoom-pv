@@ -1,6 +1,7 @@
 <div class="row h-100 p-2">
   <div class="col-12 text-center">
-    <span class="mat-title">João Pedro Nunes</span>
+    <span class="mat-title">{{ usuarioLogado.tipo == 0 ? conversaAtiva.professor : conversaAtiva.aluno.nome }}</span>
+    <!-- <span class="mat-title">{{ conversaAtiva.professor }}</span> -->
   </div>
 
   <div class="conversa">

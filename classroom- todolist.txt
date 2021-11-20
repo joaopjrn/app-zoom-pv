@@ -41,10 +41,11 @@
     [x] Erro ao editar (aula/matéria/anotação)
     [x] Erro ao excluir (aula/matéria/anotação)
 
-- [ ] Chat
-    [ ] Criar conversa
-    [ ] Enviar Mensagem
+- [-] Chat
+    [x] Criar conversa
+    [x] Enviar Mensagem
     [ ] Notificações
+    [ ] Conflitos de conversas existentes (caso usuário saia da turma e volte)
 
 - [ ] Funções Exclusivas (Aluno / Professor)
 

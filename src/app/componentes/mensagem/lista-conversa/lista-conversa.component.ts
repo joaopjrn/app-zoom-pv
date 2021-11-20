@@ -24,7 +24,8 @@ export class ListaConversaComponent implements OnInit {
 
   setConversaAtiva(conversa: Conversa){
     this.chatSvc.setConversaAtiva(conversa);
-    this.chatSvc.buscarMensagens(this.chatSvc.getConversaAtiva()._id);
+    this.chatSvc.buscarMensagens(conversa._id);
+    // this.chatSvc.buscarMensagens(this.chatSvc.getConversaAtiva()._id);
   }
 
 }
