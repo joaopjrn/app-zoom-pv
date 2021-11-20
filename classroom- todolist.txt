@@ -42,6 +42,9 @@
     [x] Erro ao excluir (aula/matéria/anotação)
 
 - [ ] Chat
+    [ ] Criar conversa
+    [ ] Enviar Mensagem
+    [ ] Notificações
 
 - [ ] Funções Exclusivas (Aluno / Professor)
 

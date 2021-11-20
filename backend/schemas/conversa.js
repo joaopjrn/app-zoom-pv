@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const conversaSchema = mongoose.Schema({
-  idMateria: { type: mongoose.SchemaTypes.ObjectId, ref: 'Materia', required: true },
+  idMateria: { type: mongoose.Schema.Types.ObjectId, ref: 'Materia', required: true },
   aluno: { type: {}, required: true },
   professor: { type: {}, required: true },
   notifAluno: { type: Boolean, required: true },
