@@ -1,6 +1,7 @@
-.msg{
+.msg p{
   /* background-color: #f0f4c3; */
   margin-bottom: 0px;
+  overflow: hidden;
 }
 
 .nome{
@@ -40,19 +41,19 @@
   max-width: 70%;
 }
 
-.enviada .col-auto p, .recebida .col-auto p {
+.enviada .col-auto, .recebida .col-auto {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 }
 
-.enviada .col-auto p {
+.enviada .col-auto {
   padding: 10px;
   background-color: #e6ee9c;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
 }
 
-.recebida .col-auto p {
+.recebida .col-auto {
   padding: 10px 10px 10px 10px;
   background-color: #c5cae9;
   border-bottom-right-radius: 10px;
@@ -74,4 +75,8 @@
 
 .enviada .timestamp {
   right: 5px;
+}
+
+.img-msg {
+  border-radius: 10px;
 }

@@ -66,9 +66,15 @@ export class ChatService {
     return this.http.post(BACKEND_URL, conversa);
   }
 
+  setConversaAtiva(conversa: Conversa){
+    this.conversaAtiva = conversa;
+    this.conversaSelecionada.next(true);
+  }
+
   getSubConversasCarregadas(){
     return this.conversasCarregadas.asObservable();
   }
+  
   getSubMensagensCarregadas(){
     return this.mensagensCarregadas.asObservable();
   }
@@ -83,11 +89,6 @@ export class ChatService {
 
   getMensagensConversaAtiva(){
     return [...this.mensagensConversaAtiva];
-  }
-
-  setConversaAtiva(conversa: Conversa){
-    this.conversaAtiva = conversa;
-    this.conversaSelecionada.next(true);
   }
 
   getConversaAtiva(){

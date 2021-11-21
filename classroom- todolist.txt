@@ -46,6 +46,7 @@
     [x] Enviar Mensagem
     [ ] Notificações
     [ ] Conflitos de conversas existentes (caso usuário saia da turma e volte)
+    [ ] Arrumar chat do aluno
 
 - [ ] Funções Exclusivas (Aluno / Professor)
 

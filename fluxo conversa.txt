@@ -1,0 +1,8 @@
+- abre aba de conversas
+  # monstra lista de conversas e uma mensagem para selecionar uma conversa
+    $ quando seleciona uma conversa => {
+      [setConversaAtiva no serviço]
+      [busca mensagens da conversa selecionada no serviço]
+      [usa um subject para avisar que uma conversa foi selecionada]
+      [escuta o subject no componente que contém as mensagens]
+    }
