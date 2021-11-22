@@ -11,22 +11,24 @@ import { Mensagem } from "../models/mensagem.model";
 const BACKEND_URL = environment.apiUrl + "/chat/";
 @Injectable({ providedIn: 'root' })
 export class ChatService {
-  private conversas: Conversa[] = [];
-  private mensagensConversaAtiva: Mensagem[] = [];
-  private conversaAtiva: Conversa;
-
-  private conversasCarregadas = new Subject<boolean>();
-  private conversaSelecionada = new Subject<boolean>();
-  private mensagensCarregadas = new Subject<boolean>();
 
   constructor(private http: HttpClient){}
+  
+  // ███    ███ ███████ ███    ██ ███████  █████   ██████  ███████ ███    ██ ███████ 
+  // ████  ████ ██      ████   ██ ██      ██   ██ ██       ██      ████   ██ ██      
+  // ██ ████ ██ █████   ██ ██  ██ ███████ ███████ ██   ███ █████   ██ ██  ██ ███████ 
+  // ██  ██  ██ ██      ██  ██ ██      ██ ██   ██ ██    ██ ██      ██  ██ ██      ██ 
+  // ██      ██ ███████ ██   ████ ███████ ██   ██  ██████  ███████ ██   ████ ███████
+  
+  private mensagensConversaAtiva: Mensagem[] = [];
+  // private mensagensCarregadas = new Subject<boolean>();
 
   buscarMensagens(idConversa: string){
     this.http.get<{msg: string, dados: any}>(BACKEND_URL+"conversa/"+idConversa).subscribe(resultado => {
       console.log(resultado)
       if(resultado.dados){
         this.mensagensConversaAtiva = resultado.dados;
-        this.mensagensCarregadas.next(true);
+        this.conversaSelecionada.next(true);
       }
     })
   }
@@ -38,9 +40,26 @@ export class ChatService {
     ])
   }
 
+  getMensagensConversaAtiva(){
+    return [...this.mensagensConversaAtiva];
+  }
+
+  // ██████   ██████  ███    ██ ██    ██ ███████ ██████  ███████  █████  ███████ 
+  // ██      ██    ██ ████   ██ ██    ██ ██      ██   ██ ██      ██   ██ ██      
+  // ██      ██    ██ ██ ██  ██ ██    ██ █████   ██████  ███████ ███████ ███████ 
+  // ██      ██    ██ ██  ██ ██  ██  ██  ██      ██   ██      ██ ██   ██      ██ 
+  // ██████   ██████  ██   ████   ████   ███████ ██   ██ ███████ ██   ██ ███████
+
+  private conversas: Conversa[] = [];
+  private conversaAtiva: Conversa;
+
+  private conversasCarregadas = new Subject<boolean>();
+  private conversaSelecionada = new Subject<boolean>();
+
   buscarConversa(idMateria: string, idAluno: string){
-    this.http.get<{msg: string, dados: any}>(BACKEND_URL+idMateria+"/"+idAluno).subscribe(resultado => {
+    this.http.get<{msg: string, dados: Conversa}>(BACKEND_URL+idMateria+"/"+idAluno).subscribe(resultado => {
       console.log(resultado);
+      this.setConversaAtiva(resultado.dados)
     })
   }
 
@@ -68,15 +87,11 @@ export class ChatService {
 
   setConversaAtiva(conversa: Conversa){
     this.conversaAtiva = conversa;
-    this.conversaSelecionada.next(true);
+    this.buscarMensagens(conversa._id);
   }
 
   getSubConversasCarregadas(){
     return this.conversasCarregadas.asObservable();
-  }
-  
-  getSubMensagensCarregadas(){
-    return this.mensagensCarregadas.asObservable();
   }
 
   getSubConversaSelecionada(){
@@ -85,10 +100,6 @@ export class ChatService {
 
   getConversas(){
     return [...this.conversas];
-  }
-
-  getMensagensConversaAtiva(){
-    return [...this.mensagensConversaAtiva];
   }
 
   getConversaAtiva(){

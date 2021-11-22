@@ -27,12 +27,16 @@ export class ChatComponent implements OnInit {
 
     this.subConversaAtiva = this.chatSvc.getSubConversaSelecionada().subscribe(resultado => {
       this.conversaSelecionada = true;
+      this.subConversaAtiva.unsubscribe();
     })
 
     this.mudouAbaListener = this.aulaSvc.getSubMudouAba().subscribe(mudouAba => {
       if(mudouAba == 2){
-        console.log('estou na aba do chat')
-        this.chatSvc.buscarConversas(this.matSvc.getMateriaAtiva()._id);
+        if(this.usuarioLogado.tipo == 0){
+          this.chatSvc.buscarConversas(this.matSvc.getMateriaAtiva()._id);
+        } else if(this.usuarioLogado.tipo == 1){
+          this.chatSvc.buscarConversa(this.matSvc.getMateriaAtiva()._id, this.usuarioLogado._id);
+        }
       }
     });
 

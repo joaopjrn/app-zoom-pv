@@ -14,33 +14,36 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class ConversaComponent implements OnInit {
 
-  mensagens: Mensagem[];
+  mensagens: Mensagem[] = [];
   usuarioLogado: Usuario;
   conversaAtiva: Conversa;
 
-  subMensagensCarregadas: Subscription;
   subConversaSelecionada: Subscription;
 
   constructor(private chatSvc: ChatService, private usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
-    this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
-    this.conversaAtiva = this.chatSvc.getConversaAtiva();
+    {
+      this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
+      this.conversaAtiva = this.chatSvc.getConversaAtiva();
+      this.mensagens = this.chatSvc.getMensagensConversaAtiva();
+    }
 
     this.chatSvc.getSubConversaSelecionada().subscribe(resultado => {
       this.conversaAtiva = this.chatSvc.getConversaAtiva();
-    })
-
-    this.subMensagensCarregadas = this.chatSvc.getSubMensagensCarregadas().subscribe(resultado => {
       this.mensagens = this.chatSvc.getMensagensConversaAtiva();
     })
-    // this.chatSvc.buscarMensagens(this.chatSvc.getConversaAtiva()._id);
 
   }
 
   enviar(form: NgForm){
-    console.log(form.value.msg)
-    this.chatSvc.enviarMensagem(this.conversaAtiva._id, this.usuarioLogado._id ,form.value.msg);
+    if(form.invalid){
+      console.log('form invalido')
+      return;
+    }
+    let msg: string = form.value.msg;
+    msg = msg.trim();
+    this.chatSvc.enviarMensagem(this.conversaAtiva._id, this.usuarioLogado._id, msg);
     form.reset();
   }
 

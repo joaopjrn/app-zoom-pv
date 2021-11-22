@@ -2,15 +2,20 @@
   <div class="col-10 pr-2">
     <mat-form-field class="w-100">
       <mat-label>Busque um aluno</mat-label>
-      <input type="text" matInput>
+      <input type="text" matInput #busca (input)="filtrar(busca.value)" autocomplete="off">
     </mat-form-field>
   </div>
   <div class="col-2">
     <mat-icon style="font-size: xx-large;">search</mat-icon>
   </div>
 </form>
-<mat-selection-list #shoes [multiple]="false">
-  <mat-list-option *ngFor="let conversa of conversas" [value]="conversa.aluno.nome" (click)="setConversaAtiva(conversa)">
-    {{conversa.aluno.nome}}
-  </mat-list-option>
+<mat-selection-list *ngIf="busca.value.length === 0" [multiple]="false">
+    <mat-list-option *ngFor="let conversa of conversas" [value]="conversa.aluno.nome" (click)="setConversaAtiva(conversa)">
+      {{conversa.aluno.nome}}
+    </mat-list-option>
+</mat-selection-list>
+<mat-selection-list *ngIf="busca.value.length > 0" [multiple]="false">
+    <mat-list-option *ngFor="let conversa of conversasFiltradas" [value]="conversa.aluno.nome" (click)="setConversaAtiva(conversa)">
+      {{conversa.aluno.nome}}
+    </mat-list-option>
 </mat-selection-list>

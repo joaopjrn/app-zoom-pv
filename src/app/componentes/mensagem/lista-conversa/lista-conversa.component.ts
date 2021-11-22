@@ -10,7 +10,8 @@ import { ChatService } from 'src/app/services/chat.service';
 })
 export class ListaConversaComponent implements OnInit {
 
-  conversas: Conversa[];
+  conversas: Conversa[] = [];
+  conversasFiltradas: Conversa[] = [];
 
   subConversasCarregadas: Subscription;
 
@@ -24,8 +25,15 @@ export class ListaConversaComponent implements OnInit {
 
   setConversaAtiva(conversa: Conversa){
     this.chatSvc.setConversaAtiva(conversa);
-    this.chatSvc.buscarMensagens(conversa._id);
-    // this.chatSvc.buscarMensagens(this.chatSvc.getConversaAtiva()._id);
+  }
+
+  filtrar(busca: string){
+    this.conversasFiltradas = this.conversas.filter(
+      conversa => this.limparString(conversa.aluno.nome).includes(this.limparString(busca)));
+  }
+
+  limparString(str: string){
+    return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
 }
