@@ -3,7 +3,7 @@ const axios = require('axios');
 const headers = {
   "User-Agent": "Zoom-api-Jwt-Request",
   "Content-Type": "application/json",
-  "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6ImVDa2staVF1VFBhM2d5ejhWUzJwMnciLCJleHAiOjE2Mzc2MzI4OTQsImlhdCI6MTYzNzAyODA5NX0.JbLCyUDOdFFvt4tbOSVzzVpVpOgQXjVRqBcIJC2mha4"
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6ImVDa2staVF1VFBhM2d5ejhWUzJwMnciLCJleHAiOjE2NDA5MTk2MDAsImlhdCI6MTYzNzcwNDMzNH0.-jn_xv2FSq9jM40jsIYWrXp9YVloxYkWBbGK0mDou0w"
 }
 
 exports.criarLinkZoom = (req, res, next) => {

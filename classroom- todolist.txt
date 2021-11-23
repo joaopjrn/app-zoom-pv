@@ -41,12 +41,12 @@
     [x] Erro ao editar (aula/matéria/anotação)
     [x] Erro ao excluir (aula/matéria/anotação)
 
-- [-] Chat
+- [x] Chat
     [x] Criar conversa
     [x] Enviar Mensagem
-    [-] Notificações
+    [x] Notificações
       [x] Enviar e remover notificações do banco
-      [ ] Mostrar notificações para alunos e professores
+      [x] Mostrar notificações para alunos e professores
     [ ] Conflitos de conversas existentes (caso usuário saia da turma e volte)
     [x] Arrumar chat do aluno
     [x] Professor buscar aluno

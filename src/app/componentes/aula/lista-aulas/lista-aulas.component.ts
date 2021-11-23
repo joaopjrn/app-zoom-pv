@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 import { Aula } from 'src/app/models/aula.model';
+import { Conversa } from 'src/app/models/conversa.model';
 import { Usuario } from 'src/app/models/usuario.model';
 import { AnotacoesServico } from 'src/app/services/anotacoes.service';
 import { AulasService } from 'src/app/services/aulas.service';
@@ -21,6 +22,7 @@ export class ListaAulasComponent implements OnInit, OnDestroy {
   listaAulas = [([] as Aula[]),([] as Aula[])];
   anotacoesBuscadas: string[] = [];
   conversaCarregada: boolean = false;
+  conversa: Conversa;
 
   listaAulasListener: Subscription;
   subConversaSelecionada: Subscription;
@@ -30,7 +32,7 @@ export class ListaAulasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
     this.aulasSvc.buscarAulas(this.idMateria, this.usuarioLogado.tipo);
-    
+
     this.listaAulasListener = this.aulasSvc.getSubAulasCarregadas().subscribe(aulasCarregadas => {
       if (aulasCarregadas) {
         this.listaAulas = this.aulasSvc.getAulas();
@@ -38,9 +40,10 @@ export class ListaAulasComponent implements OnInit, OnDestroy {
     });
     if(this.usuarioLogado.tipo === 1){
       this.chatSvc.buscarConversa(this.idMateria, this.usuarioLogado._id)
-  
+
       this.subConversaSelecionada = this.chatSvc.getSubConversaSelecionada().subscribe(res => {
-        console.log('yo')
+        this.conversa = this.chatSvc.getConversaAtiva();
+        console.log(this.conversa)
         this.conversaCarregada = true;
       })
     }
@@ -55,6 +58,10 @@ export class ListaAulasComponent implements OnInit, OnDestroy {
 
   troqueiTab(ev: number){
     this.aulasSvc.mudarAba(ev);
+    if(this.usuarioLogado.tipo === 1 && ev === 2){
+      this.conversa.notifAluno = false;
+      this.chatSvc.setNotif(this.conversa._id, false, false);
+    }
   }
 
 

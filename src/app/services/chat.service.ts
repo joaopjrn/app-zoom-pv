@@ -15,7 +15,7 @@ const BACKEND_URL = environment.apiUrl + "/chat/";
 export class ChatService {
 
   constructor(private http: HttpClient, private usuSvc: UsuarioService){}
-  
+
   // ███    ███ ███████ ███    ██ ███████  █████   ██████  ███████ ███    ██ ███████
   // ████  ████ ██      ████   ██ ██      ██   ██ ██       ██      ████   ██ ██
   // ██ ████ ██ █████   ██ ██  ██ ███████ ███████ ██   ███ █████   ██ ██  ██ ███████
@@ -90,13 +90,32 @@ export class ChatService {
   }
 
   buscarConversas(idMateria: string){
-    this.http.get<{msg: string, dados: any}>(BACKEND_URL+idMateria).subscribe(resultado => {
+    this.http.get<{msg: string, dados: Conversa[]}>(BACKEND_URL+idMateria).subscribe(resultado => {
       console.log(resultado.dados)
       if(resultado.dados){
-        this.conversas = resultado.dados;
+        this.conversas = resultado.dados.sort(this.organizarConversas);
         this.subConversasCarregadas.next(true);
       }
     })
+  }
+
+  organizarConversas(a: Conversa, b: Conversa){
+    console.log('teste')
+    if(a.aluno.nome.toLowerCase() > b.aluno.nome.toLowerCase()){
+      if(a.notifProf > b.notifProf){
+        return -1;
+      }else{
+        return 1
+      }
+    }else if(a.aluno.nome.toLowerCase() < b.aluno.nome.toLowerCase()){
+      if(a.notifProf < b.notifProf){
+        return 1;
+      }else{
+        return -1;
+      }
+    }else{
+      return 0;
+    }
   }
 
   criarConversa(nomeProf: string, idAluno: string, nomeAluno: string, idMateria: string){
@@ -122,11 +141,9 @@ export class ChatService {
     let usuario = this.usuSvc.getUsuarioLogado();
     if(usuario.tipo === 0){
       conversa.notifProf = false;
-    }else{
-      conversa.notifAluno = false;
+      this.setNotif(conversa._id, false, false);
     }
     this.conversaAtiva = conversa;
-    this.setNotif(conversa._id, false, false);
     this.buscarMensagens(conversa._id, false);
   }
 

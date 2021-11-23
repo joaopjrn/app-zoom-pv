@@ -8,7 +8,8 @@
   <mat-tab [disabled]="!conversaCarregada && usuarioLogado.tipo === 1">
     <ng-template mat-tab-label>
       <mat-icon class="text-info">chat</mat-icon>
-      &nbsp;{{usuarioLogado.tipo === 1 ? 'Fale com o Professor' : 'Fale com seus Alunos'}}
+      &nbsp;{{usuarioLogado.tipo === 1 ? 'Fale com o Professor' : 'Fale com seus Alunos'}} &nbsp;
+      <mat-icon *ngIf="conversa?.notifAluno" class="text-warning">notifications_active</mat-icon>
     </ng-template>
     <app-chat></app-chat>
   </mat-tab>
