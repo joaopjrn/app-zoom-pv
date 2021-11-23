@@ -1,7 +1,7 @@
 <div class="{{idUsuarioLogado == msg.idEnviou ? 'enviada' : 'recebida'}}">
   <!-- <span *ngIf="idUsuarioLogado != msg.idEnviou" class="nome">Professor Anderson disse:</span> -->
   <div class="{{ isYt ? 'embed-responsive embed-responsive-16by9 col-auto msg' : 'col-auto msg'}}">
-    <p *ngIf="!isYt && !isLink && !isImg" class="">{{msg.conteudo}}</p>
+    <p *ngIf="!isYt && !isLink && !isImg" class="" style="white-space: pre-wrap;">{{msg.conteudo}}</p>
     <iframe *ngIf="isYt" class="embed-responsive-item" [src]='ytUrl' frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <a *ngIf="isImg" [href]='imgUrl' target="_blank"><img class="img-fluid img-msg" [src]='imgUrl'></a>
     <a *ngIf="isLink" [href]="link" target="_blank">{{link}}</a>

@@ -48,7 +48,7 @@
     [ ] Conflitos de conversas existentes (caso usuário saia da turma e volte)
     [x] Arrumar chat do aluno
     [x] Professor buscar aluno
-    [ ] Atualizar conversa ao mandar msg
+    [x] Atualizar conversa ao mandar msg
 
 - [ ] Zoom
     [ ] Desabilitar criação de contas do zoom para alunos.

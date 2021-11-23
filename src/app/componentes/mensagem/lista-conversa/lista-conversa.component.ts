@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Conversa } from 'src/app/models/conversa.model';
 import { ChatService } from 'src/app/services/chat.service';
@@ -8,7 +8,7 @@ import { ChatService } from 'src/app/services/chat.service';
   templateUrl: './lista-conversa.component.html',
   styleUrls: ['./lista-conversa.component.css']
 })
-export class ListaConversaComponent implements OnInit {
+export class ListaConversaComponent implements OnInit, OnDestroy {
 
   conversas: Conversa[] = [];
   conversasFiltradas: Conversa[] = [];
@@ -18,7 +18,9 @@ export class ListaConversaComponent implements OnInit {
   constructor(private chatSvc: ChatService) { }
 
   ngOnInit(): void {
+    console.log('lista-conversa onInit')
     this.subConversasCarregadas = this.chatSvc.getSubConversasCarregadas().subscribe(resultado => {
+      console.log('oi')
       this.conversas = this.chatSvc.getConversas();
     })
   }
@@ -34,6 +36,11 @@ export class ListaConversaComponent implements OnInit {
 
   limparString(str: string){
     return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
+  ngOnDestroy(){
+    console.log('onDestroy')
+    this.subConversasCarregadas.unsubscribe();
   }
 
 }

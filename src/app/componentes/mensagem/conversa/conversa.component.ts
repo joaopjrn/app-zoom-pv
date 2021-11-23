@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Conversa } from 'src/app/models/conversa.model';
@@ -12,7 +12,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   templateUrl: './conversa.component.html',
   styleUrls: ['./conversa.component.css']
 })
-export class ConversaComponent implements OnInit {
+export class ConversaComponent implements OnInit, OnDestroy {
 
   mensagens: Mensagem[] = [];
   usuarioLogado: Usuario;
@@ -25,11 +25,9 @@ export class ConversaComponent implements OnInit {
   constructor(private chatSvc: ChatService, private usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
-    {
       this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
       this.conversaAtiva = this.chatSvc.getConversaAtiva();
       this.mensagens = this.chatSvc.getMensagensConversaAtiva();
-    }
 
     this.subMensagensCarregadas = this.chatSvc.getSubMensagensCarregadas().subscribe(res => {
       this.mensagens = this.chatSvc.getMensagensConversaAtiva();
@@ -40,6 +38,10 @@ export class ConversaComponent implements OnInit {
       this.mensagens = this.chatSvc.getMensagensConversaAtiva();
     })
 
+  }
+
+  atualizarConversa(){
+    this.chatSvc.atualizarConversa(this.conversaAtiva._id);
   }
 
   checarMsg(ev: KeyboardEvent){
@@ -63,6 +65,11 @@ export class ConversaComponent implements OnInit {
     form.reset();
     form.resetForm();
     this.texto = '';
+  }
+
+  ngOnDestroy(){
+    this.subConversaSelecionada.unsubscribe();
+    this.subMensagensCarregadas.unsubscribe();
   }
 
 }

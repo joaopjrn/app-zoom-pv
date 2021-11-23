@@ -1,6 +1,7 @@
 <div class="row h-100 p-2">
-  <div class="col-12 text-center">
+  <div class="col-12 text-center align-self-center">
     <span class="mat-title">{{ usuarioLogado.tipo == 1 ? conversaAtiva.professor : conversaAtiva.aluno.nome }}</span>
+    <button mat-icon-button class="float-right" (click)="atualizarConversa()"><mat-icon style="font-size: xx-large; color: #8BC34A;">autorenew</mat-icon></button>
     <!-- <span class="mat-title">{{ conversaAtiva.professor }}</span> -->
   </div>
 
@@ -8,12 +9,12 @@
       <app-item-mensagem *ngFor="let mensagem of mensagens" [idUsuarioLogado]="usuarioLogado._id" [msg]="mensagem"></app-item-mensagem>
   </div>
 
-  <div class="enviar col-12 align-self-end">
+  <div class="enviar col-12 align-self-end mt-3 pt-2">
     <form #form="ngForm" class="w-100 row" (submit)="enviar(form)">
       <div class="col-11">
         <mat-form-field class="w-100" appearance="legacy">
           <mat-label>Escreva uma mensagem ...</mat-label>
-          <textarea name="msg" #msg="ngModel" [(ngModel)]="texto" matInput rows="1" required (keypress)="checarMsg($event)"></textarea>
+          <textarea name="msg" #msg="ngModel" [(ngModel)]="texto" matInput rows="2" required (keypress)="checarMsg($event)"></textarea>
         </mat-form-field>
       </div>
       <div class="col pl-2 align-self-center">

@@ -58,8 +58,4 @@ export class DetalheMateriaComponent implements OnInit {
       this.modal.open(CriarAulaComponent, {data: {idMateria: this.materia._id, dias: this.diasDeAula, email: this.usuarioLogado.email, editando: false}});
     }
   }
-
-  buscarConversa(){
-    this.chatSvc.buscarConversa(this.materia._id, this.usuarioLogado._id);
-  }
 }

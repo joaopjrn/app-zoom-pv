@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Usuario } from 'src/app/models/usuario.model';
 import { AulasService } from 'src/app/services/aulas.service';
@@ -11,7 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
 
   usuarioLogado: Usuario;
   mudouAbaListener: Subscription;
@@ -25,13 +25,15 @@ export class ChatComponent implements OnInit {
 
     this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
 
-    this.subConversaAtiva = this.chatSvc.getSubConversaSelecionada().subscribe(resultado => {
-      this.conversaSelecionada = true;
-      this.subConversaAtiva.unsubscribe();
-    })
 
     this.mudouAbaListener = this.aulaSvc.getSubMudouAba().subscribe(mudouAba => {
       if(mudouAba == 2){
+
+        this.subConversaAtiva = this.chatSvc.getSubConversaSelecionada().subscribe(resultado => {
+          this.conversaSelecionada = true;
+          this.subConversaAtiva.unsubscribe();
+        });
+
         if(this.usuarioLogado.tipo == 0){
           this.chatSvc.buscarConversas(this.matSvc.getMateriaAtiva()._id);
         } else if(this.usuarioLogado.tipo == 1){
@@ -41,5 +43,9 @@ export class ChatComponent implements OnInit {
     });
 
   }
+ngOnDestroy(){
+  this.mudouAbaListener.unsubscribe();
+  this.subConversaAtiva.unsubscribe();
+}
 
 }
