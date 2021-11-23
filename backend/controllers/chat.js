@@ -19,11 +19,18 @@ exports.criarMensagem = (req, res, next) => {
 }
 
   exports.buscarMensagens = (req, res, next) => {
+    let nMsgs = parseInt(req.params.nMsgs);
   Mensagem.find({idConversa: req.params.idConversa})
   .then(resultado => {
-    console.log(resultado);
-    const msgs = resultado.reverse();
-    res.status(200).json({msg: 'Mensagens encontradas!', dados: msgs})
+    // console.log(resultado);
+    if(nMsgs < 1){
+      const msgs = resultado.reverse();
+      res.status(200).json({msg: 'Mensagens encontradas!', dados: msgs});
+    }else{
+      let n = resultado.length - nMsgs;
+      const msgs = resultado.reverse().splice(0, n);
+      res.status(200).json({msg: 'Mensagens encontradas!', dados: msgs});
+    }
   })
   .catch(erro => {
     res.status(500).json({msg: erro})

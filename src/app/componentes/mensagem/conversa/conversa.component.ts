@@ -17,8 +17,10 @@ export class ConversaComponent implements OnInit {
   mensagens: Mensagem[] = [];
   usuarioLogado: Usuario;
   conversaAtiva: Conversa;
+  texto: string = '';
 
   subConversaSelecionada: Subscription;
+  subMensagensCarregadas: Subscription;
 
   constructor(private chatSvc: ChatService, private usuarioSvc: UsuarioService) { }
 
@@ -29,6 +31,10 @@ export class ConversaComponent implements OnInit {
       this.mensagens = this.chatSvc.getMensagensConversaAtiva();
     }
 
+    this.subMensagensCarregadas = this.chatSvc.getSubMensagensCarregadas().subscribe(res => {
+      this.mensagens = this.chatSvc.getMensagensConversaAtiva();
+    })
+
     this.chatSvc.getSubConversaSelecionada().subscribe(resultado => {
       this.conversaAtiva = this.chatSvc.getConversaAtiva();
       this.mensagens = this.chatSvc.getMensagensConversaAtiva();
@@ -36,15 +42,27 @@ export class ConversaComponent implements OnInit {
 
   }
 
+  checarMsg(ev: KeyboardEvent){
+    console.log(this.texto)
+    if(ev.code === "Space" && this.texto.trim().length < 1){
+      ev.preventDefault();
+    }
+  }
+
   enviar(form: NgForm){
     if(form.invalid){
       console.log('form invalido')
       return;
     }
-    let msg: string = form.value.msg;
-    msg = msg.trim();
+
+    let msg = this.texto.trim();
+    if(msg.length < 1){
+      return;
+    }
     this.chatSvc.enviarMensagem(this.conversaAtiva._id, this.usuarioLogado._id, msg);
     form.reset();
+    form.resetForm();
+    this.texto = '';
   }
 
 }

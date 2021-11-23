@@ -13,41 +13,63 @@ const BACKEND_URL = environment.apiUrl + "/chat/";
 export class ChatService {
 
   constructor(private http: HttpClient){}
-  
-  // ███    ███ ███████ ███    ██ ███████  █████   ██████  ███████ ███    ██ ███████ 
-  // ████  ████ ██      ████   ██ ██      ██   ██ ██       ██      ████   ██ ██      
-  // ██ ████ ██ █████   ██ ██  ██ ███████ ███████ ██   ███ █████   ██ ██  ██ ███████ 
-  // ██  ██  ██ ██      ██  ██ ██      ██ ██   ██ ██    ██ ██      ██  ██ ██      ██ 
-  // ██      ██ ███████ ██   ████ ███████ ██   ██  ██████  ███████ ██   ████ ███████
-  
-  private mensagensConversaAtiva: Mensagem[] = [];
-  // private mensagensCarregadas = new Subject<boolean>();
 
-  buscarMensagens(idConversa: string){
-    this.http.get<{msg: string, dados: any}>(BACKEND_URL+"conversa/"+idConversa).subscribe(resultado => {
+  // ███    ███ ███████ ███    ██ ███████  █████   ██████  ███████ ███    ██ ███████
+  // ████  ████ ██      ████   ██ ██      ██   ██ ██       ██      ████   ██ ██
+  // ██ ████ ██ █████   ██ ██  ██ ███████ ███████ ██   ███ █████   ██ ██  ██ ███████
+  // ██  ██  ██ ██      ██  ██ ██      ██ ██   ██ ██    ██ ██      ██  ██ ██      ██
+  // ██      ██ ███████ ██   ████ ███████ ██   ██  ██████  ███████ ██   ████ ███████
+
+  private mensagensConversaAtiva: Mensagem[] = [];
+  private mensagensCarregadas = new Subject<boolean>();
+
+  buscarMensagens(idConversa: string, atualizando: boolean){
+    let n;
+    if(atualizando){
+      n = this.mensagensConversaAtiva.length;
+    }else{
+      n = 0;
+    }
+    this.http.get<{msg: string, dados: Mensagem[]}>(BACKEND_URL+"conversa/"+idConversa+"/"+n).subscribe(resultado => {
       console.log(resultado)
       if(resultado.dados){
-        this.mensagensConversaAtiva = resultado.dados;
-        this.conversaSelecionada.next(true);
+        if(!atualizando){
+          this.mensagensConversaAtiva = resultado.dados;
+          this.conversaSelecionada.next(true);
+        }else{
+          resultado.dados.reverse().forEach(msg => {
+            this.mensagensConversaAtiva.unshift(msg);
+          })
+          this.mensagensCarregadas.next(true);
+        }
       }
     })
   }
 
   enviarMensagem(idConversa: string, idEnviou: string, conteudo: string){
     const mensagem = { idConversa, idEnviou, conteudo };
-    this.http.post<{msg: string, dados: any}>(BACKEND_URL+"mensagem/", mensagem).subscribe(resultado => [
-      console.log(resultado)
-    ])
+    this.http.post<{msg: string, dados: Mensagem}>(BACKEND_URL+"mensagem/", mensagem).subscribe(resultado => {
+      console.log(resultado.dados.conteudo)
+      this.atualizarConversa(idConversa);
+    })
+  }
+
+  atualizarConversa(idConversa: string){
+    this.buscarMensagens(idConversa, true);
+  }
+
+  getSubMensagensCarregadas(){
+    return this.mensagensCarregadas.asObservable();
   }
 
   getMensagensConversaAtiva(){
     return [...this.mensagensConversaAtiva];
   }
 
-  // ██████   ██████  ███    ██ ██    ██ ███████ ██████  ███████  █████  ███████ 
-  // ██      ██    ██ ████   ██ ██    ██ ██      ██   ██ ██      ██   ██ ██      
-  // ██      ██    ██ ██ ██  ██ ██    ██ █████   ██████  ███████ ███████ ███████ 
-  // ██      ██    ██ ██  ██ ██  ██  ██  ██      ██   ██      ██ ██   ██      ██ 
+  // ██████   ██████  ███    ██ ██    ██ ███████ ██████  ███████  █████  ███████
+  // ██      ██    ██ ████   ██ ██    ██ ██      ██   ██ ██      ██   ██ ██
+  // ██      ██    ██ ██ ██  ██ ██    ██ █████   ██████  ███████ ███████ ███████
+  // ██      ██    ██ ██  ██ ██  ██  ██  ██      ██   ██      ██ ██   ██      ██
   // ██████   ██████  ██   ████   ████   ███████ ██   ██ ███████ ██   ██ ███████
 
   private conversas: Conversa[] = [];
@@ -87,7 +109,7 @@ export class ChatService {
 
   setConversaAtiva(conversa: Conversa){
     this.conversaAtiva = conversa;
-    this.buscarMensagens(conversa._id);
+    this.buscarMensagens(conversa._id, false);
   }
 
   getSubConversasCarregadas(){

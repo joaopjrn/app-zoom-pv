@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ChatController = require ('../controllers/chat');
 
-router.get('/conversa/:idConversa', ChatController.buscarMensagens);
+router.get('/conversa/:idConversa/:nMsgs', ChatController.buscarMensagens);
 router.get('/:idMateria', ChatController.buscarConversas);
 router.get('/:idMateria/:idAluno', ChatController.buscarConversa);
 router.post('', ChatController.criarConversa);

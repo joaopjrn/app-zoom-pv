@@ -1,6 +1,6 @@
 <div class="row h-100 p-2">
   <div class="col-12 text-center">
-    <span class="mat-title">{{ usuarioLogado.tipo == 0 ? conversaAtiva.professor : conversaAtiva.aluno.nome }}</span>
+    <span class="mat-title">{{ usuarioLogado.tipo == 1 ? conversaAtiva.professor : conversaAtiva.aluno.nome }}</span>
     <!-- <span class="mat-title">{{ conversaAtiva.professor }}</span> -->
   </div>
 
@@ -13,11 +13,11 @@
       <div class="col-11">
         <mat-form-field class="w-100" appearance="legacy">
           <mat-label>Escreva uma mensagem ...</mat-label>
-          <textarea name="msg" #msg="ngModel" ngModel matInput rows="1" required></textarea>
+          <textarea name="msg" #msg="ngModel" [(ngModel)]="texto" matInput rows="1" required (keypress)="checarMsg($event)"></textarea>
         </mat-form-field>
       </div>
       <div class="col pl-2 align-self-center">
-        <button mat-icon-button class="w-100" type="submit">
+        <button mat-icon-button class="w-100" type="submit" [disabled]="form.invalid">
           <mat-icon>send</mat-icon>
         </button>
       </div>
