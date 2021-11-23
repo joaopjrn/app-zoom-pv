@@ -2,8 +2,10 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 import { Aula } from 'src/app/models/aula.model';
+import { Usuario } from 'src/app/models/usuario.model';
 import { AnotacoesServico } from 'src/app/services/anotacoes.service';
 import { AulasService } from 'src/app/services/aulas.service';
+import { ChatService } from 'src/app/services/chat.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -14,22 +16,40 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class ListaAulasComponent implements OnInit, OnDestroy {
 
   @Input() idMateria: string;
+  usuarioLogado: Usuario;
+
   listaAulas = [([] as Aula[]),([] as Aula[])];
-  listaAulasListener: Subscription;
   anotacoesBuscadas: string[] = [];
-  constructor(private aulasSvc: AulasService, private anotaSvc: AnotacoesServico, private usuarioSvc: UsuarioService) { }
+  conversaCarregada: boolean = false;
+
+  listaAulasListener: Subscription;
+  subConversaSelecionada: Subscription;
+
+  constructor(private aulasSvc: AulasService, private anotaSvc: AnotacoesServico, private usuarioSvc: UsuarioService, private chatSvc: ChatService) { }
 
   ngOnInit(): void {
-    this.aulasSvc.buscarAulas(this.idMateria, this.usuarioSvc.getUsuarioLogado().tipo);
-
+    this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
+    this.aulasSvc.buscarAulas(this.idMateria, this.usuarioLogado.tipo);
+    
     this.listaAulasListener = this.aulasSvc.getSubAulasCarregadas().subscribe(aulasCarregadas => {
       if (aulasCarregadas) {
         this.listaAulas = this.aulasSvc.getAulas();
       }
     });
+    if(this.usuarioLogado.tipo === 1){
+      this.chatSvc.buscarConversa(this.idMateria, this.usuarioLogado._id)
+  
+      this.subConversaSelecionada = this.chatSvc.getSubConversaSelecionada().subscribe(res => {
+        console.log('yo')
+        this.conversaCarregada = true;
+      })
+    }
   }
 
   ngOnDestroy(){
+    if(this.subConversaSelecionada && !this.subConversaSelecionada.closed){
+      this.subConversaSelecionada.unsubscribe();
+    }
     this.listaAulasListener.unsubscribe();
   }
 

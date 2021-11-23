@@ -30,7 +30,7 @@ export class ItemMensagemComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.msg.createdAt = new Date(this.msg.createdAt)
+    this.horario = new Date(this.msg.createdAt).toLocaleTimeString().slice(0,5);
     this.checarMsg();
   }
 
@@ -49,6 +49,10 @@ export class ItemMensagemComponent implements OnInit {
     //   this.isYt = true;
     //   return;
     // }
+    // const msgArray = this.msg.conteudo.split(' ');
+    // msgArray.forEach(item => {
+
+    // })
     let yt = getVideoId(this.msg.conteudo).id;
     if(yt){
       this.videoId = yt;

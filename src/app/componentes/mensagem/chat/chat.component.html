@@ -4,8 +4,9 @@
       <div class="col-3" style="border-right: 1px solid gray;" *ngIf="usuarioLogado.tipo == 0">
         <app-lista-conversa></app-lista-conversa>
       </div>
-      <div [class]="usuarioLogado.tipo == 1 ? 'col-12' : 'col-9'">
+      <div [class]="usuarioLogado.tipo == 1 ? 'col-12' : 'col-9'" [ngClass]="{'align-self-center': !conversaSelecionada}">
         <app-conversa *ngIf="conversaSelecionada"></app-conversa>
+        <h1 *ngIf="!conversaSelecionada" class="text-center">Selecione uma conversa!</h1>
       </div>
     </div>
   </div>

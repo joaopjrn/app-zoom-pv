@@ -27,6 +27,7 @@ export class ListaConversaComponent implements OnInit, OnDestroy {
 
   setConversaAtiva(conversa: Conversa){
     this.chatSvc.setConversaAtiva(conversa);
+    // this.chatSvc.setNotif(conversa._id, false);
   }
 
   filtrar(busca: string){

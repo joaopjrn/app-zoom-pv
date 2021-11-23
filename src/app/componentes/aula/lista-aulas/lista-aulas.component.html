@@ -5,10 +5,10 @@
       <app-detalhe-aula *ngFor="let aula of lista" [aula]="aula" [aulaAnterior]="i == 1"></app-detalhe-aula>
     </mat-accordion>
   </mat-tab>
-  <mat-tab>
+  <mat-tab [disabled]="!conversaCarregada && usuarioLogado.tipo === 1">
     <ng-template mat-tab-label>
       <mat-icon class="text-info">chat</mat-icon>
-      &nbsp;Fale com o Professor
+      &nbsp;{{usuarioLogado.tipo === 1 ? 'Fale com o Professor' : 'Fale com seus Alunos'}}
     </ng-template>
     <app-chat></app-chat>
   </mat-tab>

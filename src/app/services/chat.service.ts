@@ -1,19 +1,21 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ErroComponent } from "../componentes/snackbars/erro/erro.component";
 import { Aula } from "../models/aula.model";
 import { Conversa } from "../models/conversa.model";
 import { Mensagem } from "../models/mensagem.model";
+import { Usuario } from "../models/usuario.model";
+import { UsuarioService } from "./usuario.service";
 
 const BACKEND_URL = environment.apiUrl + "/chat/";
 @Injectable({ providedIn: 'root' })
 export class ChatService {
 
-  constructor(private http: HttpClient){}
-
+  constructor(private http: HttpClient, private usuSvc: UsuarioService){}
+  
   // ███    ███ ███████ ███    ██ ███████  █████   ██████  ███████ ███    ██ ███████
   // ████  ████ ██      ████   ██ ██      ██   ██ ██       ██      ████   ██ ██
   // ██ ████ ██ █████   ██ ██  ██ ███████ ███████ ██   ███ █████   ██ ██  ██ ███████
@@ -21,26 +23,26 @@ export class ChatService {
   // ██      ██ ███████ ██   ████ ███████ ██   ██  ██████  ███████ ██   ████ ███████
 
   private mensagensConversaAtiva: Mensagem[] = [];
-  private mensagensCarregadas = new Subject<boolean>();
+  private subMensagensCarregadas = new Subject<boolean>();
 
   buscarMensagens(idConversa: string, atualizando: boolean){
-    let n;
-    if(atualizando){
-      n = this.mensagensConversaAtiva.length;
-    }else{
-      n = 0;
-    }
+    let n = atualizando ? this.mensagensConversaAtiva.length : 0;
+    // if(atualizando){
+    //   n = this.mensagensConversaAtiva.length;
+    // }else{
+    //   n = 0;
+    // }
     this.http.get<{msg: string, dados: Mensagem[]}>(BACKEND_URL+"conversa/"+idConversa+"/"+n).subscribe(resultado => {
       console.log(resultado)
       if(resultado.dados){
         if(!atualizando){
           this.mensagensConversaAtiva = resultado.dados;
-          this.conversaSelecionada.next(true);
+          this.subConversaSelecionada.next(true);
         }else{
           resultado.dados.reverse().forEach(msg => {
             this.mensagensConversaAtiva.unshift(msg);
           })
-          this.mensagensCarregadas.next(true);
+          this.subMensagensCarregadas.next(true);
         }
       }
     })
@@ -52,6 +54,7 @@ export class ChatService {
       console.log(resultado.dados.conteudo)
       this.atualizarConversa(idConversa);
     })
+    this.setNotif(idConversa, true, true);
   }
 
   atualizarConversa(idConversa: string){
@@ -59,7 +62,7 @@ export class ChatService {
   }
 
   getSubMensagensCarregadas(){
-    return this.mensagensCarregadas.asObservable();
+    return this.subMensagensCarregadas.asObservable();
   }
 
   getMensagensConversaAtiva(){
@@ -74,9 +77,10 @@ export class ChatService {
 
   private conversas: Conversa[] = [];
   private conversaAtiva: Conversa;
+  private conversaSelecionada: boolean = false;
 
-  private conversasCarregadas = new Subject<boolean>();
-  private conversaSelecionada = new Subject<boolean>();
+  private subConversasCarregadas = new Subject<boolean>();
+  private subConversaSelecionada = new Subject<boolean>();
 
   buscarConversa(idMateria: string, idAluno: string){
     this.http.get<{msg: string, dados: Conversa}>(BACKEND_URL+idMateria+"/"+idAluno).subscribe(resultado => {
@@ -90,7 +94,7 @@ export class ChatService {
       console.log(resultado.dados)
       if(resultado.dados){
         this.conversas = resultado.dados;
-        this.conversasCarregadas.next(true);
+        this.subConversasCarregadas.next(true);
       }
     })
   }
@@ -107,17 +111,31 @@ export class ChatService {
     return this.http.post(BACKEND_URL, conversa);
   }
 
+  setNotif(idConversa: string, valor: boolean, msg: boolean){
+    let usuario = this.usuSvc.getUsuarioLogado();
+    this.http.put(BACKEND_URL+"notif/", {idConversa: idConversa, valor: valor, isProf: usuario.tipo == 0, msg: msg}).subscribe(res => {
+      console.log(res)
+    });
+  }
+
   setConversaAtiva(conversa: Conversa){
+    let usuario = this.usuSvc.getUsuarioLogado();
+    if(usuario.tipo === 0){
+      conversa.notifProf = false;
+    }else{
+      conversa.notifAluno = false;
+    }
     this.conversaAtiva = conversa;
+    this.setNotif(conversa._id, false, false);
     this.buscarMensagens(conversa._id, false);
   }
 
   getSubConversasCarregadas(){
-    return this.conversasCarregadas.asObservable();
+    return this.subConversasCarregadas.asObservable();
   }
 
   getSubConversaSelecionada(){
-    return this.conversaSelecionada.asObservable();
+    return this.subConversaSelecionada.asObservable();
   }
 
   getConversas(){

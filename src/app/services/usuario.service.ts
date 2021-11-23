@@ -82,13 +82,30 @@ export class UsuarioService {
     return this.http.get<{ msg: string, dadosUsuario: Usuario, valido: any }>(BACKEND_URL + email);
   }
 
+  // criarUsuario(dadosUsuario: User) {
+  //   this.http.post(ZOOM_URL+'/usuario', {email: dadosUsuario.email }).subscribe(resultadoZoom => {
+  //     this.http.post<{ msg: string, dados: Usuario }>(BACKEND_URL, dadosUsuario).subscribe(result => {
+  //       this.usuarioLogado = result.dados;
+  //       console.log('login processado após criar usuário')
+  //       this.setLogado(true);
+  //     });
+  //   });
+  // }
+
   criarUsuario(dadosUsuario: User) {
+    if(dadosUsuario.email.includes("@aluno.saojudas.br")){
+      this.criarUsuarioNoBanco(dadosUsuario);
+    }else if(dadosUsuario.email.includes("@saojudas.br"))
     this.http.post(ZOOM_URL+'/usuario', {email: dadosUsuario.email }).subscribe(resultadoZoom => {
-      this.http.post<{ msg: string, dados: Usuario }>(BACKEND_URL, dadosUsuario).subscribe(result => {
-        this.usuarioLogado = result.dados;
-        console.log('login processado após criar usuário')
-        this.setLogado(true);
-      });
+      this.criarUsuarioNoBanco(dadosUsuario)
+    });
+  }
+
+  criarUsuarioNoBanco(dadosUsuario: User){
+    this.http.post<{ msg: string, dados: Usuario }>(BACKEND_URL, dadosUsuario).subscribe(result => {
+      this.usuarioLogado = result.dados;
+      console.log('login processado após criar usuário')
+      this.setLogado(true);
     });
   }
 

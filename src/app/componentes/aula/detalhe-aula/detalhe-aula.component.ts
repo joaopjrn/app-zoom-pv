@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { Anotacao } from 'src/app/models/anotacao.model';
 import { Aula } from 'src/app/models/aula.model';
+import { Usuario } from 'src/app/models/usuario.model';
 import { AnotacoesServico } from 'src/app/services/anotacoes.service';
 import { AulasService } from 'src/app/services/aulas.service';
 import { MateriasService } from 'src/app/services/materias.service';
@@ -24,6 +25,7 @@ export class DetalheAulaComponent implements OnInit, OnDestroy {
   // editando: boolean = false;
   @Input() aula: Aula;
   @Input() aulaAnterior: boolean;
+  usuarioLogado: Usuario;
 
   linkGravacao: string;
   senhaGravacao: string;
@@ -37,7 +39,8 @@ export class DetalheAulaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // console.log(this.aula.idMeeting)
-    this.codAnotacao = this.aula._id + this.usuarioSvc.getUsuarioLogado()._id;
+    this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
+    this.codAnotacao = this.aula._id + this.usuarioLogado._id;
   }
 
   abrindoPainel() {

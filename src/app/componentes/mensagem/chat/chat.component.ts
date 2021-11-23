@@ -14,9 +14,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class ChatComponent implements OnInit, OnDestroy {
 
   usuarioLogado: Usuario;
-  mudouAbaListener: Subscription;
   conversaSelecionada: boolean = false;
+
   subConversaAtiva: Subscription;
+  mudouAbaListener: Subscription;
 
   constructor(private usuarioSvc: UsuarioService, private aulaSvc: AulasService, private chatSvc: ChatService, private matSvc: MateriasService) { }
 
@@ -25,19 +26,17 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
 
-
     this.mudouAbaListener = this.aulaSvc.getSubMudouAba().subscribe(mudouAba => {
       if(mudouAba == 2){
-
-        this.subConversaAtiva = this.chatSvc.getSubConversaSelecionada().subscribe(resultado => {
+        if(this.usuarioLogado.tipo === 1){
           this.conversaSelecionada = true;
-          this.subConversaAtiva.unsubscribe();
-        });
-
+        }
         if(this.usuarioLogado.tipo == 0){
+          this.subConversaAtiva = this.chatSvc.getSubConversaSelecionada().subscribe(resultado => {
+            this.conversaSelecionada = true;
+            this.subConversaAtiva.unsubscribe();
+          });
           this.chatSvc.buscarConversas(this.matSvc.getMateriaAtiva()._id);
-        } else if(this.usuarioLogado.tipo == 1){
-          this.chatSvc.buscarConversa(this.matSvc.getMateriaAtiva()._id, this.usuarioLogado._id);
         }
       }
     });
@@ -45,7 +44,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 ngOnDestroy(){
   this.mudouAbaListener.unsubscribe();
-  this.subConversaAtiva.unsubscribe();
+  if(this.subConversaAtiva && !this.subConversaAtiva.closed){
+    this.subConversaAtiva.unsubscribe();
+  }
 }
 
 }

@@ -1,4 +1,4 @@
-<form class="pl-3 row align-items-center">
+<form class="pl-3 row align-items-center pt-1">
   <div class="col-10 pr-2">
     <mat-form-field class="w-100">
       <mat-label>Busque um aluno</mat-label>
@@ -9,9 +9,16 @@
     <mat-icon style="font-size: xx-large;">search</mat-icon>
   </div>
 </form>
-<mat-selection-list *ngIf="busca.value.length === 0" [multiple]="false">
+<mat-selection-list *ngIf="busca.value.length === 0" [multiple]="false" style="margin-top: -20px;max-height: 450px;overflow-y: auto;">
     <mat-list-option *ngFor="let conversa of conversas" [value]="conversa.aluno.nome" (click)="setConversaAtiva(conversa)">
-      {{conversa.aluno.nome}}
+      <div class="row justify-content-between align-items-center">
+        <div class="col-auto">
+          {{conversa.aluno.nome}}
+        </div>
+        <div class="col-auto" *ngIf="conversa.notifProf">
+          <mat-icon class="text-warning">notifications_active</mat-icon>
+        </div>
+      </div>
     </mat-list-option>
 </mat-selection-list>
 <mat-selection-list *ngIf="busca.value.length > 0" [multiple]="false">

@@ -33,7 +33,7 @@ export class ConversaComponent implements OnInit, OnDestroy {
       this.mensagens = this.chatSvc.getMensagensConversaAtiva();
     })
 
-    this.chatSvc.getSubConversaSelecionada().subscribe(resultado => {
+    this.subConversaSelecionada = this.chatSvc.getSubConversaSelecionada().subscribe(resultado => {
       this.conversaAtiva = this.chatSvc.getConversaAtiva();
       this.mensagens = this.chatSvc.getMensagensConversaAtiva();
     })
@@ -68,8 +68,12 @@ export class ConversaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subConversaSelecionada.unsubscribe();
-    this.subMensagensCarregadas.unsubscribe();
+    if(!this.subConversaSelecionada.closed){
+      this.subConversaSelecionada.unsubscribe();
+    }
+    if(!this.subMensagensCarregadas.closed){
+      this.subMensagensCarregadas.unsubscribe();
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,7 +14,7 @@ import { ErroComponent } from '../../snackbars/erro/erro.component';
   templateUrl: './anotacao.component.html',
   styleUrls: ['./anotacao.component.css']
 })
-export class AnotacaoComponent implements OnInit {
+export class AnotacaoComponent implements OnInit, OnDestroy {
 
   editando: boolean = false;
   anotacao: Anotacao;
@@ -24,6 +24,26 @@ export class AnotacaoComponent implements OnInit {
   subAnotacaoBuscada: Subscription;
 
   constructor(private anotaSvc: AnotacoesServico, private usuarioSvc: UsuarioService, private snackbar: MatSnackBar, private modal: MatDialog) { }
+
+  ngOnInit(): void {
+    console.log(this.anotacao)
+    console.log(this.cod)
+    console.log('anotacao oninit')
+    if (!this.anotaSvc.anotacaoJaBuscada(this.cod)) {
+      this.subAnotacaoBuscada = this.anotaSvc.getSubAnotacaoBuscada().subscribe((anotacaoRecebida: Anotacao) => {
+        console.log('anotação recebida');
+        console.log(anotacaoRecebida);
+        this.anotacao = anotacaoRecebida;
+        if (this.anotacao) {
+          this.anotacaoCarregada = true;
+        }
+        this.subAnotacaoBuscada.unsubscribe();
+      });
+      this.anotaSvc.buscarAnotacao(this.cod);
+    } else {
+      console.log('anotação já foi buscada!')
+    }
+  }
 
   salvarAnotacao(form: NgForm) {
     if (form.invalid) {
@@ -76,25 +96,10 @@ export class AnotacaoComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-    console.log(this.anotacao)
-    console.log(this.cod)
-    console.log('anotacao oninit')
-    if (!this.anotaSvc.anotacaoJaBuscada(this.cod)) {
-      this.subAnotacaoBuscada = this.anotaSvc.getSubAnotacaoBuscada().subscribe((anotacaoRecebida: Anotacao) => {
-        console.log('anotação recebida');
-        console.log(anotacaoRecebida);
-        this.anotacao = anotacaoRecebida;
-        if (this.anotacao) {
-          this.anotacaoCarregada = true;
-        }
-        this.subAnotacaoBuscada.unsubscribe();
-      });
-      this.anotaSvc.buscarAnotacao(this.cod);
-    } else {
-      console.log('anotação já foi buscada!')
+  ngOnDestroy(){
+    if(!this.subAnotacaoBuscada.closed){
+      this.subAnotacaoBuscada.unsubscribe();
     }
   }
-
 
 }
