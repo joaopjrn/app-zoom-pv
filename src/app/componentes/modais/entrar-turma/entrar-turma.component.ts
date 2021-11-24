@@ -33,12 +33,15 @@ export class EntrarTurmaComponent implements OnInit {
         this.snackbar.openFromComponent(ErroComponent, {data: {msg: 'Turma não encontrada', tipo: 'aviso'}, duration: 2000});
       } else {
         this.usuarioSvc.entrarTurma(dados.materiaEncontrada._id, this.usuarioSvc.getUsuarioLogado()._id).subscribe(res => {
+          console.log('após entrar turma')
+          console.log(res)
           if(res.atualizado){
+            this.materiaSvc.inserirMateriaLocal(dados.materiaEncontrada);
+            this.snackbar.openFromComponent(ErroComponent, {data: {msg: res.msg, tipo: 'sucesso'}, duration: 2000});
             this.chatSvc.criarConversa(dados.materiaEncontrada.nomeProf, this.usuarioLogado._id, this.usuarioLogado.nome, dados.materiaEncontrada._id)
             .subscribe(resultado => {
+              console.log('após tentar criar conversa')
               console.log(resultado)
-              this.materiaSvc.inserirMateriaLocal(dados.materiaEncontrada);
-              this.snackbar.openFromComponent(ErroComponent, {data: {msg: res.msg, tipo: 'sucesso'}, duration: 2000});
             });
           }else{
             this.snackbar.openFromComponent(ErroComponent, {data: {msg: 'Você já está cadastrado nessa turma!', tipo: 'aviso'}, duration: 2000});

@@ -1,4 +1,3 @@
-const e = require('cors');
 const Conversa = require('../schemas/conversa');
 const Mensagem = require('../schemas/mensagem');
 
@@ -54,7 +53,11 @@ exports.buscarConversa = (req, res, next) => {
   Conversa.findOne({ idMateria: req.params.idMateria, "aluno.id": req.params.idAluno })
     .then(resultado => {
       console.log(resultado);
-      res.status(200).json({ msg: 'Conversa encontrada!', dados: resultado })
+      if(resultado){
+        return res.status(200).json({ msg: 'Conversa encontrada!', dados: resultado })
+      }else{
+        return res.status(200).json({ msg: 'Conversa não encontrada!', dados: null })
+      }
     })
     .catch(erro => {
       res.status(500).json({ msg: erro })
@@ -115,4 +118,19 @@ exports.setNotif = (req, res, next) => {
     .catch(erro => {
       res.status(500).json({ msg: erro })
     });
+}
+
+exports.checarConversa = (req, res, next) => {
+  console.log('checando se conversa existe');
+  Conversa.findOne({idMateria: req.body.idMateria, "aluno.id": req.body.aluno.id}).then(resultado => {
+    if(!resultado){
+      console.log('conversa não existe. criando conversa nova!')
+      console.log(resultado)
+      next();
+      return;
+    }else{
+      console.log('conversa já existe')
+      res.status(200).json({msg:"Conversa já existe!", dados: null});
+    }
+  })
 }

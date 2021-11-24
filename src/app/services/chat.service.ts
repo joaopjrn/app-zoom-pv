@@ -14,7 +14,7 @@ const BACKEND_URL = environment.apiUrl + "/chat/";
 @Injectable({ providedIn: 'root' })
 export class ChatService {
 
-  constructor(private http: HttpClient, private usuSvc: UsuarioService){}
+  constructor(private http: HttpClient, private usuSvc: UsuarioService, private snackbar: MatSnackBar){}
 
   // ███    ███ ███████ ███    ██ ███████  █████   ██████  ███████ ███    ██ ███████
   // ████  ████ ██      ████   ██ ██      ██   ██ ██       ██      ████   ██ ██
@@ -77,15 +77,18 @@ export class ChatService {
 
   private conversas: Conversa[] = [];
   private conversaAtiva: Conversa;
-  private conversaSelecionada: boolean = false;
+  // private conversaSelecionada: boolean = false;
 
   private subConversasCarregadas = new Subject<boolean>();
   private subConversaSelecionada = new Subject<boolean>();
 
   buscarConversa(idMateria: string, idAluno: string){
     this.http.get<{msg: string, dados: Conversa}>(BACKEND_URL+idMateria+"/"+idAluno).subscribe(resultado => {
-      console.log(resultado);
-      this.setConversaAtiva(resultado.dados)
+      if(resultado.dados){
+        this.setConversaAtiva(resultado.dados)
+      }else{
+        this.snackbar.openFromComponent(ErroComponent, { data: { msg: resultado.msg, tipo: 'erro' }, duration: 2000 });
+      }
     })
   }
 
@@ -138,13 +141,15 @@ export class ChatService {
   }
 
   setConversaAtiva(conversa: Conversa){
-    let usuario = this.usuSvc.getUsuarioLogado();
-    if(usuario.tipo === 0){
-      conversa.notifProf = false;
-      this.setNotif(conversa._id, false, false);
+    if(conversa){
+      let usuario = this.usuSvc.getUsuarioLogado();
+      if(usuario.tipo === 0){
+        conversa.notifProf = false;
+        this.setNotif(conversa._id, false, false);
+      }
+      this.conversaAtiva = conversa;
+      this.buscarMensagens(conversa._id, false);
     }
-    this.conversaAtiva = conversa;
-    this.buscarMensagens(conversa._id, false);
   }
 
   getSubConversasCarregadas(){

@@ -5,7 +5,7 @@ const ChatController = require ('../controllers/chat');
 router.get('/conversa/:idConversa/:nMsgs', ChatController.buscarMensagens);
 router.get('/:idMateria', ChatController.buscarConversas);
 router.get('/:idMateria/:idAluno', ChatController.buscarConversa);
-router.post('', ChatController.criarConversa);
+router.post('', ChatController.checarConversa, ChatController.criarConversa);
 router.post('/mensagem', ChatController.criarMensagem);
 router.put('/notif', ChatController.setNotif);
 

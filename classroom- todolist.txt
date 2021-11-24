@@ -47,7 +47,7 @@
     [x] Notificações
       [x] Enviar e remover notificações do banco
       [x] Mostrar notificações para alunos e professores
-    [ ] Conflitos de conversas existentes (caso usuário saia da turma e volte)
+    [x] Conflitos de conversas existentes (caso usuário saia da turma e volte)
     [x] Arrumar chat do aluno
     [x] Professor buscar aluno
     [x] Atualizar conversa ao mandar msg
