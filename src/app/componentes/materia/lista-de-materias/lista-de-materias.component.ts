@@ -14,7 +14,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class ListaDeMateriasComponent implements OnInit, OnDestroy {
 
-  private usuarioLogado: Usuario;
+  usuarioLogado: Usuario;
   private subMaterias: Subscription;
   
   materias: Materia[] = [];

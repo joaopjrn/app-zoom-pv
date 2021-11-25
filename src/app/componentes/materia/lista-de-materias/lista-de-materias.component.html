@@ -3,6 +3,13 @@
     <div class="row">
       <app-barra-botoes class="col-12 d-flex"></app-barra-botoes>
     </div>
+    <div class="row px-2 mt-3" *ngIf="!usuarioLogado.verificado && usuarioLogado.tipo === 0">
+      <div class="col-12">
+        <div class="alert alert-warning mb-0 text-center" role="alert">
+          Para poder criar Aulas é necessário confirmar sua conta do Zoom, cheque sua caixa de entrada em "{{ usuarioLogado.email }}"
+        </div>
+      </div>
+    </div>
     <div *ngIf="materias.length > 0" class="row row-cols-auto justify-content-center justify-content-sm-start">
       <app-item-materia class="p-2" *ngFor="let item of materias" [materia]="item"></app-item-materia>
     </div>
