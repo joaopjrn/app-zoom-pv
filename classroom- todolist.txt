@@ -63,6 +63,32 @@
 - [ ] espaço na aula pra colocar links (aparece só o nome do link e redireciona ao clicar)
 ---------------------------
 
+Ações Professor
+- Permitidas
+    Excluir matéria
+    Editar matéria
+    Criar Turma
+    Criar Aula
+    Editar/Excluir Aula
+
+- Não Permitidas
+    Entrar na turma
+    Sair da Turma
+    Criar/Editar/Excluir Anotações
+
+Ações Aluno
+- Permitidas
+    Entrar na turma
+    Sair da Turma
+    Criar/Editar/Excluir Anotações
+
+- Não Permitidas
+    Excluir matéria
+    Editar matéria
+    Criar Turma
+    Criar Aula
+    Editar/Excluir Aula
+
 imagens:
 tecnologia
 https://thumbs.dreamstime.com/b/internet-technology-programming-seamless-background-linear-icons-set-html-php-code-pattern-line-style-74589214.jpg

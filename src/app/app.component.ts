@@ -1,8 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
-import { User } from '@auth0/auth0-spa-js';
-import { Subscription } from 'rxjs';
-import { UsuarioService } from './services/usuario.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
 
 
 @Component({
@@ -11,12 +8,9 @@ import { UsuarioService } from './services/usuario.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  userAuth0: User;
-  carregando: boolean;
-  estaLogadoSub: Subscription;
 
   constructor(){}
-  
+
   ngOnInit(): void {
 
   }

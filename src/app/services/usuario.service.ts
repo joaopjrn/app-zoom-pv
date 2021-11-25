@@ -95,10 +95,11 @@ export class UsuarioService {
   criarUsuario(dadosUsuario: User) {
     if(dadosUsuario.email.includes("@aluno.saojudas.br")){
       this.criarUsuarioNoBanco(dadosUsuario);
-    }else if(dadosUsuario.email.includes("@saojudas.br"))
-    this.http.post(ZOOM_URL+'/usuario', {email: dadosUsuario.email }).subscribe(resultadoZoom => {
-      this.criarUsuarioNoBanco(dadosUsuario)
-    });
+    }else if(dadosUsuario.email.includes("@saojudas.br")){
+      this.http.post(ZOOM_URL+'/usuario', {email: dadosUsuario.email }).subscribe(resultadoZoom => {
+        this.criarUsuarioNoBanco(dadosUsuario)
+      });
+    }
   }
 
   criarUsuarioNoBanco(dadosUsuario: User){

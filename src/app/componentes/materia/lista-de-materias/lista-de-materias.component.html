@@ -3,8 +3,16 @@
     <div class="row">
       <app-barra-botoes class="col-12 d-flex"></app-barra-botoes>
     </div>
-    <div class="row row-cols-auto justify-content-center justify-content-sm-start">
+    <div *ngIf="materias.length > 0" class="row row-cols-auto justify-content-center justify-content-sm-start">
       <app-item-materia class="p-2" *ngFor="let item of materias" [materia]="item"></app-item-materia>
+    </div>
+    <div *ngIf="materias.length < 1" class="row justify-content-center mt-5">
+      <div class="col-12 text-center">
+        <h1>Ainda não há nada por aqui!</h1>
+      </div>
+      <div class="col-6">
+        <img class="img-fluid" src="../../../../assets/img/add.png" alt="">
+      </div>
     </div>
   </div>
 </div>

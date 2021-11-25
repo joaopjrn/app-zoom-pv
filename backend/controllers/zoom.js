@@ -35,7 +35,7 @@ exports.criarUsuario = (req, res, next) => {
     action: "create",
     user_info: {
       email: req.body.email,
-      type: 1
+      type: 2
     }
   }, {headers})
   .then(resultado => {

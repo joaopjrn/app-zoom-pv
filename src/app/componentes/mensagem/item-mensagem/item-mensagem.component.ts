@@ -28,7 +28,6 @@ export class ItemMensagemComponent implements OnInit {
   rximg = new RegExp(/(?:(?:https?:\/\/))[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/=]*(\.jpg|\.png|\.bmp|\.gif|\.jpeg))/g);
   rxurl = new RegExp(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ig);
 
-
   ngOnInit(): void {
     this.horario = new Date(this.msg.createdAt).toLocaleTimeString().slice(0,5);
     this.checarMsg();
@@ -40,7 +39,7 @@ export class ItemMensagemComponent implements OnInit {
     //   if(yt[2] || yt[6]) {
     //     if(yt[2]) this.videoId = yt[2].slice(1)
     //     if(yt[6]) this.videoId = yt[6].slice(1)
-        
+
     //   }else if(yt[1]){
     //     this.videoId = yt[1].slice(2)
     //   }
