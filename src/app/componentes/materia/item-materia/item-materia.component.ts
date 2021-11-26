@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Materia } from 'src/app/models/materia.model';
+import { Usuario } from 'src/app/models/usuario.model';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { CriarTurmaComponent } from '../../modais/criar-turma/criar-turma.component';
 import { ExcluirComponent } from '../../modais/excluir/excluir.component';
 
@@ -13,10 +15,11 @@ import { ExcluirComponent } from '../../modais/excluir/excluir.component';
 export class ItemMateriaComponent implements OnInit {
   @Input() materia: Materia;
   hue: string;
-  constructor(private modal: MatDialog) { }
+  usuarioLogado: Usuario;
+  constructor(private modal: MatDialog, private usuarioSvc: UsuarioService) { }
 
   ngOnInit(): void {
-    // this.materia.linkImg = `../../../../assets/img/${this.materia.linkImg}.png`;
+    this.usuarioLogado = this.usuarioSvc.getUsuarioLogado();
     this.hue = `filter:hue-rotate(${this.materia.hue}deg);`
   }
 

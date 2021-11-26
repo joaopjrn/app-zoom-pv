@@ -14,7 +14,7 @@
   </mat-chip>
   </mat-chip-list>
   </div>
-  <div class="col-auto ml-auto">
+  <div *ngIf="usuarioLogado.tipo === 0" class="col-auto ml-auto">
     <button (click)="criarAula()" type="button" mat-raised-button color="accent">Criar Aula</button>
   </div>
   <div class="col-12">

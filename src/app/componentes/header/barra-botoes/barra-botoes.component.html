@@ -1,7 +1,7 @@
     <span class="mr-auto"></span>
-    <button *ngIf="usuarioSvc.getUsuarioLogado().tipo === 0 || 1"
+    <button *ngIf="usuarioLogado.tipo === 0"
     (click)="criarTurma()"
     class="ml-auto" type="button" mat-raised-button color="primary">Criar Turma</button>
-    <button (click)="entrarTurma()"
+    <button *ngIf="usuarioLogado.tipo === 1" (click)="entrarTurma()"
     class="mr-2" type="button" mat-raised-button color="primary">
   Entrar em uma Turma</button>
